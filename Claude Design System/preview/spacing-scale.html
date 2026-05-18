@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .row { display: grid; grid-template-columns: 86px 1fr 60px; gap: 12px; align-items: center; padding: 5px 0; }
+  .row .t  { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+  .row .bar { height: 14px; background: var(--kt-purple-500); border-radius: 2px; }
+  .row .px { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); text-align: right; }
+  h4 { font-family: var(--font-sans); font-weight: 600; font-size: 13px; color: var(--fg-2); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h4>Spacing — 4px base · --space-N</h4>
+  <div class="row"><span class="t">--space-1</span><div class="bar" style="width:4px"></div><span class="px">4</span></div>
+  <div class="row"><span class="t">--space-2</span><div class="bar" style="width:8px"></div><span class="px">8</span></div>
+  <div class="row"><span class="t">--space-3</span><div class="bar" style="width:12px"></div><span class="px">12</span></div>
+  <div class="row"><span class="t">--space-4</span><div class="bar" style="width:16px"></div><span class="px">16</span></div>
+  <div class="row"><span class="t">--space-6</span><div class="bar" style="width:24px"></div><span class="px">24</span></div>
+  <div class="row"><span class="t">--space-8</span><div class="bar" style="width:32px"></div><span class="px">32</span></div>
+  <div class="row"><span class="t">--space-12</span><div class="bar" style="width:48px"></div><span class="px">48</span></div>
+  <div class="row"><span class="t">--space-16</span><div class="bar" style="width:64px"></div><span class="px">64</span></div>
+  <div class="row"><span class="t">--space-24</span><div class="bar" style="width:96px"></div><span class="px">96</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .word { font-family: var(--font-mono); font-weight: 700; font-size: 56px; letter-spacing: 0; line-height: 1; color: var(--fg-1); margin: 0 0 14px; }
+  pre.demo {
+    background: var(--code-bg);
+    border: 1px solid var(--border-1);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin: 0 0 14px;
+  }
+  .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-top: 12px; border-top: 1px solid var(--border-1); }
+  .meta .l { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .meta .v { font-family: var(--font-mono); font-weight: 500; font-size: 13px; color: var(--fg-1); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="word">JetBrains Mono</div>
+<pre class="demo"><span class="tok-k">fun</span> <span class="tok-f">greet</span>(name: <span class="tok-t">String</span>): <span class="tok-t">String</span> {
+  <span class="tok-k">return</span> <span class="tok-s">"Hello, </span>$name<span class="tok-s">!"</span> <span class="tok-c">// 0 allocs</span>
+}</pre>
+  <div class="meta">
+    <div><span class="l">Use</span><span class="v">Code · CLI · paths · metadata</span></div>
+    <div><span class="l">Weights</span><span class="v">400 · 500 · 700</span></div>
+    <div><span class="l">Ligatures</span><span class="v">on (calt)</span></div>
+    <div><span class="l">Token</span><span class="v">--font-mono</span></div>
+  </div>
+</div>
+</body>
+</html>

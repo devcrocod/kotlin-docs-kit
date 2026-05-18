@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .scale { display: grid; grid-template-columns: repeat(10, 1fr); gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-1); }
+  .step { height: 60px; display: flex; align-items: flex-end; justify-content: center; padding: 5px 0; font-family: var(--font-mono); font-size: 10px; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .name { font-family: var(--font-sans); font-weight: 600; font-size: 14px; color: var(--fg-1); }
+  .hint { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="head"><span class="name">Kotlin Purple</span><span class="hint">primary brand · --kt-purple-N</span></div>
+  <div class="scale">
+    <div class="step" style="background:var(--kt-purple-50);  color:var(--kt-purple-700)">50</div>
+    <div class="step" style="background:var(--kt-purple-100); color:var(--kt-purple-700)">100</div>
+    <div class="step" style="background:var(--kt-purple-200); color:var(--kt-purple-800)">200</div>
+    <div class="step" style="background:var(--kt-purple-300); color:white">300</div>
+    <div class="step" style="background:var(--kt-purple-400); color:white">400</div>
+    <div class="step" style="background:var(--kt-purple-500); color:white">500</div>
+    <div class="step" style="background:var(--kt-purple-600); color:white">600</div>
+    <div class="step" style="background:var(--kt-purple-700); color:white">700</div>
+    <div class="step" style="background:var(--kt-purple-800); color:white">800</div>
+    <div class="step" style="background:var(--kt-purple-900); color:white">900</div>
+  </div>
+</div>
+</body>
+</html>

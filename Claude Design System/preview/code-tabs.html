@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .codeblock { margin: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="codeblock">
+    <div class="codeblock-header">
+      <div class="codeblock-tabs">
+        <button class="codeblock-tab is-active">
+          <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Main.kt
+        </button>
+        <button class="codeblock-tab">
+          <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          User.kt
+        </button>
+        <button class="codeblock-tab">
+          <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          build.gradle.kts
+        </button>
+      </div>
+      <div class="codeblock-actions">
+        <button class="action-btn" title="Wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 7 3 7 21 7"/><path d="M3 12h15a3 3 0 0 1 0 6h-4"/><polyline points="16 16 12 18 16 20"/><line x1="3" y1="17" x2="3" y2="17"/></svg></button>
+        <button class="action-btn" title="Copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          copy
+        </button>
+      </div>
+    </div>
+<pre class="codeblock-body" style="padding:16px 18px"><span class="tok-c">// Routes are functions. No annotations needed.</span>
+<span class="tok-k">fun</span> <span class="tok-f">Application</span>.<span class="tok-f">routes</span>() = <span class="tok-f">routing</span> {
+  <span class="tok-f">get</span>(<span class="tok-s">"/users/{id}"</span>) {
+    <span class="tok-k">val</span> id = call.<span class="tok-f">parameters</span>[<span class="tok-s">"id"</span>] ?: <span class="tok-k">return@</span><span class="tok-f">get</span>
+    call.<span class="tok-f">respond</span>(userRepo.<span class="tok-f">find</span>(id))
+  }
+}</pre>
+  </div>
+</div>
+</body>
+</html>

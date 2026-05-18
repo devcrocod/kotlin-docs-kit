@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .stack { display: flex; flex-direction: column; gap: 6px; }
+  .row {
+    display: grid; grid-template-columns: 110px 70px 1fr;
+    gap: 18px; align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-1);
+  }
+  .row:last-child { border-bottom: 0; }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
+  .meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+  .sample { color: var(--fg-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="stack">
+    <div class="row">
+      <span class="tok">.t-display</span><span class="meta">44 / 1.1 · 700</span>
+      <span class="sample t-display">Ship Kotlin</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-h1</span><span class="meta">32 / 1.18 · 700</span>
+      <span class="sample t-h1">Routing fundamentals</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-h2</span><span class="meta">24 / 1.25 · 600</span>
+      <span class="sample t-h2">Configure the dev server</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-h3</span><span class="meta">18 / 1.35 · 600</span>
+      <span class="sample t-h3">Path parameters</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-body</span><span class="meta">15 / 1.65 · 400</span>
+      <span class="sample t-body">Routes are functions. No annotations needed.</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-small</span><span class="meta">13 / 1.55 · 400</span>
+      <span class="sample t-small">Last updated 3d ago by ada</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-caption</span><span class="meta">12 / 1.45 · 500</span>
+      <span class="sample t-caption">on this page</span>
+    </div>
+    <div class="row">
+      <span class="tok">.t-code</span><span class="meta">13.5 / 1.65 · 400</span>
+      <span class="sample t-code">fun greet(name: String)</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

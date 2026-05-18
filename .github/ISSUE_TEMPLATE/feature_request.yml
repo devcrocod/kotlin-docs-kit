@@ -1,0 +1,53 @@
+name: Feature request
+description: Suggest a new feature or enhancement.
+title: "feat: "
+labels: ["enhancement", "triage"]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Target package
+      options:
+        - "@ktdocs/tokens"
+        - kotlin-docs-mkdocs
+        - "@ktdocs/docusaurus-preset"
+        - kotlin-docs-hugo
+        - templates
+        - landing
+        - docs / tooling
+        - cross-cutting
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve? Who is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, links, prior art.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues.
+          required: true

@@ -1,0 +1,105 @@
+/* ============================================================================
+   Kotlin Docs Theme System — Spacing, Radius, Shadow, Motion, Z-index
+   Compact, documentation-tuned. Pairs with colors_and_type.css.
+   ============================================================================ */
+
+:root {
+  /* ------------------------------------------------------------------
+     SPACING — 4px base grid
+     ------------------------------------------------------------------ */
+  --space-0:   0;
+  --space-px:  1px;
+  --space-0_5: 2px;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ------------------------------------------------------------------
+     RADIUS — compact, Mintlify-style.
+     Buttons + inputs: --radius-md (6px).
+     Cards + code blocks: --radius-lg (8px).
+     Avoid heavy rounding — docs need to feel structural.
+     ------------------------------------------------------------------ */
+  --radius-none: 0;
+  --radius-sm:   4px;     /* inline code, tags, pills */
+  --radius-md:   6px;     /* buttons, inputs, callouts */
+  --radius-lg:   8px;     /* cards, code blocks */
+  --radius-xl:   12px;    /* hero containers, modals */
+  --radius-full: 9999px;
+
+  /* ------------------------------------------------------------------
+     SHADOW — soft, light-handed. Docs aren't a dashboard.
+     ------------------------------------------------------------------ */
+  --shadow-xs:   0 0 0 1px rgba(16, 18, 24, 0.04);
+  --shadow-sm:   0 1px 2px rgba(16, 18, 24, 0.05),
+                 0 0 0 1px rgba(16, 18, 24, 0.04);
+  --shadow-md:   0 2px 4px rgba(16, 18, 24, 0.05),
+                 0 6px 16px rgba(16, 18, 24, 0.08);
+  --shadow-lg:   0 4px 8px rgba(16, 18, 24, 0.05),
+                 0 14px 32px rgba(16, 18, 24, 0.12);
+
+  /* Brand glow — used on CTAs and the K-mark hover */
+  --shadow-brand-glow:
+    0 6px 22px color-mix(in srgb, var(--kt-purple-500) 28%, transparent);
+
+  /* ------------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------------ */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ------------------------------------------------------------------
+     Z-INDEX
+     ------------------------------------------------------------------ */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-overlay: 1000;
+  --z-modal: 1100;
+  --z-popover: 1200;
+  --z-toast: 1300;
+  --z-tooltip: 1400;
+
+  /* ------------------------------------------------------------------
+     LAYOUT — documentation defaults.
+     Mintlify uses a 3-column shell: sidebar (260) · content (max ~720) · TOC (240).
+     ------------------------------------------------------------------ */
+  --docs-sidebar-width:    260px;
+  --docs-toc-width:        220px;
+  --docs-content-max:      720px;
+  --docs-shell-max:        1440px;
+  --docs-header-height:    60px;
+  --reading-measure:       72ch;
+}
+
+/* Dark-theme shadow tweak */
+[data-theme="dark"] {
+  --shadow-xs:   0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.4),
+                 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-md:   0 2px 4px rgba(0, 0, 0, 0.3),
+                 0 6px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg:   0 4px 8px rgba(0, 0, 0, 0.3),
+                 0 14px 32px rgba(0, 0, 0, 0.5);
+  --shadow-brand-glow:
+    0 6px 22px color-mix(in srgb, var(--kt-purple-400) 40%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

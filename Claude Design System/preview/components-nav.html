@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 18px; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+  .docs-pager { margin: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div>
+      <span class="lab">Tabs</span>
+      <div class="tabs">
+        <button class="tab is-active">Kotlin</button>
+        <button class="tab">Java</button>
+        <button class="tab">Groovy</button>
+        <button class="tab">Maven</button>
+      </div>
+    </div>
+    <div>
+      <span class="lab">Breadcrumbs</span>
+      <nav class="crumbs">
+        <a href="#">Docs</a><span class="sep">/</span>
+        <a href="#">Concepts</a><span class="sep">/</span>
+        <a href="#">Routing</a><span class="sep">/</span>
+        <span class="current">Nested layouts</span>
+      </nav>
+    </div>
+    <div>
+      <span class="lab">Pagination</span>
+      <div class="docs-pager">
+        <a class="pager-link prev">
+          <span class="pager-direction">← Previous</span>
+          <span class="pager-title">Installation</span>
+        </a>
+        <a class="pager-link next">
+          <span class="pager-direction">Next →</span>
+          <span class="pager-title">Project structure</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  body { background: #0E0B16; }
+  .card { background: transparent; }
+  .codeblock { margin: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="codeblock is-terminal">
+    <div class="codeblock-header">
+      <div class="codeblock-lang">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        terminal
+      </div>
+      <div class="codeblock-actions">
+        <button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy</button>
+      </div>
+    </div>
+<pre class="codeblock-body" style="padding:18px 22px; color:#ECECF1; font-size:13px"><span class="term-prompt">$</span> curl -fsSL get.kotlinlang.org | sh
+<span class="term-comment"># installs into ~/.kotlinc</span>
+
+<span class="term-prompt">$</span> kotlinc -version
+<span style="color:#A688FF">info: Kotlin version 2.0.0 (JRE 21)</span>
+
+<span class="term-prompt">$</span> kotlinc hello.kt -include-runtime -d hello.jar
+<span style="color:#44C97A">✓ compiled in 1.2s</span>
+
+<span class="term-prompt">$</span> java -jar hello.jar
+Hello, world!</pre>
+  </div>
+</div>
+</body>
+</html>

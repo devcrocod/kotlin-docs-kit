@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: stretch; }
+  .grad {
+    height: 168px;
+    border-radius: 10px;
+    padding: 16px 18px;
+    color: white;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .grad.radial { background: var(--kt-gradient); }
+  .grad.linear { background: var(--kt-gradient-linear); }
+  .grad .name { font-family: var(--font-sans); font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+  .grad .css  { font-family: var(--font-mono); font-size: 10.5px; color: rgba(255,255,255,0.88); line-height: 1.45; }
+  .stops { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .stop  { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--border-1); border-radius: 6px; background: var(--surface-1); }
+  .swatch { width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; }
+  .stop .lab { font-family: var(--font-sans); font-size: 11px; color: var(--fg-2); }
+  .stop .hex { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--fg-1); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="row">
+    <div class="grad radial">
+      <span class="name">--kt-gradient</span>
+      <span class="css">radial-gradient(circle at top right,<br/>red → magenta → purple)</span>
+    </div>
+    <div class="grad linear">
+      <span class="name">--kt-gradient-linear</span>
+      <span class="css">linear-gradient(225deg,<br/>red → magenta → purple)</span>
+    </div>
+  </div>
+  <div class="stops">
+    <div class="stop"><span class="swatch" style="background:#E44857"></span><span class="lab">Red</span><span class="hex">#E44857</span></div>
+    <div class="stop"><span class="swatch" style="background:#C711E1"></span><span class="lab">Magenta</span><span class="hex">#C711E1</span></div>
+    <div class="stop"><span class="swatch" style="background:#7F52FF"></span><span class="lab">Purple</span><span class="hex">#7F52FF</span></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+name: Bug report
+description: Report a defect in kotlin-docs-kit.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please fill out the form below.
+        For security issues, use [private reporting](https://github.com/devcrocod/kotlin-docs-kit/security/advisories/new) instead.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected package
+      options:
+        - "@ktdocs/tokens"
+        - kotlin-docs-mkdocs
+        - "@ktdocs/docusaurus-preset"
+        - kotlin-docs-hugo (Hugo module)
+        - mkdocs template
+        - docusaurus template
+        - hugo template
+        - landing
+        - docs (self-docs)
+        - other / not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: e.g. 0.1.0, or commit SHA if installed from source.
+      placeholder: "0.1.0"
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Minimal steps to reproduce. A repo or gist link is ideal.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node / Python / Go / Hugo versions, browser if relevant.
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      render: shell
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true

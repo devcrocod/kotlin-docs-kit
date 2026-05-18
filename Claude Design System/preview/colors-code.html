@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  body { background: var(--surface-code); }
+  .card { background: transparent; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .tile { border: 1px solid var(--border-1); border-radius: 8px; padding: 12px; background: var(--surface-1); }
+  .swatch { width: 28px; height: 28px; border-radius: 6px; margin-bottom: 8px; }
+  .tname { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); display: block; }
+  .tval { font-family: var(--font-mono); font-size: 13px; color: var(--fg-1); font-weight: 500; }
+  .preview-line { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="grid">
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-keyword)"></div>
+      <span class="tname">--code-keyword</span><span class="tval">Purple 600</span>
+      <code class="preview-line tok-k">fun · val · suspend</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-string)"></div>
+      <span class="tname">--code-string</span><span class="tval">Green 600</span>
+      <code class="preview-line tok-s">"hello"</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-number)"></div>
+      <span class="tname">--code-number</span><span class="tval">Orange 500</span>
+      <code class="preview-line tok-n">42 · 3.14</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-function)"></div>
+      <span class="tname">--code-function</span><span class="tval">Blue 500</span>
+      <code class="preview-line tok-f">println()</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-type)"></div>
+      <span class="tname">--code-type</span><span class="tval">Orange 500</span>
+      <code class="preview-line tok-t">String · List</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-comment)"></div>
+      <span class="tname">--code-comment</span><span class="tval">Gray 500</span>
+      <code class="preview-line tok-c">// note</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-punctuation)"></div>
+      <span class="tname">--code-punctuation</span><span class="tval">Gray 600</span>
+      <code class="preview-line tok-p">{ } · ( ) · ,</code>
+    </div>
+    <div class="tile">
+      <div class="swatch" style="background:var(--code-tag)"></div>
+      <span class="tname">--code-tag</span><span class="tval">Pink 600</span>
+      <code class="preview-line tok-a">@Composable</code>
+    </div>
+  </div>
+</div>
+</body>
+</html>
