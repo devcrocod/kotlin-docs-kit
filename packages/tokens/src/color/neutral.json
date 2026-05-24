@@ -1,0 +1,21 @@
+{
+  "$description": "Neutral gray ramp — Mintlify-ish cool gray. Source of truth for surface and foreground tokens.",
+  "color": {
+    "gray": {
+      "0":   { "$type": "color", "$value": "#FFFFFF" },
+      "50":  { "$type": "color", "$value": "#FAFAFB" },
+      "100": { "$type": "color", "$value": "#F4F4F6" },
+      "150": { "$type": "color", "$value": "#ECECEF" },
+      "200": { "$type": "color", "$value": "#E3E3E8" },
+      "300": { "$type": "color", "$value": "#C9CAD0" },
+      "400": { "$type": "color", "$value": "#9A9CA5" },
+      "500": { "$type": "color", "$value": "#6E707A" },
+      "600": { "$type": "color", "$value": "#4F525C" },
+      "700": { "$type": "color", "$value": "#363842" },
+      "800": { "$type": "color", "$value": "#22242C" },
+      "850": { "$type": "color", "$value": "#181A20" },
+      "900": { "$type": "color", "$value": "#101218" },
+      "950": { "$type": "color", "$value": "#0A0B10" }
+    }
+  }
+}

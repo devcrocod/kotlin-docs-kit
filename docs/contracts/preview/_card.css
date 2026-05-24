@@ -1,0 +1,5 @@
+/* Shared base for preview cards */
+html, body { margin: 0; padding: 0; background: var(--surface-1); }
+.card { font-family: var(--font-sans); color: var(--fg-1); padding: 22px 26px; box-sizing: border-box; }
+.label { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.04em; text-transform: uppercase; }
+.eyebrow { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 10px; }

@@ -1,0 +1,20 @@
+{
+  "$description": "Kotlin brand gradients. Stored as raw CSS strings (DTCG W3C does not yet have a stable gradient $type) — Style Dictionary emits them verbatim into CSS variables.",
+  "color": {
+    "kt-gradient": {
+      "$type": "string",
+      "$value": "radial-gradient(circle at top right, #E44857 0%, #C711E1 50%, #7F52FF 100%)",
+      "$description": "Official radial gradient from kotlinlang.org K-mark. Red → magenta → purple, top-right anchor."
+    },
+    "kt-gradient-linear": {
+      "$type": "string",
+      "$value": "linear-gradient(225deg, #E44857 0%, #C711E1 50%, #7F52FF 100%)",
+      "$description": "Linear approximation of the K-mark gradient at 225°. For hero text, banners, rectangular surfaces."
+    },
+    "kt-gradient-soft": {
+      "$type": "string",
+      "$value": "linear-gradient(135deg, #FEEDEF 0%, #FCEEFF 50%, #F4EEFF 100%)",
+      "$description": "Pastel soft variant of the brand gradient. For backgrounds and washes."
+    }
+  }
+}

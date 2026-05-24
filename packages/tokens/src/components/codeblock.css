@@ -1,0 +1,165 @@
+/* ============================================================================
+   Code block — the premium, cross-engine code component.
+   Sub-elements:
+     __header     — file tabs row + language tag + copy buttons
+     __tabs       — multi-file tab list
+     __tab        — single tab (modifier --active)
+     __actions    — copy / wrap / fullscreen buttons
+     __action-btn — individual action button
+     __body       — <pre> wrapper
+     __line       — single line (modifier --hl for highlighted)
+     __lineno     — gutter number
+     __code       — code text within a line
+     __file-icon  — file-type icon on a tab
+     __lang       — language label (when no tabs)
+   Modifiers:
+     --terminal   — terminal variant (dark, prompt-styled)
+   Syntax tokens: .kt-tok-{k,s,n,c,f,t,p,a}
+   ============================================================================ */
+
+.kt-codeblock {
+  background: var(--code-bg);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: var(--type-code-size);
+  line-height: var(--type-code-line);
+  margin: 16px 0;
+  position: relative;
+}
+
+.kt-codeblock__header {
+  display: flex; align-items: center;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-1);
+  padding: 0 4px 0 0;
+  min-height: 36px;
+}
+.kt-codeblock__tabs {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.kt-codeblock__tabs::-webkit-scrollbar { display: none; }
+.kt-codeblock__tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border-1);
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease);
+}
+.kt-codeblock__tab:hover { color: var(--fg-1); background: var(--surface-1); }
+.kt-codeblock__tab--active {
+  color: var(--fg-1);
+  background: var(--code-bg);
+  font-weight: 500;
+}
+.kt-codeblock__tab--active::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--color-primary);
+}
+.kt-codeblock__file-icon {
+  width: 13px; height: 13px;
+  color: var(--fg-3);
+}
+.kt-codeblock__tab--active .kt-codeblock__file-icon { color: var(--color-primary); }
+
+.kt-codeblock__actions {
+  display: flex; align-items: center; gap: 2px;
+  padding: 0 6px;
+  margin-left: auto;
+}
+.kt-codeblock__action-btn {
+  background: transparent; border: 0; cursor: pointer;
+  color: var(--fg-3);
+  padding: 5px 7px;
+  border-radius: 4px;
+  font-family: var(--font-mono); font-size: 11px;
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-codeblock__action-btn:hover { background: var(--surface-3); color: var(--fg-1); }
+.kt-codeblock__action-btn svg { width: 13px; height: 13px; }
+
+.kt-codeblock__lang {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 14px;
+  height: 36px;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-3);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+.kt-codeblock__lang svg { width: 13px; height: 13px; }
+
+.kt-codeblock__body {
+  margin: 0;
+  padding: 16px 0;
+  background: transparent;
+  overflow-x: auto;
+  color: var(--code-fg);
+  font-family: var(--font-mono);
+  font-size: var(--type-code-size);
+  line-height: var(--type-code-line);
+}
+.kt-codeblock__body code { background: transparent; border: 0; padding: 0; font-size: inherit; color: inherit; }
+
+.kt-codeblock__line {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  padding: 0 18px 0 0;
+  min-height: 1.65em;
+}
+.kt-codeblock__lineno {
+  font-family: var(--font-mono);
+  color: var(--fg-3);
+  text-align: right;
+  padding-right: 14px;
+  user-select: none;
+  font-size: 12px;
+  line-height: var(--type-code-line);
+  opacity: 0.7;
+}
+.kt-codeblock__line--hl {
+  background: var(--code-line-hl);
+  box-shadow: inset 2px 0 0 var(--color-primary);
+}
+.kt-codeblock__code { display: block; padding-left: 6px; white-space: pre; }
+
+/* Terminal variant */
+.kt-codeblock--terminal {
+  background: #0E0B16;
+  border-color: #2A2240;
+  color: #ECECF1;
+}
+.kt-codeblock--terminal .kt-codeblock__header { background: #15101F; border-bottom-color: #2A2240; }
+.kt-codeblock--terminal .kt-codeblock__lang { color: rgba(255, 255, 255, 0.55); }
+.kt-codeblock--terminal .kt-codeblock__body { color: #ECECF1; }
+.kt-codeblock--terminal .kt-codeblock__action-btn { color: rgba(255, 255, 255, 0.55); }
+.kt-codeblock--terminal .kt-codeblock__action-btn:hover { background: rgba(255, 255, 255, 0.08); color: white; }
+.kt-codeblock__term-prompt { color: var(--kt-purple-300); margin-right: 8px; user-select: none; }
+.kt-codeblock__term-comment { color: rgba(255, 255, 255, 0.4); }
+
+/* Syntax tokens — hand-tagged spans or re-mapped Prism/Highlight.js classes */
+.kt-tok-k { color: var(--code-keyword);     font-weight: 500; }
+.kt-tok-s { color: var(--code-string);      }
+.kt-tok-n { color: var(--code-number);      }
+.kt-tok-c { color: var(--code-comment);     font-style: italic; }
+.kt-tok-f { color: var(--code-function);    }
+.kt-tok-t { color: var(--code-type);        }
+.kt-tok-p { color: var(--code-punctuation); }
+.kt-tok-a { color: var(--code-tag);         } /* annotation / decorator */

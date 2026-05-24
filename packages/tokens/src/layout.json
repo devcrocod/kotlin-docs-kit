@@ -1,0 +1,11 @@
+{
+  "$description": "Documentation layout defaults. 3-column shell — sidebar (260) · content (max ~720) · TOC (220) — adapted from Mintlify.",
+  "docs": {
+    "sidebar-width":  { "$type": "dimension", "$value": "260px" },
+    "toc-width":      { "$type": "dimension", "$value": "220px" },
+    "content-max":    { "$type": "dimension", "$value": "720px" },
+    "shell-max":      { "$type": "dimension", "$value": "1440px" },
+    "header-height":  { "$type": "dimension", "$value": "60px" }
+  },
+  "reading-measure": { "$type": "dimension", "$value": "72ch", "$description": "Max prose width in chars for reading comfort." }
+}

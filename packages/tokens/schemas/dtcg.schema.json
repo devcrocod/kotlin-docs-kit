@@ -1,0 +1,86 @@
+{
+  "$id": "https://kotlin-docs-kit.dev/schemas/dtcg.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DTCG W3C tokens — subset used by @ktdocs/tokens",
+  "description": "Per-$type sub-schemas for the $value shape. Group containers and reference strings ({path.to.token}) are validated by scripts/validate.mjs, not here.",
+  "definitions": {
+    "valueByType": {
+      "color": {
+        "anyOf": [
+          { "type": "string", "pattern": "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$" },
+          { "type": "string", "pattern": "^rgba?\\(.+\\)$" },
+          { "type": "string", "pattern": "^hsla?\\(.+\\)$" },
+          { "type": "string", "pattern": "^color-mix\\(.+\\)$" }
+        ]
+      },
+      "dimension": {
+        "type": "string",
+        "pattern": "^(0|[+-]?\\d*\\.?\\d+(px|em|rem|%|ch|vh|vw|ex))$"
+      },
+      "duration": {
+        "type": "string",
+        "pattern": "^\\d+(\\.\\d+)?(ms|s)$"
+      },
+      "fontFamily": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 1 },
+        "minItems": 1
+      },
+      "fontWeight": {
+        "anyOf": [
+          { "type": "integer", "minimum": 1, "maximum": 1000 },
+          {
+            "type": "string",
+            "enum": [
+              "thin",
+              "hairline",
+              "extra-light",
+              "ultra-light",
+              "light",
+              "normal",
+              "regular",
+              "medium",
+              "semi-bold",
+              "demi-bold",
+              "bold",
+              "extra-bold",
+              "ultra-bold",
+              "black",
+              "heavy"
+            ]
+          }
+        ]
+      },
+      "number": {
+        "type": "number"
+      },
+      "cubicBezier": {
+        "type": "array",
+        "items": { "type": "number" },
+        "minItems": 4,
+        "maxItems": 4
+      },
+      "string": {
+        "type": "string",
+        "minLength": 1
+      },
+      "shadow": {
+        "oneOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "object",
+            "required": ["color", "offsetX", "offsetY", "blur", "spread"],
+            "properties": {
+              "color": { "type": "string" },
+              "offsetX": { "type": "string" },
+              "offsetY": { "type": "string" },
+              "blur": { "type": "string" },
+              "spread": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  }
+}

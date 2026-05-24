@@ -1,0 +1,9 @@
+/* ============================================================================
+   Breadcrumbs.
+   ============================================================================ */
+
+.kt-crumbs { display: flex; align-items: center; gap: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--fg-3); }
+.kt-crumbs a { color: var(--fg-2); text-decoration: none; }
+.kt-crumbs a:hover { color: var(--color-link); }
+.kt-crumbs__sep { color: var(--fg-3); opacity: 0.6; }
+.kt-crumbs__current { color: var(--fg-1); font-weight: 500; }

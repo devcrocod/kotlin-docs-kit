@@ -1,0 +1,14 @@
+/* ============================================================================
+   Tags — square-radius mono label. Used for metadata snippets.
+   ============================================================================ */
+
+.kt-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--fg-2);
+  border: 1px solid var(--border-1);
+}

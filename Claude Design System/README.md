@@ -1,5 +1,7 @@
 # Kotlin Docs Theme System
 
+> **Frozen snapshot (since 2026-05-24).** Source of truth has moved to `packages/tokens/src/` (DTCG tokens, BEM `kt-*` components) and `docs/contracts/` (preview, engine-mappings, reference-prototype). This directory remains as a maintainer reference for the original Claude DS input — do not edit; reverse-engineer changes through `packages/tokens/src/`.
+
 > A portable, **engine-agnostic** documentation theme. Visual language inspired by Kotlin (official palette + standard brand assets). Layout, navigation, cards, callouts, and code blocks inspired by Mintlify. Designed to be implemented as themes for **MkDocs**, **Docusaurus**, and **Hugo**.
 
 ---

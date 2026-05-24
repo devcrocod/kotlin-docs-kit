@@ -1,0 +1,27 @@
+/* ============================================================================
+   Hero — landing surface (docs homepage).
+   ============================================================================ */
+
+.kt-docs-hero {
+  position: relative;
+  padding: 56px 32px 48px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-1);
+  background: var(--surface-1);
+}
+.kt-docs-hero h1 {
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-line);
+  letter-spacing: var(--type-display-tracking);
+  font-weight: 700;
+}
+.kt-hero__grad-text {
+  background: var(--kt-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.kt-docs-hero p {
+  font-size: 17px; color: var(--fg-2); line-height: 1.55;
+  margin-top: 14px; max-width: 560px;
+}

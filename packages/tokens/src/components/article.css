@@ -1,0 +1,21 @@
+/* ============================================================================
+   Article body container — reading column with vertical rhythm.
+   ============================================================================ */
+
+.kt-docs-article {
+  max-width: var(--docs-content-max);
+  font-family: var(--font-sans);
+}
+.kt-docs-article > * + * { margin-top: 16px; }
+.kt-docs-article > h2 { margin-top: 36px; }
+.kt-docs-article > h3 { margin-top: 24px; }
+.kt-docs-article > h2 + p,
+.kt-docs-article > h3 + p { margin-top: 8px; }
+.kt-docs-article ul, .kt-docs-article ol { padding-left: 24px; line-height: 1.7; }
+.kt-docs-article li { margin-top: 4px; }
+.kt-docs-article blockquote {
+  margin: 0;
+  padding: 4px 0 4px 16px;
+  border-left: 3px solid var(--border-2);
+  color: var(--fg-2);
+}

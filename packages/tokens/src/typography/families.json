@@ -1,0 +1,13 @@
+{
+  "$description": "Font family stacks. Two families: IBM Plex Sans for prose/UI, JetBrains Mono for code. System fallbacks ensure rendering even before woff2 files are bundled.",
+  "font": {
+    "sans": {
+      "$type": "fontFamily",
+      "$value": ["IBM Plex Sans", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"]
+    },
+    "mono": {
+      "$type": "fontFamily",
+      "$value": ["JetBrains Mono", "ui-monospace", "SF Mono", "Menlo", "Consolas", "monospace"]
+    }
+  }
+}

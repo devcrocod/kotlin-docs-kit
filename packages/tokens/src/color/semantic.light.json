@@ -1,0 +1,82 @@
+{
+  "$description": "Light-theme semantic colors. Default theme. Applied to :root and [data-theme='light']. Aliases point at primitives in color/{primitive,neutral,semantic-primitive}.json.",
+  "surface": {
+    "0":       { "$type": "color", "$value": "{color.gray.50}",  "$description": "Page background, slightly tinted." },
+    "1":       { "$type": "color", "$value": "{color.gray.0}",   "$description": "Cards, content panels." },
+    "2":       { "$type": "color", "$value": "{color.gray.100}", "$description": "Subtle wells." },
+    "3":       { "$type": "color", "$value": "{color.gray.150}", "$description": "Inline code background." },
+    "code":    { "$type": "color", "$value": "#FBFAFD", "$description": "Code block background — very faint purple tint." },
+    "inverse": { "$type": "color", "$value": "{color.gray.900}" }
+  },
+  "fg": {
+    "1":          { "$type": "color", "$value": "{color.gray.900}" },
+    "2":          { "$type": "color", "$value": "{color.gray.600}" },
+    "3":          { "$type": "color", "$value": "{color.gray.500}" },
+    "disabled":   { "$type": "color", "$value": "{color.gray.400}" },
+    "on-brand":   { "$type": "color", "$value": "{color.gray.0}" }
+  },
+  "border": {
+    "1":      { "$type": "color", "$value": "{color.gray.200}" },
+    "2":      { "$type": "color", "$value": "{color.gray.300}" },
+    "strong": { "$type": "color", "$value": "{color.gray.400}" }
+  },
+  "color": {
+    "primary":        { "$type": "color", "$value": "{color.kt-purple.500}" },
+    "primary-hover":  { "$type": "color", "$value": "{color.kt-purple.600}" },
+    "primary-active": { "$type": "color", "$value": "{color.kt-purple.700}" },
+    "primary-soft":   { "$type": "color", "$value": "{color.kt-purple.50}" },
+    "accent":         { "$type": "color", "$value": "{color.kt-magenta.500}" },
+    "accent-hover":   { "$type": "color", "$value": "{color.kt-magenta.600}" },
+    "accent-soft":    { "$type": "color", "$value": "{color.kt-magenta.50}" },
+
+    "link":           { "$type": "color", "$value": "{color.kt-purple.600}" },
+    "link-hover":     { "$type": "color", "$value": "{color.kt-purple.700}" },
+    "link-visited":   { "$type": "color", "$value": "{color.kt-purple.700}" },
+
+    "focus":          { "$type": "color", "$value": "#9D7BFF" },
+
+    "note":              { "$type": "color", "$value": "{color.gray.700}" },
+    "note-soft":         { "$type": "color", "$value": "{color.gray.100}" },
+    "info":              { "$type": "color", "$value": "{color.kt-blue.400}" },
+    "info-soft":         { "$type": "color", "$value": "{color.kt-blue.50}" },
+    "tip":               { "$type": "color", "$value": "{color.kt-purple.500}" },
+    "tip-soft":          { "$type": "color", "$value": "{color.kt-purple.50}" },
+    "success":           { "$type": "color", "$value": "{color.green.500}" },
+    "success-soft":      { "$type": "color", "$value": "{color.green.100}" },
+    "warning":           { "$type": "color", "$value": "{color.amber.500}" },
+    "warning-soft":      { "$type": "color", "$value": "{color.amber.100}" },
+    "danger":            { "$type": "color", "$value": "{color.red.500}" },
+    "danger-soft":       { "$type": "color", "$value": "{color.red.100}" },
+    "caution":           { "$type": "color", "$value": "{color.kt-orange.500}" },
+    "caution-soft":      { "$type": "color", "$value": "{color.kt-orange.50}" },
+    "important":         { "$type": "color", "$value": "{color.kt-magenta.500}" },
+    "important-soft":    { "$type": "color", "$value": "{color.kt-magenta.50}" },
+    "quote":             { "$type": "color", "$value": "{color.gray.500}" },
+    "quote-soft":        { "$type": "color", "$value": "{color.gray.100}" },
+    "example":           { "$type": "color", "$value": "{color.kt-blue.500}" },
+    "example-soft":      { "$type": "color", "$value": "{color.kt-blue.50}" },
+    "deprecated":        { "$type": "color", "$value": "{color.amber.600}" },
+    "deprecated-soft":   { "$type": "color", "$value": "{color.amber.100}" },
+    "experimental":      { "$type": "color", "$value": "{color.kt-pink.500}" },
+    "experimental-soft": { "$type": "color", "$value": "{color.kt-pink.50}" }
+  },
+  "focus-ring": {
+    "$type": "string",
+    "$value": "0 0 0 3px color-mix(in srgb, var(--color-focus) 38%, transparent)",
+    "$description": "Box-shadow expression for focus ring. Uses color-mix; emitted verbatim."
+  },
+  "code": {
+    "bg":          { "$type": "color", "$value": "{surface.code}" },
+    "fg":          { "$type": "color", "$value": "{color.gray.900}" },
+    "line-bg":     { "$type": "color", "$value": "{surface.code}" },
+    "line-hl":     { "$type": "color", "$value": "#F2EBFF" },
+    "keyword":     { "$type": "color", "$value": "{color.kt-purple.600}" },
+    "string":      { "$type": "color", "$value": "{color.green.600}" },
+    "number":      { "$type": "color", "$value": "{color.kt-orange.500}" },
+    "comment":     { "$type": "color", "$value": "{color.gray.500}" },
+    "function":    { "$type": "color", "$value": "{color.kt-blue.500}" },
+    "type":        { "$type": "color", "$value": "{color.kt-orange.500}" },
+    "punctuation": { "$type": "color", "$value": "{color.gray.600}" },
+    "tag":         { "$type": "color", "$value": "{color.kt-pink.600}" }
+  }
+}

@@ -32,6 +32,26 @@ docs/            # self-docs site (Docusaurus, dogfood)
 .github/         # CI workflows, issue and PR templates
 ```
 
+## Development
+
+Builds are orchestrated by [go-task](https://taskfile.dev). After installing the prerequisites below, run:
+
+```bash
+task install   # install Node (pnpm) + Python (uv) deps
+task --list    # show all available tasks
+task ci        # full smoke-build (tokens → templates → landing)
+```
+
+### Prerequisites
+
+- **go-task** — task runner. Install one of:
+  - macOS (Homebrew): `brew install go-task/tap/go-task`
+  - Linux / WSL (curl): `sh -c "$(curl -sSfL https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin`
+  - Windows / other: see the [installation guide](https://taskfile.dev/installation/) or download a binary from the [GitHub releases](https://github.com/go-task/task/releases) page.
+- **pnpm** (Node 20+) — Node package manager. See [pnpm.io/installation](https://pnpm.io/installation).
+- **uv** — Python package manager. See [docs.astral.sh/uv/getting-started/installation](https://docs.astral.sh/uv/getting-started/installation/).
+- **Hugo** (extended) and **Go 1.22+** — required for the Hugo template only.
+
 ## Contributing
 
 Contributions welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for the Conventional Commits convention and PR process.

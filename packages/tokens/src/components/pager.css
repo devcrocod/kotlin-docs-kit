@@ -1,0 +1,28 @@
+/* ============================================================================
+   Pagination — prev / next links at article foot.
+   ============================================================================ */
+
+.kt-docs-pager {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--border-1);
+}
+.kt-docs-pager__link {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--fg-1);
+  transition: border-color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease);
+}
+.kt-docs-pager__link:hover { border-color: var(--kt-purple-300); background: var(--surface-1); }
+.kt-docs-pager__link--next { text-align: right; }
+.kt-docs-pager__direction {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.kt-docs-pager__title {
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  color: var(--fg-1);
+}

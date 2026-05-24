@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .tile { border: 1px solid var(--border-1); border-radius: 8px; overflow: hidden; }
+  .top { height: 56px; }
+  .meta { padding: 8px 10px; background: var(--surface-1); }
+  .n { font-family: var(--font-sans); font-weight: 600; font-size: 12px; color: var(--fg-1); }
+  .v { font-family: var(--font-mono); font-size: 10px; color: var(--fg-2); display: block; margin-top: 1px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="grid">
+    <div class="tile"><div class="top" style="background:var(--color-note); opacity:0.85"></div>
+      <div class="meta"><span class="n">Note</span><span class="v">--color-note</span></div></div>
+    <div class="tile"><div class="top" style="background:var(--color-info)"></div>
+      <div class="meta"><span class="n">Info</span><span class="v">--color-info</span></div></div>
+    <div class="tile"><div class="top" style="background:var(--color-tip)"></div>
+      <div class="meta"><span class="n">Tip</span><span class="v">--color-tip</span></div></div>
+    <div class="tile"><div class="top" style="background:var(--color-warning)"></div>
+      <div class="meta"><span class="n">Warning</span><span class="v">--color-warning</span></div></div>
+    <div class="tile"><div class="top" style="background:var(--color-danger)"></div>
+      <div class="meta"><span class="n">Danger</span><span class="v">--color-danger</span></div></div>
+    <div class="tile"><div class="top" style="background:var(--color-success)"></div>
+      <div class="meta"><span class="n">Success</span><span class="v">--color-success</span></div></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* ============================================================================
+   Content tabs — e.g. "Kotlin / Java / Groovy" code switcher.
+   Distinct from code-block tabs (.kt-codeblock__tab), which live in codeblock.css.
+   ============================================================================ */
+
+.kt-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border-1); }
+.kt-tabs__tab {
+  background: transparent; border: 0; cursor: pointer;
+  padding: 10px 16px;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+  color: var(--fg-2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
+}
+.kt-tabs__tab:hover { color: var(--fg-1); }
+.kt-tabs__tab--active { color: var(--color-primary); border-bottom-color: var(--color-primary); }

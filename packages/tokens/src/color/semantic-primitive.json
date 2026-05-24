@@ -1,0 +1,29 @@
+{
+  "$description": "Semantic primitives — non-brand palette ramps used to back callout, success/warning/error states. Components consume the aliases in color/semantic.{light,dark}.json instead.",
+  "color": {
+    "green": {
+      "100": { "$type": "color", "$value": "#DEFBE6" },
+      "300": { "$type": "color", "$value": "#44C97A" },
+      "500": { "$type": "color", "$value": "#199E5C" },
+      "600": { "$type": "color", "$value": "#117A47" }
+    },
+    "amber": {
+      "100": { "$type": "color", "$value": "#FFF1CC" },
+      "300": { "$type": "color", "$value": "#FFC85A" },
+      "500": { "$type": "color", "$value": "#C48400" },
+      "600": { "$type": "color", "$value": "#8E6000" }
+    },
+    "red": {
+      "100": { "$type": "color", "$value": "#FEE2E2" },
+      "300": { "$type": "color", "$value": "#FB7474" },
+      "500": { "$type": "color", "$value": "#D33027" },
+      "600": { "$type": "color", "$value": "#A91D17" }
+    },
+    "cyan": {
+      "100": { "$type": "color", "$value": "#DEF5FA" },
+      "300": { "$type": "color", "$value": "#38C5DD" },
+      "500": { "$type": "color", "$value": "#0AA5BE" },
+      "600": { "$type": "color", "$value": "#0B7E92" }
+    }
+  }
+}

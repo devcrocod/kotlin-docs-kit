@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  body { background: var(--surface-0); }
+  .card { padding: 0; }
+  .wrap { display: grid; grid-template-columns: 260px 1fr 220px; min-height: 320px; background: var(--surface-1); border: 1px solid var(--border-1); border-radius: 10px; overflow: hidden; margin: 16px; }
+  .side { border-right: 1px solid var(--border-1); }
+  .mid  { padding: 28px 32px; background: var(--surface-0); }
+  .right { border-left: 1px solid var(--border-1); }
+  .ico { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="wrap">
+    <nav class="sidenav side">
+      <div class="docs-search" style="margin-bottom: 16px;">
+        <svg class="ds-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <span class="ds-text">Search…</span>
+        <span class="ds-kbd">⌘K</span>
+      </div>
+      <div class="sidenav-section">
+        <div class="sec-label">Getting started</div>
+        <a class="sidenav-item">Introduction</a>
+        <a class="sidenav-item">Installation</a>
+        <a class="sidenav-item is-active">Quickstart</a>
+        <a class="sidenav-item">Project structure</a>
+      </div>
+      <div class="sidenav-section">
+        <div class="sec-label">Concepts</div>
+        <a class="sidenav-item">Routing</a>
+        <a class="sidenav-item">Data fetching</a>
+        <a class="sidenav-item">Plugins</a>
+        <a class="sidenav-item">Authentication</a>
+      </div>
+      <div class="sidenav-section">
+        <div class="sec-sub">Reference</div>
+        <a class="sidenav-item">CLI</a>
+        <a class="sidenav-item">Configuration</a>
+      </div>
+    </nav>
+    <div class="mid">
+      <nav class="crumbs" style="margin-bottom: 14px;">
+        <a href="#">Docs</a><span class="sep">/</span>
+        <a href="#">Getting started</a><span class="sep">/</span>
+        <span class="current">Quickstart</span>
+      </nav>
+      <h1 class="t-h1" style="margin-bottom: 8px;">Quickstart</h1>
+      <p class="t-body" style="color: var(--fg-2); max-width: 56ch;">Build a working Kotlin server in five minutes. By the end you'll have a route that returns JSON.</p>
+    </div>
+    <nav class="toc right">
+      <div class="toc-label">On this page</div>
+      <a class="toc-item">Create a project</a>
+      <a class="toc-item is-active">Add a route</a>
+      <a class="toc-item is-nested">Path params</a>
+      <a class="toc-item is-nested">Query strings</a>
+      <a class="toc-item">Run locally</a>
+      <a class="toc-item">What's next</a>
+    </nav>
+  </div>
+</div>
+</body>
+</html>

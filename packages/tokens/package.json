@@ -1,0 +1,74 @@
+{
+  "name": "@ktdocs/tokens",
+  "version": "0.0.0",
+  "description": "Kotlin-styled design tokens, fonts and component CSS for kotlin-docs-kit. DTCG W3C source, Style Dictionary build.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/tokens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devcrocod/kotlin-docs-kit.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": "https://github.com/devcrocod/kotlin-docs-kit/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": [
+    "dist/colors_and_type.css",
+    "dist/tokens.css",
+    "dist/components.css",
+    "dist/fonts.css"
+  ],
+  "main": "dist/json/tokens.json",
+  "exports": {
+    ".": {
+      "default": "./dist/json/tokens.json"
+    },
+    "./colors_and_type.css": {
+      "default": "./dist/colors_and_type.css"
+    },
+    "./tokens.css": {
+      "default": "./dist/tokens.css"
+    },
+    "./components.css": {
+      "default": "./dist/components.css"
+    },
+    "./fonts.css": {
+      "default": "./dist/fonts.css"
+    },
+    "./scss": {
+      "sass": "./dist/scss/_tokens.scss",
+      "default": "./dist/scss/_tokens.scss"
+    },
+    "./json": {
+      "default": "./dist/json/tokens.json"
+    },
+    "./fonts/*": "./dist/fonts/*",
+    "./assets/*": "./dist/assets/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "validate": "node scripts/validate.mjs",
+    "build:tokens": "node style-dictionary.config.mjs",
+    "build:fonts": "node scripts/copy-fonts.mjs",
+    "build:components": "node scripts/build-components.mjs",
+    "build:assets": "node scripts/copy-assets.mjs",
+    "build": "pnpm run clean && pnpm run validate && pnpm run build:tokens && pnpm run build:fonts && pnpm run build:components && pnpm run build:assets",
+    "prepack": "pnpm run build"
+  },
+  "devDependencies": {
+    "@fontsource/ibm-plex-sans": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "style-dictionary": "^4.0.0"
+  }
+}

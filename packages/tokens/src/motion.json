@@ -1,0 +1,9 @@
+{
+  "$description": "Motion tokens — durations and easing. Three speeds and one easing curve; everything in the kit uses these.",
+  "motion": {
+    "fast": { "$type": "duration", "$value": "120ms" },
+    "base": { "$type": "duration", "$value": "200ms" },
+    "slow": { "$type": "duration", "$value": "320ms" },
+    "ease": { "$type": "cubicBezier", "$value": [0.2, 0, 0, 1] }
+  }
+}

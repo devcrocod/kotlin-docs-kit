@@ -1,0 +1,65 @@
+{
+  "$description": "Kotlin brand palette. Source of truth for kt-* color ramps. Referenced by semantic tokens; do not consume directly in components.",
+  "color": {
+    "kt-purple": {
+      "50":  { "$type": "color", "$value": "#F4EEFF" },
+      "100": { "$type": "color", "$value": "#E5DAFF" },
+      "200": { "$type": "color", "$value": "#C9B3FF" },
+      "300": { "$type": "color", "$value": "#A688FF" },
+      "400": { "$type": "color", "$value": "#8E68FF" },
+      "500": { "$type": "color", "$value": "#7F52FF", "$description": "Canonical Kotlin purple (K-mark color)." },
+      "600": { "$type": "color", "$value": "#6B3DEB" },
+      "700": { "$type": "color", "$value": "#5727C7" },
+      "800": { "$type": "color", "$value": "#3F1A98" },
+      "900": { "$type": "color", "$value": "#2A106B" }
+    },
+    "kt-magenta": {
+      "50":  { "$type": "color", "$value": "#FCEEFF" },
+      "100": { "$type": "color", "$value": "#F8D2FF" },
+      "200": { "$type": "color", "$value": "#EDA0FF" },
+      "300": { "$type": "color", "$value": "#DE6BFE" },
+      "400": { "$type": "color", "$value": "#D03BF1" },
+      "500": { "$type": "color", "$value": "#C711E1", "$description": "Canonical Kotlin magenta (gradient midpoint)." },
+      "600": { "$type": "color", "$value": "#A30CB9" },
+      "700": { "$type": "color", "$value": "#7C0590" }
+    },
+    "kt-red": {
+      "50":  { "$type": "color", "$value": "#FEEDEF" },
+      "100": { "$type": "color", "$value": "#FDD3D7" },
+      "200": { "$type": "color", "$value": "#FBA3AB" },
+      "300": { "$type": "color", "$value": "#F36F7C" },
+      "400": { "$type": "color", "$value": "#E44857", "$description": "Canonical Kotlin red (gradient endpoint)." },
+      "500": { "$type": "color", "$value": "#CE2F3F" },
+      "600": { "$type": "color", "$value": "#A91D2D" },
+      "700": { "$type": "color", "$value": "#791521" }
+    },
+    "kt-pink": {
+      "50":  { "$type": "color", "$value": "#FFEDF4" },
+      "100": { "$type": "color", "$value": "#FFD3E5" },
+      "200": { "$type": "color", "$value": "#FFA3C7" },
+      "300": { "$type": "color", "$value": "#FF6FA6" },
+      "400": { "$type": "color", "$value": "#FF3D8B" },
+      "500": { "$type": "color", "$value": "#F0337F" },
+      "600": { "$type": "color", "$value": "#CB1F66" },
+      "700": { "$type": "color", "$value": "#9E1450" }
+    },
+    "kt-orange": {
+      "50":  { "$type": "color", "$value": "#FFF1E5" },
+      "100": { "$type": "color", "$value": "#FFE0C7" },
+      "200": { "$type": "color", "$value": "#FFBD85" },
+      "300": { "$type": "color", "$value": "#FF9B4B" },
+      "400": { "$type": "color", "$value": "#FF7B25" },
+      "500": { "$type": "color", "$value": "#ED5F0A" },
+      "600": { "$type": "color", "$value": "#C24B00" }
+    },
+    "kt-blue": {
+      "50":  { "$type": "color", "$value": "#E8F1FF" },
+      "100": { "$type": "color", "$value": "#C9DDFF" },
+      "200": { "$type": "color", "$value": "#95BCFF" },
+      "300": { "$type": "color", "$value": "#5E96FF" },
+      "400": { "$type": "color", "$value": "#4485FE" },
+      "500": { "$type": "color", "$value": "#2766DA" },
+      "600": { "$type": "color", "$value": "#194CAE" }
+    }
+  }
+}

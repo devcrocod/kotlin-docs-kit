@@ -1,0 +1,89 @@
+version: '3'
+
+# kotlin-docs-kit build orchestration.
+# Most build tasks start working only after issues #4, #6–#11, and #12 are complete.
+# `task install` is independent and works as soon as pnpm + uv are installed.
+
+tasks:
+  install:
+    desc: Install all deps (Node + Python)
+    cmds:
+      - pnpm install
+      - uv sync
+
+  tokens:build:
+    desc: Build design tokens (Style Dictionary)
+    dir: packages/tokens
+    cmds:
+      - pnpm build
+    sources:
+      - src/**/*.json
+    generates:
+      - dist/**/*
+
+  mkdocs:build:
+    desc: Build MkDocs theme package
+    deps: [tokens:build]
+    cmds:
+      # CSS files (incl. fonts.css) + fonts/ live in dist/ root; preserve layout
+      # so `@import "./fonts.css"` + url("./fonts/*.woff2") resolve in MkDocs.
+      - rsync -a --delete --include='*.css' --include='fonts/' --include='fonts/**' --exclude='*'
+          packages/tokens/dist/ packages/mkdocs/kotlin_docs_mkdocs/assets/stylesheets/
+      - rsync -a packages/tokens/dist/assets/ packages/mkdocs/kotlin_docs_mkdocs/assets/img/
+      - cd packages/mkdocs && uv build
+
+  docusaurus:build:
+    desc: Build Docusaurus preset
+    deps: [tokens:build]
+    cmds:
+      - cd packages/docusaurus && pnpm build
+
+  hugo:build:
+    desc: Sync tokens into Hugo theme
+    deps: [tokens:build]
+    cmds:
+      # CSS files into assets/css/; fonts get their own assets/fonts/ with
+      # fonts.css alongside so url("./fonts/*") still resolves after Hugo Pipes.
+      - rsync -a --include='*.css' --exclude='*/' --exclude='*'
+          packages/tokens/dist/ packages/hugo/assets/css/
+      - rsync -a packages/tokens/dist/fonts/ packages/hugo/assets/fonts/
+      - cp packages/tokens/dist/fonts.css packages/hugo/assets/fonts/fonts.css
+      - rsync -a packages/tokens/dist/assets/ packages/hugo/static/img/
+
+  template:mkdocs:build:
+    desc: Build MkDocs template (also serves as live demo)
+    deps: [mkdocs:build]
+    cmds:
+      - cd templates/mkdocs && uv run mkdocs build
+
+  template:docusaurus:build:
+    desc: Build Docusaurus template (also serves as live demo)
+    deps: [docusaurus:build]
+    cmds:
+      - cd templates/docusaurus && pnpm build
+
+  template:hugo:build:
+    desc: Build Hugo template (also serves as live demo)
+    deps: [hugo:build]
+    cmds:
+      - cd templates/hugo && hugo --minify
+
+  templates:build:
+    desc: Build all three engine templates
+    deps:
+      - template:mkdocs:build
+      - template:docusaurus:build
+      - template:hugo:build
+
+  landing:build:
+    desc: Build static landing site (stub until #12 / RFC #24)
+    cmds:
+      - echo 'landing:build is not implemented yet (blocked by issue #12 and RFC #24).'
+
+  ci:
+    desc: Full CI pipeline locally (smoke tests)
+    cmds:
+      - task: install
+      - task: tokens:build
+      - task: templates:build
+      - task: landing:build

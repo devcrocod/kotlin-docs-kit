@@ -1,0 +1,61 @@
+/* ============================================================================
+   Inputs — quiet, used mostly for search.
+   Includes the signature .kt-docs-search field (Mintlify-style with magnifier
+   and trailing ⌘K hint).
+   ============================================================================ */
+
+.kt-input,
+.kt-textarea,
+.kt-select {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  color: var(--fg-1);
+  border: 1px solid var(--border-1);
+  transition: border-color var(--motion-fast) var(--motion-ease),
+              box-shadow var(--motion-fast) var(--motion-ease);
+  box-sizing: border-box;
+}
+.kt-input:hover, .kt-textarea:hover, .kt-select:hover { border-color: var(--border-2); }
+.kt-input:focus, .kt-textarea:focus, .kt-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+.kt-input::placeholder, .kt-textarea::placeholder { color: var(--fg-3); }
+
+.kt-input-group { position: relative; }
+.kt-input-group .kt-input { padding-left: 34px; }
+.kt-input-group__lead-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--fg-3); pointer-events: none;
+  width: 16px; height: 16px;
+}
+
+.kt-docs-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 8px 7px 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-3);
+  cursor: text;
+  transition: border-color var(--motion-fast) var(--motion-ease);
+  width: 100%;
+}
+.kt-docs-search:hover { border-color: var(--border-2); }
+.kt-docs-search__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
+.kt-docs-search__text { flex: 1; }
+.kt-docs-search__kbd {
+  font-family: var(--font-mono); font-size: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--fg-2);
+}

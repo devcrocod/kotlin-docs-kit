@@ -1,0 +1,60 @@
+/* ============================================================================
+   Cards — Mintlify-style. Soft border, generous padding, subtle hover lift.
+   Used for feature grids, "Cards" components, and tutorial selectors.
+   ============================================================================ */
+
+.kt-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: border-color var(--motion-fast) var(--motion-ease),
+              box-shadow var(--motion-base) var(--motion-ease),
+              transform var(--motion-base) var(--motion-ease);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kt-card--hoverable:hover {
+  border-color: var(--kt-purple-300);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.kt-card__icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: grid; place-items: center;
+  margin-bottom: 4px;
+}
+.kt-card__title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fg-1);
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+.kt-card__body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--fg-2);
+  line-height: 1.55;
+  margin: 0;
+}
+.kt-card__arrow {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-primary);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+
+.kt-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}

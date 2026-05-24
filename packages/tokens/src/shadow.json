@@ -1,0 +1,49 @@
+{
+  "$description": "Soft, light-handed shadows. Multi-layer shadow stacks are kept as raw CSS strings (DTCG shadow $type does not yet support layered values cleanly). Style Dictionary emits them verbatim. Dark variants live under the dark group; the light values are the default.",
+  "shadow": {
+    "xs": {
+      "$type": "string",
+      "$value": "0 0 0 1px rgba(16, 18, 24, 0.04)"
+    },
+    "sm": {
+      "$type": "string",
+      "$value": "0 1px 2px rgba(16, 18, 24, 0.05), 0 0 0 1px rgba(16, 18, 24, 0.04)"
+    },
+    "md": {
+      "$type": "string",
+      "$value": "0 2px 4px rgba(16, 18, 24, 0.05), 0 6px 16px rgba(16, 18, 24, 0.08)"
+    },
+    "lg": {
+      "$type": "string",
+      "$value": "0 4px 8px rgba(16, 18, 24, 0.05), 0 14px 32px rgba(16, 18, 24, 0.12)"
+    },
+    "brand-glow": {
+      "$type": "string",
+      "$value": "0 6px 22px color-mix(in srgb, var(--kt-purple-500) 28%, transparent)",
+      "$description": "Used on CTAs and the K-mark hover."
+    },
+    "dark": {
+      "$description": "Dark-theme overrides. Applied at [data-theme='dark'].",
+      "xs": {
+        "$type": "string",
+        "$value": "0 0 0 1px rgba(255, 255, 255, 0.06)"
+      },
+      "sm": {
+        "$type": "string",
+        "$value": "0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05)"
+      },
+      "md": {
+        "$type": "string",
+        "$value": "0 2px 4px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.4)"
+      },
+      "lg": {
+        "$type": "string",
+        "$value": "0 4px 8px rgba(0, 0, 0, 0.3), 0 14px 32px rgba(0, 0, 0, 0.5)"
+      },
+      "brand-glow": {
+        "$type": "string",
+        "$value": "0 6px 22px color-mix(in srgb, var(--kt-purple-400) 40%, transparent)"
+      }
+    }
+  }
+}
