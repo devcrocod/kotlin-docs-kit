@@ -25,11 +25,16 @@ tasks:
     desc: Build MkDocs theme package
     deps: [tokens:build]
     cmds:
-      # CSS files (incl. fonts.css) + fonts/ live in dist/ root; preserve layout
-      # so `@import "./fonts.css"` + url("./fonts/*.woff2") resolve in MkDocs.
-      - rsync -a --delete --include='*.css' --include='fonts/' --include='fonts/**' --exclude='*'
-          packages/tokens/dist/ packages/mkdocs/kotlin_docs_mkdocs/assets/stylesheets/
-      - rsync -a packages/tokens/dist/assets/ packages/mkdocs/kotlin_docs_mkdocs/assets/img/
+      # Sync into overrides/assets/ so mkdocs custom_dir auto-serves the files
+      # at /assets/* in the generated site. CSS (incl. fonts.css) + woff2 live
+      # next to each other in stylesheets/ so url("./fonts/*.woff2") in
+      # fonts.css resolves the same way it does from packages/tokens/dist/.
+      # --delete keeps the dir tidy when tokens dist drops a file, but our
+      # hand-written mkdocs-overrides.css lives in the same directory and
+      # MUST survive every sync — exclude it from both copy and delete sides.
+      - rsync -a --delete --exclude='mkdocs-overrides.css' --include='*.css' --include='fonts/' --include='fonts/**' --exclude='*'
+          packages/tokens/dist/ packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/
+      - rsync -a packages/tokens/dist/assets/ packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/img/
       - cd packages/mkdocs && uv build
 
   docusaurus:build:

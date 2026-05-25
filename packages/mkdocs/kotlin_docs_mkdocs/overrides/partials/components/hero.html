@@ -1,0 +1,30 @@
+{#-
+  Hero section. Mirrors the .kt-docs-hero contract from
+  docs/contracts/components.md (Hero section).
+
+  Variables set by the caller:
+    - hero.title       (string, required): plain title text
+    - hero.gradient    (string, optional): text rendered with .kt-hero__grad-text
+    - hero.lead        (string, optional): tagline / paragraph
+    - hero.actions     (list of dicts, optional): each has {href, label,
+                       variant: primary|secondary|ghost|link|brand, size: sm|lg}
+-#}
+<section class="kt-docs-hero">
+  <h1>
+    {{ hero.title }}
+    {%- if hero.gradient %} <span class="kt-hero__grad-text">{{ hero.gradient }}</span>{% endif %}
+  </h1>
+  {%- if hero.lead %}
+  <p>{{ hero.lead }}</p>
+  {%- endif %}
+  {%- if hero.actions %}
+  <div class="kt-hero__actions">
+    {%- for action in hero.actions %}
+      {%- set variant = action.variant | default("primary") -%}
+      {%- set size = action.size | default("lg") -%}
+      <a class="kt-button kt-button--{{ variant }} kt-button--{{ size }}"
+         href="{{ action.href | url }}">{{ action.label }}</a>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+</section>

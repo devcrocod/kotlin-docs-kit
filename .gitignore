@@ -47,6 +47,16 @@ site/
 # Tokens build output (regenerated)
 packages/tokens/dist/
 
+# MkDocs theme — files synced from packages/tokens/dist/ by `task mkdocs:build`.
+# Hand-written assets (mkdocs-overrides.css, theme-sync.js) live here too and
+# stay tracked; the synced ones are regenerated.
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/colors_and_type.css
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/components.css
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/fonts.css
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/tokens.css
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/fonts/
+packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/img/
+
 # Go
 *.test
 *.out

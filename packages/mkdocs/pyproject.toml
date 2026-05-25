@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kotlin-docs-mkdocs"
+version = "0.0.0"
+description = "Kotlin-styled override theme for mkdocs-material — part of kotlin-docs-kit."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "devcrocod" }]
+keywords = ["mkdocs", "mkdocs-material", "theme", "kotlin", "documentation"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Documentation",
+  "Topic :: Software Development :: Documentation",
+]
+dependencies = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/mkdocs"
+Issues = "https://github.com/devcrocod/kotlin-docs-kit/issues"
+Repository = "https://github.com/devcrocod/kotlin-docs-kit"
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.0",
+  "pyyaml>=6.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "pyyaml>=6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["kotlin_docs_mkdocs"]
+# hatchling treats the package dir as a Python package, but our wheel must
+# also ship the static asset tree (HTML templates, CSS, woff2, SVG, JS).
+# `artifacts` matches files relative to the project root with gitignore-style
+# patterns and bundles them alongside the .py modules.
+artifacts = [
+  "kotlin_docs_mkdocs/overrides/**/*.html",
+  "kotlin_docs_mkdocs/overrides/**/*.css",
+  "kotlin_docs_mkdocs/overrides/**/*.js",
+  "kotlin_docs_mkdocs/overrides/**/*.svg",
+  "kotlin_docs_mkdocs/overrides/**/*.woff2",
+  "kotlin_docs_mkdocs/overrides/**/NOTICE.md",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "kotlin_docs_mkdocs",
+  "README.md",
+  "CHANGELOG.md",
+  "pyproject.toml",
+]

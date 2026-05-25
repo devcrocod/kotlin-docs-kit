@@ -1,0 +1,47 @@
+{#-
+  kotlin-docs-mkdocs — footer partial override.
+
+  Emits the prev/next pager using the kt-docs-pager BEM contract from
+  docs/contracts/components.md, then falls back to Material's copyright +
+  socials block (we don't override those sub-partials).
+
+  Material's own footer.html keys the pager off the "navigation.footer"
+  feature; we keep that gate so opting in stays a single mkdocs.yml line.
+-#}
+<footer class="md-footer">
+  {% if "navigation.footer" in features %}
+    {% if page.previous_page or page.next_page %}
+      {% if page.meta and page.meta.hide %}
+        {% set hidden = "hidden" if "footer" in page.meta.hide %}
+      {% endif %}
+      <nav class="kt-docs-pager md-grid" aria-label="{{ lang.t('footer') }}" {{ hidden }}>
+        {% if page.previous_page %}
+          {% set direction = lang.t("footer.previous") %}
+          <a href="{{ page.previous_page.url | url }}"
+             class="kt-docs-pager__link kt-docs-pager__link--prev"
+             aria-label="{{ direction }}: {{ page.previous_page.title | e }}">
+            <span class="kt-docs-pager__direction">← {{ direction }}</span>
+            <span class="kt-docs-pager__title">{{ page.previous_page.title }}</span>
+          </a>
+        {% endif %}
+        {% if page.next_page %}
+          {% set direction = lang.t("footer.next") %}
+          <a href="{{ page.next_page.url | url }}"
+             class="kt-docs-pager__link kt-docs-pager__link--next"
+             aria-label="{{ direction }}: {{ page.next_page.title | e }}">
+            <span class="kt-docs-pager__direction">{{ direction }} →</span>
+            <span class="kt-docs-pager__title">{{ page.next_page.title }}</span>
+          </a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% endif %}
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      {% include "partials/copyright.html" %}
+      {% if config.extra.social %}
+        {% include "partials/social.html" %}
+      {% endif %}
+    </div>
+  </div>
+</footer>

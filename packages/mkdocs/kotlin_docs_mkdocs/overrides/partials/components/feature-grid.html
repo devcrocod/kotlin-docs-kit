@@ -1,0 +1,23 @@
+{#-
+  Feature grid — same DOM as .kt-card-grid, used right under a hero to
+  showcase top-level docs sections. Mirrors .kt-card-grid from
+  docs/contracts/components.md (Card section, "Card grid" sub-block).
+
+  Variables set by the caller:
+    - features (list of dicts, required): each has {href, title, body, icon}
+                Each item is rendered with --hoverable.
+-#}
+<div class="kt-card-grid">
+  {%- for feature in features %}
+  <a class="kt-card kt-card--hoverable" href="{{ feature.href | url }}">
+    {%- if feature.icon %}
+    <div class="kt-card__icon">{{ feature.icon | safe }}</div>
+    {%- endif %}
+    <h3 class="kt-card__title">{{ feature.title }}</h3>
+    {%- if feature.body %}
+    <p class="kt-card__body">{{ feature.body }}</p>
+    {%- endif %}
+    <span class="kt-card__arrow" aria-hidden="true">→</span>
+  </a>
+  {%- endfor %}
+</div>
