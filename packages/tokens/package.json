@@ -68,6 +68,6 @@
     "@fontsource/jetbrains-mono": "^5.0.0",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "style-dictionary": "^4.0.0"
+    "style-dictionary": "^5.0.0"
   }
 }
