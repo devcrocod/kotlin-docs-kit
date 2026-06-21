@@ -6,9 +6,14 @@
 **/.docusaurus/
 **/site/
 **/public/
+**/public-sub/
 **/.venv/
 **/__pycache__/
 landing/dist/
+
+# Hugo content (shortcodes Prettier can't parse safely) + test fixtures
+templates/hugo/content/
+packages/hugo/__fixtures__/
 
 # Generated specimen copies
 docs/contracts/reference-prototype/

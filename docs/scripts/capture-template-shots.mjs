@@ -37,8 +37,7 @@ const REPO_ROOT = path.resolve(DOCS_ROOT, '..');
 const OUT = path.join(DOCS_ROOT, 'static', 'img', 'templates');
 
 const CHROME =
-  process.env.CHROME_PATH ||
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const VIEWPORT = { width: 1600, height: 1000, deviceScaleFactor: 2 };
 const THEMES = ['light', 'dark'];
 

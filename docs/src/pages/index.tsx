@@ -59,8 +59,7 @@ export default function Home(): React.ReactElement {
           <div className="home-section__head">
             <h2>Choose your engine</h2>
             <p className="home-section__lead">
-              Pick the doc engine you already know. The Kotlin look-and-feel comes with the
-              package.
+              Pick the doc engine you already know. The Kotlin look-and-feel comes with the package.
             </p>
           </div>
 
