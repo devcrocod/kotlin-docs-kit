@@ -43,7 +43,7 @@ export default function Segmented({
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     const current = options.findIndex((opt) => opt.value === selected);
     if (current < 0) return;
-    let next = current;
+    let next: number;
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
       next = (current + 1) % options.length;
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
