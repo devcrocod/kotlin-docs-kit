@@ -23,6 +23,10 @@ docs/contracts/preview/
 # Generated MDX
 docs/content/reference/tokens.mdx
 
+# release-please owns the generated package changelogs; its markdown style
+# differs from Prettier's, so every release PR would otherwise fail format:check
+**/CHANGELOG.md
+
 # Lockfiles
 pnpm-lock.yaml
 uv.lock
