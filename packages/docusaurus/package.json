@@ -80,9 +80,9 @@
     "@docusaurus/types": "^3.5.0",
     "@ktdocs/tokens": "workspace:*",
     "@types/node": "^24.0.0",
-    "@types/react": "^18.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "~5.9.0"
   },
   "publishConfig": {
