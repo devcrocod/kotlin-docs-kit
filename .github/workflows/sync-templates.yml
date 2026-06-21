@@ -55,13 +55,20 @@ jobs:
           git config user.name 'ktdocs-bot'
           git config user.email 'bot@ktdocs'
 
-      # Hugo's go.mod points the theme module at a relative path for local
-      # dev; that line is invalid outside the monorepo, so it's stripped
-      # before the subtree split sees it.
+      # Hugo's go.mod wires the theme to the in-repo package via a placeholder
+      # require (v0.0.0-unpublished) + a replace for local dev. Both are invalid
+      # outside the monorepo: the require points at a revision that doesn't
+      # exist, so leaving it makes the consumer's `hugo mod get -u` fail with
+      # "unknown revision packages/hugo/v0.0.0-unpublished". Strip both before
+      # the subtree split; the consumer resolves the published theme over the Go
+      # proxy via `hugo mod get -u` (see the template's deploy.yml).
       - name: Strip dev-only artifacts
         run: |
           if [ "${{ matrix.engine }}" = "hugo" ]; then
-            sed -i '/^replace github.com\/devcrocod\/kotlin-docs-kit/d' templates/hugo/go.mod
+            sed -i \
+              -e '/^require github\.com\/devcrocod\/kotlin-docs-kit\/packages\/hugo v0\.0\.0-unpublished$/d' \
+              -e '/^replace github\.com\/devcrocod\/kotlin-docs-kit/d' \
+              templates/hugo/go.mod
           fi
 
       # `git subtree split` only sees committed history, so any sed-edited
