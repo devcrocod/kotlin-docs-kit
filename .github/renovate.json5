@@ -1,0 +1,57 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "group:monorepos",
+    "group:recommended",
+  ],
+  // Repo uses `master`, not `main`.
+  baseBranches: ["master"],
+  timezone: "Europe/Berlin",
+  schedule: ["before 6am on monday"],
+  prHourlyLimit: 4,
+  prConcurrentLimit: 10,
+  // Keep the pnpm lockfile fresh even when no direct dep changed.
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ["before 6am on monday"],
+  },
+  packageRules: [
+    // Manages all four GitHub Actions workflows.
+    {
+      matchManagers: ["github-actions"],
+      groupName: "github-actions",
+      // Pin actions to digests for supply-chain safety, but show the tag.
+      pinDigests: true,
+    },
+    // Go modules for the Hugo themes (packages/hugo, templates/hugo).
+    {
+      matchManagers: ["gomod"],
+      groupName: "go modules",
+    },
+    // Docusaurus stack moves together.
+    {
+      matchPackageNames: ["@docusaurus/**", "/^@docusaurus//"],
+      groupName: "docusaurus",
+    },
+    // Bundle low-risk dev tooling (lint/format/types) into one PR.
+    {
+      matchManagers: ["npm"],
+      matchDepTypes: ["devDependencies"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "dev dependencies (non-major)",
+    },
+    // Auto-merge type-only definition packages.
+    {
+      matchPackageNames: ["@types/**"],
+      automerge: true,
+    },
+    // The pinned packageManager (pnpm@…) — keep it, but on its own.
+    {
+      matchDepTypes: ["packageManager"],
+      groupName: "packageManager (pnpm)",
+    },
+  ],
+}
