@@ -6,14 +6,16 @@
       "release-type": "node",
       "package-name": "@ktdocs/docusaurus-preset",
       "component": "docusaurus",
-      "changelog-path": "CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md",
+      "release-as": "0.1.0"
     },
     "packages/hugo": {
       "release-type": "go",
       "package-name": "kotlin-docs-hugo",
       "component": "hugo",
       "changelog-path": "CHANGELOG.md",
-      "include-component-in-tag": true
+      "include-component-in-tag": true,
+      "release-as": "0.1.0"
     }
   },
   "separate-pull-requests": false,
