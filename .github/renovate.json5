@@ -19,6 +19,14 @@
     schedule: ["before 6am on monday"],
   },
   packageRules: [
+    // Internal workspace packages — not published to npm. The Docusaurus
+    // template pins a real semver range (^0.0.0) so end-users who copy it
+    // resolve from npm; inside the monorepo it's overridden to workspace:*.
+    // Without this, Renovate tries to look them up on npm and fails.
+    {
+      matchPackageNames: ["@ktdocs/**"],
+      enabled: false,
+    },
     // Manages all four GitHub Actions workflows.
     {
       matchManagers: ["github-actions"],
