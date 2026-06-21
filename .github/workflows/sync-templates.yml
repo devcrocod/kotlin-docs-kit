@@ -71,6 +71,19 @@ jobs:
               templates/hugo/go.mod
           fi
 
+      # Fail loudly if the strip above missed the dev-only require/replace. The
+      # sed is line-anchored, so any reformat of go.mod can slip past it and
+      # silently republish a broken theme module (this exact regression broke
+      # the Hugo demo deploy three times before the strip was fixed).
+      - name: Verify go.mod was stripped
+        if: matrix.engine == 'hugo'
+        run: |
+          if grep -qE 'v0\.0\.0-unpublished|^replace github\.com/devcrocod/kotlin-docs-kit' templates/hugo/go.mod; then
+            echo "::error::templates/hugo/go.mod still has dev-only require/replace after strip"
+            cat templates/hugo/go.mod
+            exit 1
+          fi
+
       # `git subtree split` only sees committed history, so any sed-edited
       # file has to land in a commit first. The `|| true` covers engines
       # where the strip step was a no-op and there's nothing to commit.

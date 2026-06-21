@@ -2,7 +2,7 @@
 #
 # Enable this workflow by setting Settings → Pages → Source = "GitHub Actions"
 # once per repository (see getting-started/deploy.md). After that, every push
-# to main republishes the site at https://<owner>.github.io/<repo>/.
+# to master republishes the site at https://<owner>.github.io/<repo>/.
 
 name: Deploy
 
@@ -34,7 +34,10 @@ jobs:
 
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: 20
+          # pnpm 11 (pinned in pnpm/action-setup above) requires Node >= 22.13
+          # — it loads node:sqlite, a Node 22.5+ builtin. Node 20 crashes the
+          # `pnpm store path` call in setup-node's cache step.
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies

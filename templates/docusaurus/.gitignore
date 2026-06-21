@@ -4,6 +4,9 @@ build/
 
 # Dependencies
 node_modules/
+# pnpm workspace — never commit npm lockfiles (see root .gitignore)
+package-lock.json
+npm-shrinkwrap.json
 
 # Logs
 npm-debug.log*

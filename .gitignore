@@ -24,6 +24,10 @@ build/
 *.tsbuildinfo
 .eslintcache
 .cache/
+# This is a pnpm workspace — npm lockfiles are accidental artifacts that carry
+# workspace-relative paths and pollute mirror syncs. Never commit them.
+package-lock.json
+npm-shrinkwrap.json
 
 # Python / uv
 .venv/
