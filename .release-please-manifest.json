@@ -1,4 +1,4 @@
 {
-  "packages/docusaurus": "0.0.0",
-  "packages/hugo": "0.0.0"
+  "packages/docusaurus": "0.1.0",
+  "packages/hugo": "0.1.0"
 }
