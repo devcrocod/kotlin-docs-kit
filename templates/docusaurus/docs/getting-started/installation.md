@@ -66,8 +66,8 @@ pnpm build
 ```
 
 The static site lands in `build/`. The bundled
-[`deploy.yml`](https://github.com/devcrocod/kotlin-docs-docusaurus-template/blob/main/.github/workflows/deploy.yml)
-workflow runs the same command on every push to `main` and uploads the
+[`deploy.yml`](https://github.com/devcrocod/kotlin-docs-docusaurus-template/blob/master/.github/workflows/deploy.yml)
+workflow runs the same command on every push to `master` and uploads the
 result to GitHub Pages.
 
 ## Next steps

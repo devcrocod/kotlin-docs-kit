@@ -6,7 +6,7 @@ description: First-time GitHub Pages setup for the bundled workflow.
 # Deploy
 
 The bundled GitHub Actions workflow ships your site to GitHub Pages on every
-push to `main`. Here's the one-time setup.
+push to `master`. Here's the one-time setup.
 
 ## First-time setup
 
@@ -15,8 +15,8 @@ After clicking **Use this template** on
 
 1. Go to **Settings → Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Push any change to `main` — the
-   [`deploy.yml`](https://github.com/devcrocod/kotlin-docs-docusaurus-template/blob/main/.github/workflows/deploy.yml)
+3. Push any change to `master` — the
+   [`deploy.yml`](https://github.com/devcrocod/kotlin-docs-docusaurus-template/blob/master/.github/workflows/deploy.yml)
    workflow runs and publishes to `https://<you>.github.io/<repo>/`.
 
 :::tip Custom domain
@@ -38,7 +38,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:

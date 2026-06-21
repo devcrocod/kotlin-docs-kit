@@ -5,7 +5,7 @@
   "description": "Kotlin-styled design tokens, fonts and component CSS for kotlin-docs-kit. DTCG W3C source, Style Dictionary build.",
   "type": "module",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/tokens",
+  "homepage": "https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/tokens",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devcrocod/kotlin-docs-kit.git",

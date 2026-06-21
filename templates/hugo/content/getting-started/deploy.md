@@ -5,7 +5,7 @@ weight: 20
 ---
 
 The bundled GitHub Actions workflow ships your site to GitHub Pages on every
-push to `main`. Here's the one-time setup.
+push to `master`. Here's the one-time setup.
 
 ## First-time setup
 
@@ -14,10 +14,10 @@ After clicking **Use this template** on
 
 1. Go to **Settings → Pages**.
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Update `baseURL` in [`hugo.toml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/main/hugo.toml)
+3. Update `baseURL` in [`hugo.toml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/master/hugo.toml)
    so it matches your repo URL (or your custom domain).
-4. Push any change to `main` — the
-   [`deploy.yml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/main/.github/workflows/deploy.yml)
+4. Push any change to `master` — the
+   [`deploy.yml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/master/.github/workflows/deploy.yml)
    workflow runs and publishes to `https://<you>.github.io/<repo>/`.
 
 {{< callout type="tip" title="Custom domain" >}}
@@ -39,7 +39,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:

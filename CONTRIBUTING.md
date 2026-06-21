@@ -72,7 +72,7 @@ Do **not** report security vulnerabilities in public issues or PRs. Follow the p
 
 ## Mirrors
 
-The two template starters are mirrored from this monorepo into dedicated `kotlin-docs-*-template` repos on each push to `main`; the self-docs site (`docs/`) is built and deployed straight from the monorepo to GitHub Pages. Maintainer setup notes for the template mirrors live in [docs/content/maintainer/mirrors.md](./docs/content/maintainer/mirrors.md).
+The two template starters are mirrored from this monorepo into dedicated `kotlin-docs-*-template` repos on each push to `master`; the self-docs site (`docs/`) is built and deployed straight from the monorepo to GitHub Pages. Maintainer setup notes for the template mirrors live in [docs/content/maintainer/mirrors.md](./docs/content/maintainer/mirrors.md).
 
 ## License & CLA
 

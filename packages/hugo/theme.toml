@@ -1,6 +1,6 @@
 name = "kotlin-docs-hugo"
 license = "Apache-2.0"
-licenselink = "https://github.com/devcrocod/kotlin-docs-kit/blob/main/LICENSE"
+licenselink = "https://github.com/devcrocod/kotlin-docs-kit/blob/master/LICENSE"
 description = "Kotlin-styled Hugo theme module — part of kotlin-docs-kit. Wraps Hugo native output in the kt-* BEM contract so Hugo sites look identical to the Docusaurus sibling."
 homepage = "https://github.com/devcrocod/kotlin-docs-kit"
 tags = ["documentation", "kotlin", "design-system", "docs"]

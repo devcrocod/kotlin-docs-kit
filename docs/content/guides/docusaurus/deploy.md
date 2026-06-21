@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Docusaurus · Deploy
 
-The `templates/docusaurus/` starter ships a GitHub Actions workflow that builds and deploys to GitHub Pages on every push to `main`.
+The `templates/docusaurus/` starter ships a GitHub Actions workflow that builds and deploys to GitHub Pages on every push to `master`.
 
 ## GitHub Pages via Actions
 
@@ -16,7 +16,7 @@ name: Deploy Docusaurus
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:

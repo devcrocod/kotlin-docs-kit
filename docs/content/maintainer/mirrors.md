@@ -10,7 +10,7 @@ This page is for **maintainers of `kotlin-docs-kit`** only. End users do not nee
 
 The two starters (`templates/docusaurus`, `templates/hugo`) live inside the monorepo so they can share workspace deps and be edited atomically with the engine packages they depend on. But GitHub's "Use this template" flag is a **per-repo** setting — a monorepo cannot expose two independent templates from one root.
 
-The fix: each starter is mirrored into its own public repo. The monorepo is the source of truth; each mirror is an append-only force-pushed view of `templates/<engine>/` produced by `git subtree split`. Users template-copy from the mirror (not fork), so the force-push of the mirror's `main` never rewrites consumer history.
+The fix: each starter is mirrored into its own public repo. The monorepo is the source of truth; each mirror is an append-only force-pushed view of `templates/<engine>/` produced by `git subtree split`. Users template-copy from the mirror (not fork), so the force-push of the mirror's `master` never rewrites consumer history.
 
 See SPEC §9 and §12.1 (at the repo root) for the rationale; this page focuses on the operational setup.
 
@@ -47,18 +47,18 @@ Until this secret is set, the workflow stays green but skips the push — see [T
 
 ## How sync works
 
-On every push to `main` that touches `templates/**`, `packages/hugo/**`, or `.github/workflows/sync-templates.yml`, the workflow runs two parallel matrix jobs (one per engine). Each job:
+On every push to `master` that touches `templates/**`, `packages/hugo/**`, or `.github/workflows/sync-templates.yml`, the workflow runs two parallel matrix jobs (one per engine). Each job:
 
 1. Checks out the monorepo with full history (`fetch-depth: 0`).
 2. For Hugo only: strips the `replace github.com/devcrocod/kotlin-docs-kit/packages/hugo => ../../packages/hugo` line from `templates/hugo/go.mod` and commits the result on a throwaway commit. Outside the monorepo, that `replace` would point at a non-existent path, so consumers of the mirror need it gone.
 3. Runs `git subtree split --prefix=templates/<engine> -b split-<engine>`, producing a branch whose root is `templates/<engine>/`.
-4. Force-pushes `split-<engine>` → `<mirror>:main` over HTTPS using the PAT.
+4. Force-pushes `split-<engine>` → `<mirror>:master` over HTTPS using the PAT.
 
 A manual re-sync is always available via the **Run workflow** button on `.github/workflows/sync-templates.yml` (Actions tab → Sync templates to mirrors → Run workflow).
 
 ## Force-push safety
 
-Force-pushing `main` on the mirror is intentional. The mirror's history is derived deterministically from the monorepo's `templates/<engine>/` subtree, so each sync overwrites the same lineage with a refreshed version. This is safe because **users template-copy, they don't fork**: a template-copy creates a new repo with an independent root commit, so the mirror's history doesn't propagate to user clones.
+Force-pushing `master` on the mirror is intentional. The mirror's history is derived deterministically from the monorepo's `templates/<engine>/` subtree, so each sync overwrites the same lineage with a refreshed version. This is safe because **users template-copy, they don't fork**: a template-copy creates a new repo with an independent root commit, so the mirror's history doesn't propagate to user clones.
 
 The only thing the force-push affects is the mirror itself + its GitHub Pages deployment. Don't accept PRs against the mirror — they would be overwritten on the next sync. PRs belong on the monorepo, against `templates/<engine>/`.
 

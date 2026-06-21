@@ -28,7 +28,7 @@ Open <http://localhost:3000/>.
 2. Update `url`, `baseUrl`, `organizationName`, `projectName` in
    [`docusaurus.config.ts`](./docusaurus.config.ts) so they match your new
    repo (or your custom domain).
-3. Push any change to `main`. The
+3. Push any change to `master`. The
    [`deploy.yml`](.github/workflows/deploy.yml) workflow runs `pnpm build`
    and publishes to `https://<you>.github.io/<repo>/`.
 4. _(Optional)_ Add a `static/CNAME` file containing your domain and
@@ -88,7 +88,7 @@ for the full tour.
   monorepo with the preset, design tokens, and the sibling Hugo template.
 - [`@ktdocs/docusaurus-preset`](https://www.npmjs.com/package/@ktdocs/docusaurus-preset) —
   the preset this starter uses.
-- [`@ktdocs/tokens`](https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/tokens) —
+- [`@ktdocs/tokens`](https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/tokens) —
   the design tokens that drive every CSS custom property (bundled into the preset).
 
 ## License

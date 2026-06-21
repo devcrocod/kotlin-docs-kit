@@ -11,7 +11,7 @@ name: Deploy docs
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "docs/**"
       - "packages/docusaurus/**"

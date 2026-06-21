@@ -59,5 +59,5 @@ docs/                       # this site + landing homepage (Docusaurus, dogfood)
 ## Where to file issues and PRs
 
 - **Bugs / feature requests** — [GitHub issues](https://github.com/devcrocod/kotlin-docs-kit/issues)
-- **PRs** — fork, branch off `main`, follow [conventional commits](./conventional-commits.md), open against `main`
-- **Security** — see [`SECURITY.md`](https://github.com/devcrocod/kotlin-docs-kit/blob/main/SECURITY.md)
+- **PRs** — fork, branch off `master`, follow [conventional commits](./conventional-commits.md), open against `master`
+- **Security** — see [`SECURITY.md`](https://github.com/devcrocod/kotlin-docs-kit/blob/master/SECURITY.md)

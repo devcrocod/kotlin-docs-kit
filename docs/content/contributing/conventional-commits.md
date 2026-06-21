@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Conventional commits
 
-The kit uses [conventional commits](https://www.conventionalcommits.org/) for every commit on `main`. Release Please reads commit history to determine the next version, generate the changelog, and open release PRs.
+The kit uses [conventional commits](https://www.conventionalcommits.org/) for every commit on `master`. Release Please reads commit history to determine the next version, generate the changelog, and open release PRs.
 
 ## Format
 

@@ -65,8 +65,8 @@ hugo --minify
 ```
 
 The static site lands in `public/`. The bundled
-[`.github/workflows/deploy.yml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/main/.github/workflows/deploy.yml)
-does the same on every push to `main`, then uploads the result to GitHub
+[`.github/workflows/deploy.yml`](https://github.com/devcrocod/kotlin-docs-hugo-template/blob/master/.github/workflows/deploy.yml)
+does the same on every push to `master`, then uploads the result to GitHub
 Pages.
 
 ## Next steps

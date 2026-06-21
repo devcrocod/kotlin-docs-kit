@@ -44,7 +44,7 @@ const config: Config = {
           path: 'docs',
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          editUrl: `https://github.com/${ORG}/${PROJECT}/edit/main/`,
+          editUrl: `https://github.com/${ORG}/${PROJECT}/edit/master/`,
         },
         blog: false,
         pages: false,

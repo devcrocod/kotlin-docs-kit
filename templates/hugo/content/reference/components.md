@@ -8,7 +8,7 @@ Every component shares one BEM contract across both engines (Hugo and
 Docusaurus), so a page authored here looks identical in either. This page
 shows each one **rendered** — open the linked example for copy-paste source.
 For the full
-[BEM contract](https://github.com/devcrocod/kotlin-docs-kit/blob/main/docs/contracts/components.md)
+[BEM contract](https://github.com/devcrocod/kotlin-docs-kit/blob/master/docs/contracts/components.md)
 (class names, nesting, ARIA), see the repo.
 
 ## Content blocks

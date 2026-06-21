@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Hugo · Deploy
 
-The `templates/hugo/` starter ships a GitHub Actions workflow that builds and deploys to GitHub Pages on every push to `main`.
+The `templates/hugo/` starter ships a GitHub Actions workflow that builds and deploys to GitHub Pages on every push to `master`.
 
 ## GitHub Pages via Actions
 
@@ -16,7 +16,7 @@ name: Deploy Hugo
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:

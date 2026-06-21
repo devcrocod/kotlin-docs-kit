@@ -1,7 +1,7 @@
 # kotlin-docs-hugo-template
 
 A Kotlin-styled Hugo starter — built on the
-[`kotlin-docs-hugo`](https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/hugo)
+[`kotlin-docs-hugo`](https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/hugo)
 theme module, part of the
 [kotlin-docs-kit](https://github.com/devcrocod/kotlin-docs-kit) family.
 
@@ -36,7 +36,7 @@ Open <http://localhost:1313/>.
    hugo mod init github.com/<you>/<repo>
    hugo mod get github.com/devcrocod/kotlin-docs-kit/packages/hugo@latest
    ```
-4. Push any change to `main`. The
+4. Push any change to `master`. The
    [`deploy.yml`](.github/workflows/deploy.yml) workflow runs
    `hugo --minify` and publishes to `https://<you>.github.io/<repo>/`.
 5. _(Optional)_ Add a `static/CNAME` file containing your domain and
@@ -89,16 +89,16 @@ kit's 14 shortcodes for the components that have no native syntax:
 - Parameter table via `{{</* params */>}}…name|type|desc…{{</* /params */>}}`.
 
 See [`content/guides/basic-usage.md`](content/guides/basic-usage.md) for the
-full tour and the [theme README](https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/hugo#shortcode-catalog)
+full tour and the [theme README](https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/hugo#shortcode-catalog)
 for the shortcode catalog.
 
 ## Related
 
 - [`kotlin-docs-kit`](https://github.com/devcrocod/kotlin-docs-kit) —
   monorepo with the theme module, design tokens, and the sibling Docusaurus template.
-- [`kotlin-docs-hugo`](https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/hugo) —
+- [`kotlin-docs-hugo`](https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/hugo) —
   the Hugo Module this starter uses.
-- [`@ktdocs/tokens`](https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/tokens) — the
+- [`@ktdocs/tokens`](https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/tokens) — the
   design tokens that drive every CSS custom property (rsynced into the theme module).
 
 ## License

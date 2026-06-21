@@ -1,7 +1,7 @@
 # Sync the two template starters (templates/{docusaurus,hugo}/) to
 # their mirror repos so that the GitHub "Use this template" button works.
 # The monorepo is the source of truth; mirror repos are append-only views
-# refreshed via `git subtree split` + force-push on every push to main.
+# refreshed via `git subtree split` + force-push on every push to master.
 #
 # Implements issue #18 and SPEC §12.1. Mirrors users do NOT fork — they
 # template-copy, so force-push here never rewrites consumer history.
@@ -20,7 +20,7 @@ name: Sync templates to mirrors
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "templates/**"
       - "packages/hugo/**"
@@ -82,4 +82,4 @@ jobs:
           fi
           git push --force \
             https://x-access-token:${TEMPLATES_MIRROR_TOKEN}@github.com/devcrocod/kotlin-docs-${{ matrix.engine }}-template.git \
-            split-${{ matrix.engine }}:main
+            split-${{ matrix.engine }}:master

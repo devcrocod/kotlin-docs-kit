@@ -33,7 +33,7 @@ const config: Config = {
           path: 'content',
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/devcrocod/kotlin-docs-kit/edit/main/docs/',
+          editUrl: 'https://github.com/devcrocod/kotlin-docs-kit/edit/master/docs/',
           showLastUpdateTime: true,
         },
         blog: false,
@@ -92,7 +92,7 @@ const config: Config = {
             { label: 'GitHub', href: 'https://github.com/devcrocod/kotlin-docs-kit' },
             {
               label: 'License (Apache 2.0)',
-              href: 'https://github.com/devcrocod/kotlin-docs-kit/blob/main/LICENSE',
+              href: 'https://github.com/devcrocod/kotlin-docs-kit/blob/master/LICENSE',
             },
           ],
         },
