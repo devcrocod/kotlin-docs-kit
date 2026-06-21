@@ -58,7 +58,7 @@ export default function CodeTabs({
 
   // WAI-ARIA tabs keyboard model: arrows move and activate, Home/End jump.
   const onTabsKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    let next = active;
+    let next: number;
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (active + 1) % items.length;
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
       next = (active - 1 + items.length) % items.length;
