@@ -13,7 +13,11 @@
 #   2. Settings → General → Template repository: ON.
 #   3. Settings → Pages → Source: GitHub Actions (the deploy.yml in each
 #      template auto-publishes on first push).
-#   4. Mint a PAT with `public_repo` scope; save as monorepo secret
+#   4. Mint a PAT that can write the mirrors' workflow files: a fine-grained
+#      token scoped to both mirrors with Contents + Workflows: Read and write
+#      (or a classic token with `public_repo` AND `workflow` scopes). The
+#      `workflow` permission is required because each template ships its own
+#      .github/workflows/deploy.yml. Save as monorepo secret
 #      `TEMPLATES_MIRROR_TOKEN`.
 
 name: Sync templates to mirrors

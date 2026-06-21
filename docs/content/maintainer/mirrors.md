@@ -37,11 +37,16 @@ In each mirror repo's **Settings**:
 
 ### 3. Mint the sync PAT
 
-One PAT covers both mirrors.
+One PAT covers both mirrors. The token must be able to write **workflow files** — each template ships its own `.github/workflows/deploy.yml`, and a push that touches `.github/workflows/` is rejected without it (`refusing to allow a Personal Access Token to create or update workflow ... without 'workflow' scope`).
 
-1. Generate a **classic** Personal Access Token (Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token).
-2. Scope: `public_repo` only. No other permissions.
-3. Save it in the monorepo as repository secret **`TEMPLATES_MIRROR_TOKEN`** (Settings → Secrets and variables → Actions → New repository secret).
+**Fine-grained PAT (recommended)** — narrowest possible access:
+
+1. Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.
+2. Repository access: **Only select repositories** → both `kotlin-docs-docusaurus-template` and `kotlin-docs-hugo-template`.
+3. Repository permissions: **Contents: Read and write** _and_ **Workflows: Read and write** (Metadata: Read is added automatically).
+4. Save it in the monorepo as repository secret **`TEMPLATES_MIRROR_TOKEN`** (Settings → Secrets and variables → Actions → New repository secret).
+
+**Classic PAT (alternative)** — broader, account-wide: scopes `public_repo` **and** `workflow` (the `workflow` scope is required; `public_repo` alone is rejected on the workflow files).
 
 Until this secret is set, the workflow stays green but skips the push — see [Troubleshooting](#troubleshooting).
 
@@ -66,5 +71,6 @@ The only thing the force-push affects is the mirror itself + its GitHub Pages de
 
 - **Log shows `TEMPLATES_MIRROR_TOKEN not set — skipping push (CI dry run)`.** The secret hasn't been set on the monorepo. The workflow intentionally treats this as a soft skip so the workflow can land green before the manual setup is complete.
 - **Push fails with `non-fast-forward`.** The mirror was created with an initial commit (auto-generated README, license, etc.). Delete the mirror, recreate it empty, and re-run the workflow via `workflow_dispatch`.
-- **Push fails with 403.** PAT scope is wrong (needs `public_repo` for public mirrors) or the token has expired. Mint a new one and rotate the secret.
+- **Push fails with `refusing to allow a Personal Access Token to create or update workflow ... without 'workflow' scope`.** The PAT can't write the template's `.github/workflows/deploy.yml`. Add **Workflows: Read and write** (fine-grained) or the **`workflow`** scope (classic). Editing a fine-grained token's permissions keeps the same value, so the secret doesn't need rotating.
+- **Push fails with 403.** PAT scope/permissions are wrong (needs Contents write on the mirrors) or the token has expired. Mint a new one and rotate the secret.
 - **Mirror site shows a 404 after first push.** The mirror's `Pages → Source` is still on the default. Switch it to GitHub Actions and re-trigger the deploy from the mirror's Actions tab.
