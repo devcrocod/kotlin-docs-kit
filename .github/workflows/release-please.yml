@@ -3,6 +3,9 @@ name: release-please
 on:
   push:
     branches: [master]
+  # Manual trigger so a release can be cut on demand without waiting for the
+  # next push to master (release-please otherwise only reacts to pushes).
+  workflow_dispatch:
 
 permissions:
   contents: write
