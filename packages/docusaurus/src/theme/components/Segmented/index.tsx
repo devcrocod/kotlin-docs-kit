@@ -44,7 +44,8 @@ export default function Segmented({
     const current = options.findIndex((opt) => opt.value === selected);
     if (current < 0) return;
     let next = current;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (current + 1) % options.length;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
+      next = (current + 1) % options.length;
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
       next = (current - 1 + options.length) % options.length;
     else if (event.key === 'Home') next = 0;

@@ -12,6 +12,8 @@ export default [
       '**/.docusaurus/**',
       '**/site/**',
       '**/public/**',
+      '**/public-sub/**',
+      '**/__fixtures__/**',
       '**/.venv/**',
       '**/__pycache__/**',
       'landing/dist/**',

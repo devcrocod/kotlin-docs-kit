@@ -38,6 +38,7 @@ __pycache__/
 # Hugo
 resources/
 public/
+public-sub/
 .hugo_build.lock
 
 # Engine outputs
