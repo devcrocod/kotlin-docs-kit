@@ -1,0 +1,11 @@
+{{- /* /llms-full.txt — every page's markdown inlined into one file for LLMs. */ -}}
+{{- printf "# %s\n\n" .Site.Title -}}
+{{- with .Site.Params.description }}{{- printf "> %s\n\n" . -}}{{- end -}}
+{{- range .Site.Sections.ByWeight -}}
+{{- range .Pages.ByWeight -}}
+{{- printf "# %s\n\n" .Title -}}
+{{- with .Description }}{{- printf "%s\n\n" . -}}{{- end -}}
+{{- .RenderShortcodes -}}
+{{- printf "\n\n---\n\n" -}}
+{{- end -}}
+{{- end -}}

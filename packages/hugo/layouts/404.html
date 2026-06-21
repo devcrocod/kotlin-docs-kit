@@ -1,0 +1,14 @@
+{{- /* Custom 404. Rendered to /404.html; GitHub Pages serves it for unknown
+       paths. Overrides only the "main" block, so it keeps the header, footer
+       and nav chrome from baseof. The home link uses site.Home.RelPermalink so
+       it resolves correctly under a sub-path baseURL. */ -}}
+{{ define "main" }}
+<div class="kt-state kt-state--page">
+  <div class="kt-state__icon">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+  </div>
+  <h1 class="kt-state__title">Page not found</h1>
+  <p class="kt-state__body">The page you're looking for doesn't exist or has moved.</p>
+  <a class="kt-button kt-button--primary" href="{{ site.Home.RelPermalink }}">Back to home</a>
+</div>
+{{ end }}

@@ -1,0 +1,68 @@
+---
+title: Callouts
+description: All twelve callout kinds emitted by the preset.
+---
+
+# Callouts
+
+Docusaurus ships `note / info / tip / warning / danger` as built-in admonitions. The preset
+registers seven more keywords (`success / caution / important / quote / example / deprecated /
+experimental`) and rewires the CSS so every kind matches `.kt-callout--<kind>`.
+
+## Via admonition syntax
+
+:::note
+A neutral note authored with Docusaurus admonition syntax.
+:::
+
+:::info
+Information the reader should be aware of.
+:::
+
+:::tip Pro tip
+You can pass `--watch` to the CLI for incremental builds.
+:::
+
+:::success
+Operation completed successfully.
+:::
+
+:::warning
+Non-blocking caution.
+:::
+
+:::caution
+Orange escalation between warning and danger.
+:::
+
+:::danger
+Destructive action — review carefully.
+:::
+
+:::important
+Required reading for correct behaviour.
+:::
+
+:::quote
+A pull quote with italic emphasis.
+:::
+
+:::example
+An illustrative example block.
+:::
+
+:::deprecated
+This API is scheduled for removal in v2.0.
+:::
+
+:::experimental
+Feature still under design — expect breaking changes.
+:::
+
+## Via `<Callout>` MDX component
+
+<Callout type="tip" title="The same kinds via React">
+  Use this form when you need richer children or programmatic types.
+</Callout>
+
+<Callout type="experimental">No title — the body is rendered without a heading row.</Callout>

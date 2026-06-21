@@ -1,0 +1,127 @@
+/* Chroma → kt-tok mapping.
+   Hugo emits Chroma class names from the Pygments token set. We do NOT
+   ship a full chroma stylesheet; instead these rules colour just the
+   tokens we care about using the same --code-* tokens that .kt-tok-*
+   uses in components.css, so highlighted code blocks render identically
+   regardless of who produced the HTML. */
+
+/* Chroma's own wrapper supplies a background that fights kt-codeblock__body. */
+.chroma { background: transparent; }
+
+/* Line-numbered table layout — keep the gutter compact and avoid an extra
+   border the default style ships with. */
+.chroma .lntable { border: 0; margin: 0; }
+.chroma .lntable td { padding: 0; border: 0; vertical-align: top; }
+.chroma .lntd:first-child { padding-right: 12px; }
+.chroma .lnt, .chroma .ln { color: var(--fg-3); user-select: none; }
+
+/* Keywords (fun, val, class, return, …) — 500 weight matches kt-tok-k. */
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
+.chroma .kt { color: var(--code-keyword); font-weight: 500; }
+
+/* Strings (single, double, heredoc, raw, escapes). */
+.chroma .s,
+.chroma .s1,
+.chroma .s2,
+.chroma .sa,
+.chroma .sb,
+.chroma .sc,
+.chroma .sd,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sr,
+.chroma .ss,
+.chroma .sx { color: var(--code-string); }
+
+/* Numbers. */
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .il,
+.chroma .mo { color: var(--code-number); }
+
+/* Comments — italic, matches kt-tok-c. */
+.chroma .c,
+.chroma .c1,
+.chroma .cm,
+.chroma .cp,
+.chroma .cpf,
+.chroma .cs { color: var(--code-comment); font-style: italic; }
+
+/* Functions and methods. */
+.chroma .nf,
+.chroma .nb,
+.chroma .nx { color: var(--code-function); }
+
+/* Types and classes. */
+.chroma .nc,
+.chroma .nn { color: var(--code-type); }
+
+/* Punctuation. */
+.chroma .p,
+.chroma .o,
+.chroma .ow { color: var(--code-punctuation); }
+
+/* Annotations / decorators — matches kt-tok-a → --code-tag. */
+.chroma .na,
+.chroma .nd { color: var(--code-tag); }
+
+/* Hugo's .TableOfContents emits bare <nav><ul><li><a> without classes —
+   apply the .kt-toc__item visual style via descendant selectors so the
+   toc partial doesn't need to template each heading. */
+.kt-toc nav#TableOfContents ul { list-style: none; padding: 0; margin: 0; }
+.kt-toc nav#TableOfContents > ul > li > a {
+  display: block;
+  padding: 4px 12px;
+  font: 500 13px/1.5 var(--font-sans);
+  color: var(--fg-2);
+  border-left: 2px solid transparent;
+  text-decoration: none;
+}
+.kt-toc nav#TableOfContents > ul > li > a:hover { color: var(--fg-1); }
+.kt-toc nav#TableOfContents ul ul > li > a {
+  padding-left: 24px;
+  font-size: 12.5px;
+  color: var(--fg-3);
+}
+
+/* Code-block box model. The render-codeblock hook feeds Chroma markup
+   (<div class="highlight"><pre class="chroma">) into .kt-codeblock__body, not
+   the per-line .kt-codeblock__line structure that components.css pads — so the
+   body's vertical padding stacked with the UA <pre> margin into a doubled gap,
+   and the lines got no horizontal inset. Pad the body box once and flatten the
+   wrapper's margin/padding/background. Reaches code-tabs panels too (same
+   .highlight/.chroma markup, descendant selectors). */
+.kt-codeblock__body { padding: 14px 18px; }
+.kt-codeblock__body .highlight,
+.kt-codeblock__body pre.chroma { margin: 0; padding: 0; background: transparent; }
+
+/* Sticky footer — the shell fills the viewport so the footer never floats
+   mid-page on short pages (the asides use max-height now, so they no longer
+   force a ~100vh row). The bare `body` selector lives here, in the Hugo-only
+   stylesheet, because Docusaurus ships its own Infima body layout. */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+.kt-docs-shell { flex: 1 0 auto; }
+
+/* FeatureGrid — fixed N-column variant of .kt-card-grid. The feature-grid
+   shortcode adds .kt-feature-grid and sets --kt-feature-cols inline; this
+   (0,2,0) rule beats the base .kt-card-grid auto-fit so the column count
+   applies, while the media query still collapses to one column on mobile (an
+   inline grid-template-columns could not be overridden by the media query).
+   Mirrors the .kt-feature-grid rule the Docusaurus flavour ships in its
+   overrides — kept in chroma.css because @ktdocs/tokens doesn't carry it and
+   this hand-written stylesheet survives the rsync from the tokens package. */
+.kt-card-grid.kt-feature-grid {
+  grid-template-columns: repeat(var(--kt-feature-cols, 3), minmax(0, 1fr));
+}
+@media (max-width: 600px) {
+  .kt-card-grid.kt-feature-grid { grid-template-columns: 1fr; }
+}

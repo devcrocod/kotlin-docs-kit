@@ -1,0 +1,9 @@
+{{ if .Parent }}
+  <nav class="kt-crumbs" aria-label="Breadcrumb">
+    {{ range .Ancestors.Reverse }}
+      <a href="{{ .RelPermalink }}">{{ .Title | default "Home" }}</a>
+      <span class="kt-crumbs__sep">/</span>
+    {{ end }}
+    <span class="kt-crumbs__current">{{ .Title }}</span>
+  </nav>
+{{ end }}

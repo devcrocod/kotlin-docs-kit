@@ -1,0 +1,92 @@
+---
+title: Installation
+sidebar_position: 2
+---
+
+# Installation
+
+Pick the engine you decided on in [Choose your engine](./choose-engine.mdx) and follow the matching tab.
+
+<Tabs groupId="engine">
+<TabItem value="docusaurus" label="Docusaurus">
+
+```bash
+# 1. Scaffold a Docusaurus site (or use templates/docusaurus)
+pnpm create docusaurus my-docs classic --typescript
+cd my-docs
+
+# 2. Add the kit preset
+pnpm add @ktdocs/docusaurus-preset
+```
+
+Minimal `docusaurus.config.ts`:
+
+```ts
+import type { Config } from '@docusaurus/types';
+
+const config: Config = {
+  title: 'My docs',
+  url: 'https://example.org',
+  baseUrl: '/',
+  presets: [
+    [
+      '@ktdocs/docusaurus-preset',
+      {
+        docs: { routeBasePath: '/', sidebarPath: './sidebars.ts' },
+        blog: false,
+      },
+    ],
+  ],
+};
+
+export default config;
+```
+
+Run a dev server:
+
+```bash
+pnpm start
+```
+
+Continue with the [Docusaurus guide](../guides/docusaurus/installation.md).
+
+</TabItem>
+<TabItem value="hugo" label="Hugo">
+
+```bash
+# 1. Create a Hugo site
+hugo new site my-docs && cd my-docs
+hugo mod init github.com/your-org/my-docs
+
+# 2. Add the kit theme as a Hugo Module
+hugo mod get github.com/devcrocod/kotlin-docs-kit/packages/hugo
+```
+
+Minimal `hugo.toml`:
+
+```toml
+baseURL = "https://example.org/"
+title   = "My docs"
+
+[module]
+  [[module.imports]]
+    path = "github.com/devcrocod/kotlin-docs-kit/packages/hugo"
+
+[markup.highlight]
+  noClasses = false
+```
+
+Run a dev server:
+
+```bash
+hugo server
+```
+
+Continue with the [Hugo guide](../guides/hugo/installation.md).
+
+</TabItem>
+</Tabs>
+
+## Next steps
+
+After your site boots successfully, proceed to the per-engine guide for configuration, customization, and deploy.

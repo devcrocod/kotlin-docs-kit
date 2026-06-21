@@ -19,6 +19,7 @@ const PALETTE_SEGMENTS = new Set([
   'kt-pink',
   'kt-orange',
   'kt-blue',
+  'kt-teal',
   'gray',
   'green',
   'amber',

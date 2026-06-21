@@ -1,0 +1,49 @@
+# Theme-shipped configuration — merges into the consuming site's config, so the
+# AI-friendly endpoints work with zero per-site setup (parity with the
+# Docusaurus flavour's llms.txt + per-page markdown + copy-page features).
+
+# Custom output formats.
+#   LLMS / LLMSFULL → /llms.txt and /llms-full.txt  (an index, and a single-file
+#                     corpus of every page's markdown — for LLM ingestion).
+#   MD             → a plain-markdown twin of every page at <page>/index.md,
+#                     used by the "Copy / View as Markdown" button.
+[outputFormats]
+  [outputFormats.LLMS]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.LLMSFULL]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.MD]
+    mediaType = "text/markdown"
+    isPlainText = true
+    permalinkable = true
+
+# NOTE: Hugo merges [outputFormats] from a module (above) but NOT the [outputs]
+# map — that must be set in the SITE config. Add this to your hugo.toml to turn
+# the endpoints on (the starter already does):
+#
+#   [outputs]
+#     home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+#     section = ["HTML", "RSS", "MD"]
+#     page = ["HTML", "MD"]
+
+# Syntax highlighting defaults. Unlike [outputs], Hugo DOES merge [markup] from a
+# module, so these apply to consuming sites automatically (a site can override).
+#   noClasses=false → emit Chroma classes (.k/.s/.n/…) that chroma.css remaps to
+#     the kit's --code-* tokens; inline styles would break dark mode.
+#   lineNos=false   → line numbers are opt-in per fence ({linenos=table}); the
+#     render-codeblock hook honours this via transform.HighlightCodeBlock.
+[markup]
+  [markup.highlight]
+    codeFences = true
+    noClasses = false
+    lineNos = false
+    lineNumbersInTable = true
+  [markup.goldmark.renderer]
+    # Shortcodes + the codeblock render hook emit inline HTML.
+    unsafe = true

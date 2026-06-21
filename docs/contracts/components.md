@@ -1,8 +1,8 @@
 # HTML/CSS components contract
 
-This document defines the **public HTML and CSS contract** that every engine theme in `kotlin-docs-kit` MUST satisfy. The kit ships tokens and a single `dist/components.css` from [`@ktdocs/tokens`](../../packages/tokens/README.md); each engine package wraps its native markup in the BEM classes specified here so that all three engines (MkDocs, Docusaurus, Hugo) render visually identical sites.
+This document defines the **public HTML and CSS contract** that every engine theme in `kotlin-docs-kit` MUST satisfy. The kit ships tokens and a single `dist/components.css` from [`@ktdocs/tokens`](../../packages/tokens/README.md); each engine package wraps its native markup in the BEM classes specified here so that both engines (Docusaurus, Hugo) render visually identical sites.
 
-This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 19 atomic component sections, derived from the 16 component families in [SPEC §7.1](../../SPEC.md).
+This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 22 atomic component sections, derived from the 16 component families in [SPEC §7.1](../../SPEC.md).
 
 ## How to read this document
 
@@ -58,26 +58,130 @@ The element may be `<a>` or `<button>` depending on whether the action is a navi
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
+| Class        | Kind  | Purpose                                                             |
+| ------------ | ----- | ------------------------------------------------------------------- |
 | `.kt-button` | block | Base button surface, padding, transitions, focus and active states. |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-button--primary` | Solid brand background, white text. Default CTA. |
-| `.kt-button--secondary` | Surface background, neutral border. Secondary action. |
-| `.kt-button--ghost` | Transparent background, surface on hover. Tertiary action. |
-| `.kt-button--link` | Underlined link style with no padding box. |
-| `.kt-button--brand` | Full brand gradient with hover glow. Use once per page. |
-| `.kt-button--sm` | Compact size (13 px text). |
-| `.kt-button--lg` | Prominent size (15 px text, larger radius). |
+| Modifier                | Meaning                                                    |
+| ----------------------- | ---------------------------------------------------------- |
+| `.kt-button--primary`   | Solid brand background, white text. Default CTA.           |
+| `.kt-button--secondary` | Surface background, neutral border. Secondary action.      |
+| `.kt-button--ghost`     | Transparent background, surface on hover. Tertiary action. |
+| `.kt-button--link`      | Underlined link style with no padding box.                 |
+| `.kt-button--brand`     | Full brand gradient with hover glow. Use once per page.    |
+| `.kt-button--sm`        | Compact size (13 px text).                                 |
+| `.kt-button--lg`        | Prominent size (15 px text, larger radius).                |
 
 ### Notes
 
 - Disabled state is styled via `:disabled` and `[aria-disabled="true"]`; both yield 0.5 opacity and `not-allowed` cursor. Setting `aria-disabled="true"` is the canonical way to disable non-`<button>` elements.
 - Specimen: [`preview/components-buttons.html`](./preview/components-buttons.html).
+
+---
+
+## Pill
+
+Compact full-radius action chip. Quiet by default; `--primary` carries the brand. In dark mode the default fill is a translucent white overlay rather than a solid surface.
+
+### DOM
+
+```html
+<button class="kt-pill">All</button>
+<button class="kt-pill kt-pill--primary">Follow</button>
+<a class="kt-pill" href="/tags/stable">stable</a>
+```
+
+The element may be `<button>` or `<a>`.
+
+### Classes
+
+| Class      | Kind  | Purpose                                                    |
+| ---------- | ----- | ---------------------------------------------------------- |
+| `.kt-pill` | block | Full-radius compact button. Surface fill, hairline border. |
+
+### Modifiers
+
+| Modifier            | Meaning                                         |
+| ------------------- | ----------------------------------------------- |
+| `.kt-pill--primary` | Solid brand background, white text. Emphasised. |
+
+### Notes
+
+- Focus shows the two-layer `--focus-ring` (teal in dark, purple in light).
+- Specimen: [`preview/components-pill.html`](./preview/components-pill.html).
+
+---
+
+## Toggle
+
+Binary on/off button. The pressed state uses the interaction accent (`--color-interactive*`) — teal in dark, purple in light.
+
+### DOM
+
+```html
+<button class="kt-toggle" aria-pressed="false">Wrap lines</button>
+<button class="kt-toggle" aria-pressed="true">Wrap lines</button>
+```
+
+### Classes
+
+| Class        | Kind  | Purpose                                               |
+| ------------ | ----- | ----------------------------------------------------- |
+| `.kt-toggle` | block | Toggle button. Quiet when off; accent-tinted when on. |
+
+### Modifiers
+
+| Modifier         | Meaning                                                         |
+| ---------------- | --------------------------------------------------------------- |
+| `.kt-toggle--on` | Forces the on state for engines that cannot set `aria-pressed`. |
+
+### ARIA
+
+- Drive the state with `aria-pressed="true|false"` (canonical). `.kt-toggle--on` is the class-only fallback.
+
+### Notes
+
+- Specimen: [`preview/components-toggle.html`](./preview/components-toggle.html).
+
+---
+
+## Segmented control
+
+A compact track of mutually-exclusive segments. The selected segment is accent-tinted (teal in dark, purple in light). Distinct from content tabs (`.kt-tabs`): a small inline switch, not a page-section selector.
+
+### DOM
+
+```html
+<div class="kt-segmented" role="tablist" aria-label="View">
+  <button class="kt-segmented__segment kt-segmented__segment--active" role="tab" aria-selected="true" type="button">
+    Preview
+  </button>
+  <button class="kt-segmented__segment" role="tab" aria-selected="false" type="button">Code</button>
+</div>
+```
+
+### Classes
+
+| Class                    | Kind    | Purpose                                          |
+| ------------------------ | ------- | ------------------------------------------------ |
+| `.kt-segmented`          | block   | The track. Inline-flex, padded, hairline border. |
+| `.kt-segmented__segment` | element | A single segment button.                         |
+
+### Modifiers
+
+| Modifier                         | Meaning                                        |
+| -------------------------------- | ---------------------------------------------- |
+| `.kt-segmented__segment--active` | Selected segment. Accent-tinted fill and text. |
+
+### ARIA
+
+- The track carries `role="tablist"`; each segment carries `role="tab"` with `aria-selected`.
+
+### Notes
+
+- Specimen: [`preview/components-segmented.html`](./preview/components-segmented.html).
 
 ---
 
@@ -88,13 +192,15 @@ Text inputs, textareas, selects, and the signature documentation search field wi
 ### DOM
 
 ```html
-<input class="kt-input" type="text" placeholder="Search…">
+<input class="kt-input" type="text" placeholder="Search…" />
 <textarea class="kt-textarea" rows="3"></textarea>
-<select class="kt-select"><!-- options --></select>
+<select class="kt-select">
+  <!-- options -->
+</select>
 
 <div class="kt-input-group">
   <svg class="kt-input-group__lead-icon"><!-- icon --></svg>
-  <input class="kt-input" type="text">
+  <input class="kt-input" type="text" />
 </div>
 
 <div class="kt-docs-search">
@@ -106,17 +212,17 @@ Text inputs, textareas, selects, and the signature documentation search field wi
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-input` | block | Text input. Width 100%, surface background, neutral border, focus ring. |
-| `.kt-textarea` | block | Multi-line input. Same surface and focus styling as `.kt-input`. |
-| `.kt-select` | block | Native `<select>` styled to match `.kt-input`. |
-| `.kt-input-group` | block | Wrapper that positions a leading icon over an inset `.kt-input`. |
-| `.kt-input-group__lead-icon` | element | The leading icon (16 × 16), absolutely positioned at the left padding. |
-| `.kt-docs-search` | block | Topnav search trigger. Flex row containing the icon, placeholder, and `⌘K` hint. |
-| `.kt-docs-search__icon` | element | Leading magnifier icon (14 × 14). |
-| `.kt-docs-search__text` | element | Placeholder text node; flex-grows to push the kbd hint to the right. |
-| `.kt-docs-search__kbd` | element | Trailing keyboard shortcut chip rendered in monospace. |
+| Class                        | Kind    | Purpose                                                                          |
+| ---------------------------- | ------- | -------------------------------------------------------------------------------- |
+| `.kt-input`                  | block   | Text input. Width 100%, surface background, neutral border, focus ring.          |
+| `.kt-textarea`               | block   | Multi-line input. Same surface and focus styling as `.kt-input`.                 |
+| `.kt-select`                 | block   | Native `<select>` styled to match `.kt-input`.                                   |
+| `.kt-input-group`            | block   | Wrapper that positions a leading icon over an inset `.kt-input`.                 |
+| `.kt-input-group__lead-icon` | element | The leading icon (16 × 16), absolutely positioned at the left padding.           |
+| `.kt-docs-search`            | block   | Topnav search trigger. Flex row containing the icon, placeholder, and `⌘K` hint. |
+| `.kt-docs-search__icon`      | element | Leading magnifier icon (14 × 14).                                                |
+| `.kt-docs-search__text`      | element | Placeholder text node; flex-grows to push the kbd hint to the right.             |
+| `.kt-docs-search__kbd`       | element | Trailing keyboard shortcut chip rendered in monospace.                           |
 
 ### Notes
 
@@ -144,24 +250,33 @@ Compact pill-shaped label for statuses and metadata.
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-badge` | block | Pill container. Inline-flex, full radius, 12 px sans label. |
-| `.kt-badge__dot` | element | 5 × 5 status dot using `currentColor`. Optional. |
+| Class            | Kind    | Purpose                                                     |
+| ---------------- | ------- | ----------------------------------------------------------- |
+| `.kt-badge`      | block   | Pill container. Inline-flex, full radius, 12 px sans label. |
+| `.kt-badge__dot` | element | 5 × 5 status dot using `currentColor`. Optional.            |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-badge--purple` | Brand-soft background, `kt-purple-700` text. |
-| `.kt-badge--pink` | Accent-soft background, `kt-pink-700` text. |
-| `.kt-badge--success` | Green-soft background, `green-600` text. |
-| `.kt-badge--warning` | Amber-soft background, `amber-600` text. |
-| `.kt-badge--danger` | Red-soft background, `red-600` text. |
-| `.kt-badge--info` | Blue-soft background, `kt-blue-600` text. |
+| Modifier             | Meaning                                                     |
+| -------------------- | ----------------------------------------------------------- |
+| `.kt-badge--purple`  | Brand-soft background, `kt-purple-700` text.                |
+| `.kt-badge--pink`    | Accent-soft background, `kt-pink-700` text.                 |
+| `.kt-badge--success` | Green-soft background, `green-600` text.                    |
+| `.kt-badge--warning` | Amber-soft background, `amber-600` text.                    |
+| `.kt-badge--danger`  | Red-soft background, `red-600` text.                        |
+| `.kt-badge--info`    | Blue-soft background, `kt-blue-600` text.                   |
+| `.kt-badge--accent`  | Accent (magenta) soft background.                           |
+| `.kt-badge--blue`    | Blue-soft background.                                       |
+| `.kt-badge--green`   | Green-soft background.                                      |
+| `.kt-badge--red`     | Red-soft background.                                        |
+| `.kt-badge--yellow`  | Amber-soft background.                                      |
+| `.kt-badge--violet`  | Violet (purple) soft background.                            |
+| `.kt-badge--teal`    | Teal-soft background — matches the dark interaction accent. |
+| `.kt-badge--orange`  | Orange-soft background.                                     |
 
 ### Notes
 
+- The full colour set is `purple`/`violet`, `pink`, `accent`, `blue`/`info`, `green`/`success`, `red`/`danger`, `yellow`/`warning`, `teal`, `orange`. In dark mode the text lifts to the lighter ramp step for contrast on the translucent fills.
 - Specimen: [`preview/components-badges.html`](./preview/components-badges.html).
 
 ---
@@ -178,9 +293,17 @@ Square-radius monospace label for short metadata snippets (e.g. release channel,
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
+| Class     | Kind  | Purpose                                                               |
+| --------- | ----- | --------------------------------------------------------------------- |
 | `.kt-tag` | block | Square-radius monospace chip, 11 px font, neutral surface and border. |
+
+### Modifiers
+
+Optional colour variants tint the chip; the neutral form (no modifier) is the default. Same colour family as Badge: `--accent`, `--blue`, `--green`, `--red`, `--yellow`, `--purple`, `--violet`, `--teal`, `--orange`. In dark mode the text lifts to the lighter ramp step.
+
+```html
+<span class="kt-tag kt-tag--teal">native</span>
+```
 
 ---
 
@@ -200,19 +323,19 @@ Coloured method tag for API reference docs.
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
+| Class        | Kind  | Purpose                                                                       |
+| ------------ | ----- | ----------------------------------------------------------------------------- |
 | `.kt-method` | block | Method label. 11 px monospace, 700 weight, square radius, uppercase tracking. |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-method--get` | Green-soft background, `green-600` text. |
-| `.kt-method--post` | Blue-soft background, `kt-blue-600` text. |
-| `.kt-method--put` | Amber-soft background, `amber-600` text. |
-| `.kt-method--patch` | Tip-soft (purple) background, `kt-purple-700` text. |
-| `.kt-method--delete` | Red-soft background, `red-600` text. |
+| Modifier             | Meaning                                             |
+| -------------------- | --------------------------------------------------- |
+| `.kt-method--get`    | Green-soft background, `green-600` text.            |
+| `.kt-method--post`   | Blue-soft background, `kt-blue-600` text.           |
+| `.kt-method--put`    | Amber-soft background, `amber-600` text.            |
+| `.kt-method--patch`  | Tip-soft (purple) background, `kt-purple-700` text. |
+| `.kt-method--delete` | Red-soft background, `red-600` text.                |
 
 ---
 
@@ -234,30 +357,30 @@ Inline boxed note with a leading icon, optional bold title, and body content. Tw
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-callout` | block | Box with grid layout, 3 px left border, tinted background, padding. |
-| `.kt-callout__icon` | element | Leading 20 × 20 SVG icon. The kind-specific Lucide glyph belongs here. |
-| `.kt-callout__body` | element | Vertical stack holding the title and content. |
-| `.kt-callout__title` | element | Bold label (14 px, 600 weight). Optional. |
+| Class                  | Kind    | Purpose                                                                     |
+| ---------------------- | ------- | --------------------------------------------------------------------------- |
+| `.kt-callout`          | block   | Box with grid layout, 3 px left border, tinted background, padding.         |
+| `.kt-callout__icon`    | element | Leading 20 × 20 SVG icon. The kind-specific Lucide glyph belongs here.      |
+| `.kt-callout__body`    | element | Vertical stack holding the title and content.                               |
+| `.kt-callout__title`   | element | Bold label (14 px, 600 weight). Optional.                                   |
 | `.kt-callout__content` | element | Body text. Inherits article typography. Optional when the title is omitted. |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-callout--note` | Neutral note — generic side remark. |
-| `.kt-callout--info` | Information — neutral fact the reader should be aware of. |
-| `.kt-callout--tip` | Tip — recommended practice or shortcut. |
-| `.kt-callout--success` | Success — confirmation that something worked. |
-| `.kt-callout--warning` | Warning — non-blocking caution. |
-| `.kt-callout--caution` | Caution — orange escalation between warning and danger. |
-| `.kt-callout--danger` | Danger — destructive or breaking operation. |
-| `.kt-callout--important` | Important — must-read for correct behaviour. |
-| `.kt-callout--quote` | Quote — italicised pull quote. |
-| `.kt-callout--example` | Example — illustrative example block. |
-| `.kt-callout--deprecated` | Deprecated — API or feature scheduled for removal. |
-| `.kt-callout--experimental` | Experimental — feature still in flux. |
+| Modifier                    | Meaning                                                   |
+| --------------------------- | --------------------------------------------------------- |
+| `.kt-callout--note`         | Neutral note — generic side remark.                       |
+| `.kt-callout--info`         | Information — neutral fact the reader should be aware of. |
+| `.kt-callout--tip`          | Tip — recommended practice or shortcut.                   |
+| `.kt-callout--success`      | Success — confirmation that something worked.             |
+| `.kt-callout--warning`      | Warning — non-blocking caution.                           |
+| `.kt-callout--caution`      | Caution — orange escalation between warning and danger.   |
+| `.kt-callout--danger`       | Danger — destructive or breaking operation.               |
+| `.kt-callout--important`    | Important — must-read for correct behaviour.              |
+| `.kt-callout--quote`        | Quote — italicised pull quote.                            |
+| `.kt-callout--example`      | Example — illustrative example block.                     |
+| `.kt-callout--deprecated`   | Deprecated — API or feature scheduled for removal.        |
+| `.kt-callout--experimental` | Experimental — feature still in flux.                     |
 
 ### Notes
 
@@ -305,44 +428,44 @@ When the block has no tabs, `.kt-codeblock__tabs` is replaced with `.kt-codebloc
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-codeblock` | block | Outer container. Code background, border, large radius, overflow hidden. |
-| `.kt-codeblock__header` | element | Header bar holding tabs (or language label) and actions. |
-| `.kt-codeblock__tabs` | element | Horizontal tab list for multi-file snippets. Scrollable, no scrollbar. |
-| `.kt-codeblock__tab` | element | A single file tab button. |
-| `.kt-codeblock__file-icon` | element | Optional file-type SVG icon inside a tab (13 × 13). |
-| `.kt-codeblock__lang` | element | Language label when no tabs are present. 11 px monospace, lowercase. |
-| `.kt-codeblock__actions` | element | Right-aligned action button group (copy, wrap, fullscreen, …). |
-| `.kt-codeblock__action-btn` | element | A single action button. Transparent background, surface on hover. |
-| `.kt-codeblock__body` | element | The `<pre>` wrapper. Owns scroll-x overflow, code typography. |
-| `.kt-codeblock__line` | element | One logical line. Two-column grid: gutter + code. |
-| `.kt-codeblock__lineno` | element | Gutter number. Right-aligned, monospace, dimmed. |
-| `.kt-codeblock__code` | element | The code text within a line. |
-| `.kt-codeblock__term-prompt` | element | Terminal prompt segment. Purple, non-selectable. Only inside `--terminal`. |
-| `.kt-codeblock__term-comment` | element | Dimmed in-terminal comment. Only inside `--terminal`. |
+| Class                         | Kind    | Purpose                                                                    |
+| ----------------------------- | ------- | -------------------------------------------------------------------------- |
+| `.kt-codeblock`               | block   | Outer container. Code background, border, large radius, overflow hidden.   |
+| `.kt-codeblock__header`       | element | Header bar holding tabs (or language label) and actions.                   |
+| `.kt-codeblock__tabs`         | element | Horizontal tab list for multi-file snippets. Scrollable, no scrollbar.     |
+| `.kt-codeblock__tab`          | element | A single file tab button.                                                  |
+| `.kt-codeblock__file-icon`    | element | Optional file-type SVG icon inside a tab (13 × 13).                        |
+| `.kt-codeblock__lang`         | element | Language label when no tabs are present. 11 px monospace, lowercase.       |
+| `.kt-codeblock__actions`      | element | Right-aligned action button group (copy, wrap, fullscreen, …).             |
+| `.kt-codeblock__action-btn`   | element | A single action button. Transparent background, surface on hover.          |
+| `.kt-codeblock__body`         | element | The `<pre>` wrapper. Owns scroll-x overflow, code typography.              |
+| `.kt-codeblock__line`         | element | One logical line. Two-column grid: gutter + code.                          |
+| `.kt-codeblock__lineno`       | element | Gutter number. Right-aligned, monospace, dimmed.                           |
+| `.kt-codeblock__code`         | element | The code text within a line.                                               |
+| `.kt-codeblock__term-prompt`  | element | Terminal prompt segment. Purple, non-selectable. Only inside `--terminal`. |
+| `.kt-codeblock__term-comment` | element | Dimmed in-terminal comment. Only inside `--terminal`.                      |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-codeblock--terminal` | Terminal variant. Hardcoded deep-purple-black surface (`#0E0B16`) regardless of theme. |
+| Modifier                     | Meaning                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| `.kt-codeblock--terminal`    | Terminal variant. Hardcoded deep-purple-black surface (`#0E0B16`) regardless of theme.           |
 | `.kt-codeblock__tab--active` | Currently selected file tab. Background matches code surface and gains a 2 px primary underline. |
-| `.kt-codeblock__line--hl` | Highlighted line. Background tint plus 2 px inset shadow in `--color-primary`. |
+| `.kt-codeblock__line--hl`    | Highlighted line. Background tint plus 2 px inset shadow in `--color-primary`.                   |
 
 ### Syntax tokens
 
 Highlighter classes (`prism-token-keyword`, Chroma `.k`, `.s`, etc.) MUST be remapped to these eight classes in engine packages. The mapping table per engine lives in [engine-mappings/](./engine-mappings/).
 
-| Class | Token kind |
-|---|---|
-| `.kt-tok-k` | Keyword (`fun`, `val`, `class`). 500 weight. |
-| `.kt-tok-s` | String literal. |
-| `.kt-tok-n` | Number literal. |
-| `.kt-tok-c` | Comment. Italic. |
-| `.kt-tok-f` | Function or method name. |
-| `.kt-tok-t` | Type name. |
-| `.kt-tok-p` | Punctuation. |
+| Class       | Token kind                                           |
+| ----------- | ---------------------------------------------------- |
+| `.kt-tok-k` | Keyword (`fun`, `val`, `class`). 500 weight.         |
+| `.kt-tok-s` | String literal.                                      |
+| `.kt-tok-n` | Number literal.                                      |
+| `.kt-tok-c` | Comment. Italic.                                     |
+| `.kt-tok-f` | Function or method name.                             |
+| `.kt-tok-t` | Type name.                                           |
+| `.kt-tok-p` | Punctuation.                                         |
 | `.kt-tok-a` | Annotation / decorator (`@Deprecated`, `@Override`). |
 
 ### Notes
@@ -361,7 +484,9 @@ Generously padded surface for feature grids, quickstart entries, tutorial select
 ```html
 <div class="kt-card-grid">
   <a class="kt-card kt-card--hoverable" href="/quickstart">
-    <div class="kt-card__icon"><svg><!-- icon --></svg></div>
+    <div class="kt-card__icon">
+      <svg><!-- icon --></svg>
+    </div>
     <h3 class="kt-card__title">Quickstart</h3>
     <p class="kt-card__body">Get a Kotlin server running in 5 minutes.</p>
     <span class="kt-card__arrow">→</span>
@@ -371,19 +496,19 @@ Generously padded surface for feature grids, quickstart entries, tutorial select
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-card` | block | Card surface. Border, large radius, 20 px padding, vertical flex stack. |
-| `.kt-card__icon` | element | 32 × 32 leading icon with primary-soft background. Optional. |
-| `.kt-card__title` | element | Card heading. 16 px sans, 600 weight. |
-| `.kt-card__body` | element | Body text. 14 px sans, secondary foreground. |
-| `.kt-card__arrow` | element | Mono arrow indicator pinned to the card foot. Optional. |
-| `.kt-card-grid` | block | Auto-fit grid wrapper. `repeat(auto-fit, minmax(220px, 1fr))`. |
+| Class             | Kind    | Purpose                                                                 |
+| ----------------- | ------- | ----------------------------------------------------------------------- |
+| `.kt-card`        | block   | Card surface. Border, large radius, 20 px padding, vertical flex stack. |
+| `.kt-card__icon`  | element | 32 × 32 leading icon with primary-soft background. Optional.            |
+| `.kt-card__title` | element | Card heading. 16 px sans, 600 weight.                                   |
+| `.kt-card__body`  | element | Body text. 14 px sans, secondary foreground.                            |
+| `.kt-card__arrow` | element | Mono arrow indicator pinned to the card foot. Optional.                 |
+| `.kt-card-grid`   | block   | Auto-fit grid wrapper. `repeat(auto-fit, minmax(220px, 1fr))`.          |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
+| Modifier              | Meaning                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
 | `.kt-card--hoverable` | Opt-in hover lift: purple border, medium shadow, –1 px translate. Add only on actionable cards (links). |
 
 ### Notes
@@ -400,8 +525,8 @@ Docs landing surface. Combines a large heading with optional gradient text and a
 
 ```html
 <section class="kt-docs-hero">
-  <h1>Kotlin <span class="kt-hero__grad-text">docs</span> in three engines</h1>
-  <p>Apache 2.0 themed starter kit. Pick MkDocs, Docusaurus, or Hugo.</p>
+  <h1>Kotlin <span class="kt-hero__grad-text">docs</span> in two engines</h1>
+  <p>Apache 2.0 themed starter kit. Pick Docusaurus or Hugo.</p>
   <div class="kt-hero__actions">
     <a class="kt-button kt-button--primary kt-button--lg">Get started</a>
     <a class="kt-button kt-button--brand kt-button--lg">View demo</a>
@@ -411,11 +536,11 @@ Docs landing surface. Combines a large heading with optional gradient text and a
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-docs-hero` | block | Hero section. Padding 56 / 32 / 48, bottom border, surface-1 background. |
+| Class                 | Kind                      | Purpose                                                                               |
+| --------------------- | ------------------------- | ------------------------------------------------------------------------------------- |
+| `.kt-docs-hero`       | block                     | Hero section. Padding 56 / 32 / 48, bottom border, surface-1 background.              |
 | `.kt-hero__grad-text` | element (`kt-hero` block) | Inline span whose text fill is the brand radial gradient via `background-clip: text`. |
-| `.kt-hero__actions` | element (`kt-hero` block) | Actions row holding hero buttons. |
+| `.kt-hero__actions`   | element (`kt-hero` block) | Actions row holding hero buttons.                                                     |
 
 ### Notes
 
@@ -442,18 +567,18 @@ Tabbed content switcher for "Kotlin / Java / Groovy" style choices. Visually and
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-tabs` | block | Tab list row. Flex, bottom border. |
-| `.kt-tabs__tab` | element | A tab trigger. Transparent button, 14 px sans, 500 weight. |
+| Class             | Kind    | Purpose                                                                                          |
+| ----------------- | ------- | ------------------------------------------------------------------------------------------------ |
+| `.kt-tabs`        | block   | Tab list row. Flex, bottom border.                                                               |
+| `.kt-tabs__tab`   | element | A tab trigger. Transparent button, 14 px sans, 500 weight.                                       |
 | `.kt-tabs__panel` | element | A tab panel. Shown only when active. Visibility is engine-controlled (JS or CSS-only `:target`). |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-tabs__tab--active` | Selected tab. Primary text colour and 2 px primary underline. |
-| `.kt-tabs__panel--active` | Visible panel. Engines hide non-active panels. |
+| Modifier                  | Meaning                                                       |
+| ------------------------- | ------------------------------------------------------------- |
+| `.kt-tabs__tab--active`   | Selected tab. Primary text colour and 2 px primary underline. |
+| `.kt-tabs__panel--active` | Visible panel. Engines hide non-active panels.                |
 
 ### ARIA
 
@@ -481,11 +606,11 @@ Trail of ancestors leading to the current page, rendered with a separator and a 
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-crumbs` | block | Breadcrumb row. Flex, 8 px gap, 13 px sans, tertiary foreground. |
-| `.kt-crumbs__sep` | element | Visual separator (default `/`). Tertiary foreground with 0.6 opacity. |
-| `.kt-crumbs__current` | element | The current page node (non-link). Primary foreground, 500 weight. |
+| Class                 | Kind    | Purpose                                                               |
+| --------------------- | ------- | --------------------------------------------------------------------- |
+| `.kt-crumbs`          | block   | Breadcrumb row. Flex, 8 px gap, 13 px sans, tertiary foreground.      |
+| `.kt-crumbs__sep`     | element | Visual separator (default `/`). Tertiary foreground with 0.6 opacity. |
+| `.kt-crumbs__current` | element | The current page node (non-link). Primary foreground, 500 weight.     |
 
 ---
 
@@ -498,7 +623,7 @@ Sticky blurred header containing brand, version chip, primary links, search trig
 ```html
 <header class="kt-topnav">
   <a class="kt-topnav__brand" href="/">
-    <img src="/assets/kotlin-icon-color.svg" width="28" height="28" alt="">
+    <img src="/assets/kotlin-icon-color.svg" width="28" height="28" alt="" />
     <span class="kt-topnav__brand-name">Project</span>
     <span class="kt-topnav__version">v2.0</span>
   </a>
@@ -519,21 +644,21 @@ Sticky blurred header containing brand, version chip, primary links, search trig
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-topnav` | block | Header bar. Sticky, blurred translucent surface, bottom border, `--docs-header-height` tall. |
-| `.kt-topnav__brand` | element | Brand cluster (logo + name + version). |
-| `.kt-topnav__brand-name` | element | Product or project name. 16 px sans, 600 weight. |
-| `.kt-topnav__version` | element | Version chip. 11 px monospace inside a small surface-2 box. |
-| `.kt-topnav__links` | element | Primary nav link row. |
-| `.kt-topnav__link` | element | A single nav link. |
-| `.kt-topnav__right` | element | Right-aligned cluster holding search and icon buttons. |
-| `.kt-topnav__icon-btn` | element | 32 × 32 icon button (theme toggle, external links). |
+| Class                    | Kind    | Purpose                                                                                      |
+| ------------------------ | ------- | -------------------------------------------------------------------------------------------- |
+| `.kt-topnav`             | block   | Header bar. Sticky, blurred translucent surface, bottom border, `--docs-header-height` tall. |
+| `.kt-topnav__brand`      | element | Brand cluster (logo + name + version).                                                       |
+| `.kt-topnav__brand-name` | element | Product or project name. 16 px sans, 600 weight.                                             |
+| `.kt-topnav__version`    | element | Version chip. 11 px monospace inside a small surface-2 box.                                  |
+| `.kt-topnav__links`      | element | Primary nav link row.                                                                        |
+| `.kt-topnav__link`       | element | A single nav link.                                                                           |
+| `.kt-topnav__right`      | element | Right-aligned cluster holding search and icon buttons.                                       |
+| `.kt-topnav__icon-btn`   | element | 32 × 32 icon button (theme toggle, external links).                                          |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
+| Modifier                   | Meaning                                         |
+| -------------------------- | ----------------------------------------------- |
 | `.kt-topnav__link--active` | Current section indicator. Primary text colour. |
 
 ### Notes
@@ -567,19 +692,19 @@ Left navigation column. Sections with bold labels, optional uppercase sub-labels
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-sidenav` | block | Sidebar wrapper. Vertical flex column, 20 / 16 padding. |
-| `.kt-sidenav__section` | element | A grouping of items. Adjacent sections are spaced by 18 px. |
-| `.kt-sidenav__sec-label` | element | Bold section label. 12 px sans, 600 weight. |
-| `.kt-sidenav__sec-sub` | element | Uppercase sub-label. 11 px sans with wide tracking. |
-| `.kt-sidenav__item` | element | A nav link. 13.5 px sans, secondary foreground, hover surface-2. |
-| `.kt-sidenav__item-icon` | element | Optional 14 × 14 leading icon, `currentColor`. |
+| Class                    | Kind    | Purpose                                                          |
+| ------------------------ | ------- | ---------------------------------------------------------------- |
+| `.kt-sidenav`            | block   | Sidebar wrapper. Vertical flex column, 20 / 16 padding.          |
+| `.kt-sidenav__section`   | element | A grouping of items. Adjacent sections are spaced by 18 px.      |
+| `.kt-sidenav__sec-label` | element | Bold section label. 12 px sans, 600 weight.                      |
+| `.kt-sidenav__sec-sub`   | element | Uppercase sub-label. 11 px sans with wide tracking.              |
+| `.kt-sidenav__item`      | element | A nav link. 13.5 px sans, secondary foreground, hover surface-2. |
+| `.kt-sidenav__item-icon` | element | Optional 14 × 14 leading icon, `currentColor`.                   |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
+| Modifier                    | Meaning                                                               |
+| --------------------------- | --------------------------------------------------------------------- |
 | `.kt-sidenav__item--active` | Current page link. Primary-soft background, primary text, 500 weight. |
 
 ### Notes
@@ -604,17 +729,17 @@ Right rail "On this page" rail with active border and indented sub-entries.
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-toc` | block | TOC wrapper. Vertical flex column, 24 / 20 padding. |
-| `.kt-toc__label` | element | Section label "On this page". 12 px sans, 600 weight. |
-| `.kt-toc__item` | element | A heading link. 13 px sans, 2 px left border for the active rail. |
+| Class            | Kind    | Purpose                                                           |
+| ---------------- | ------- | ----------------------------------------------------------------- |
+| `.kt-toc`        | block   | TOC wrapper. Vertical flex column, 24 / 20 padding.               |
+| `.kt-toc__label` | element | Section label "On this page". 12 px sans, 600 weight.             |
+| `.kt-toc__item`  | element | A heading link. 13 px sans, 2 px left border for the active rail. |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
-| `.kt-toc__item--active` | Currently viewed heading. Primary text and primary left border. |
+| Modifier                | Meaning                                                           |
+| ----------------------- | ----------------------------------------------------------------- |
+| `.kt-toc__item--active` | Currently viewed heading. Primary text and primary left border.   |
 | `.kt-toc__item--nested` | Indented sub-heading. Larger left padding, slightly smaller font. |
 
 ### Notes
@@ -631,7 +756,12 @@ Table used in API references to document parameter names, types, and description
 
 ```html
 <table class="kt-params">
-  <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
   <tbody>
     <tr>
       <td>
@@ -646,10 +776,10 @@ Table used in API references to document parameter names, types, and description
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-params` | block | Parameter table. 100% width, collapsed borders, 14 px sans body. |
-| `.kt-params__name` | element | Parameter identifier. 13 px monospace, 500 weight. |
+| Class              | Kind    | Purpose                                                                           |
+| ------------------ | ------- | --------------------------------------------------------------------------------- |
+| `.kt-params`       | block   | Parameter table. 100% width, collapsed borders, 14 px sans body.                  |
+| `.kt-params__name` | element | Parameter identifier. 13 px monospace, 500 weight.                                |
 | `.kt-params__type` | element | Type signature. 12 px monospace, `--code-type` colour, displayed on its own line. |
 
 ### Notes
@@ -680,19 +810,19 @@ Prev / next link pair at the foot of an article.
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-docs-pager` | block | Pager wrapper. Two-column equal grid, 12 px gap, top border, top margin 48 px. |
-| `.kt-docs-pager__link` | element | A single prev or next card. Border-1, medium radius, vertical flex. |
-| `.kt-docs-pager__direction` | element | Tiny mono uppercase direction label ("Previous" / "Next"). |
-| `.kt-docs-pager__title` | element | Page title. 14 px sans, 600 weight. |
+| Class                       | Kind    | Purpose                                                                        |
+| --------------------------- | ------- | ------------------------------------------------------------------------------ |
+| `.kt-docs-pager`            | block   | Pager wrapper. Two-column equal grid, 12 px gap, top border, top margin 48 px. |
+| `.kt-docs-pager__link`      | element | A single prev or next card. Border-1, medium radius, vertical flex.            |
+| `.kt-docs-pager__direction` | element | Tiny mono uppercase direction label ("Previous" / "Next").                     |
+| `.kt-docs-pager__title`     | element | Page title. 14 px sans, 600 weight.                                            |
 
 ### Modifiers
 
-| Modifier | Meaning |
-|---|---|
+| Modifier                     | Meaning                                             |
+| ---------------------------- | --------------------------------------------------- |
 | `.kt-docs-pager__link--prev` | Previous link card. Left-aligned content (default). |
-| `.kt-docs-pager__link--next` | Next link card. Right-aligned content. |
+| `.kt-docs-pager__link--next` | Next link card. Right-aligned content.              |
 
 ### Notes
 
@@ -720,12 +850,12 @@ Canonical three-column documentation layout: sidebar, main, TOC. The shell handl
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-docs-shell` | block | Three-column grid. Sidebar / main / TOC. Centered, max width `--docs-shell-max`. |
-| `.kt-docs-shell__side` | element | Left column. Sticky to header, right border, scrolls within viewport height. |
-| `.kt-docs-shell__main` | element | Middle column. Article content background, 36 / 48 / 80 padding. |
-| `.kt-docs-shell__toc` | element | Right column. Sticky to header, scrolls within viewport height. |
+| Class                  | Kind    | Purpose                                                                          |
+| ---------------------- | ------- | -------------------------------------------------------------------------------- |
+| `.kt-docs-shell`       | block   | Three-column grid. Sidebar / main / TOC. Centered, max width `--docs-shell-max`. |
+| `.kt-docs-shell__side` | element | Left column. Sticky to header, right border, scrolls within viewport height.     |
+| `.kt-docs-shell__main` | element | Middle column. Article content background, 36 / 48 / 80 padding.                 |
+| `.kt-docs-shell__toc`  | element | Right column. Sticky to header, scrolls within viewport height.                  |
 
 ### Notes
 
@@ -745,7 +875,7 @@ Reading column inside the main content slot. Owns the vertical rhythm and the ma
 ```html
 <article class="kt-docs-article">
   <h1>Installation</h1>
-  <p>kotlin-docs-kit ships three engine packages…</p>
+  <p>kotlin-docs-kit ships two engine packages…</p>
   <h2>Prerequisites</h2>
   <ul>
     <li>Node.js 20+</li>
@@ -757,8 +887,8 @@ Reading column inside the main content slot. Owns the vertical rhythm and the ma
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
+| Class              | Kind  | Purpose                                                                                                         |
+| ------------------ | ----- | --------------------------------------------------------------------------------------------------------------- |
 | `.kt-docs-article` | block | Article wrapper. Reading column with max width `--docs-content-max` (720 px) and 16 px default sibling spacing. |
 
 ### Notes
@@ -777,7 +907,9 @@ Centered empty or loading state with icon, title, and body. Light touch — used
 
 ```html
 <div class="kt-state">
-  <div class="kt-state__icon"><svg><!-- icon --></svg></div>
+  <div class="kt-state__icon">
+    <svg><!-- icon --></svg>
+  </div>
   <h4 class="kt-state__title">No results</h4>
   <p class="kt-state__body">Try a different search term.</p>
 </div>
@@ -787,12 +919,12 @@ The class form is canonical; the kit also styles plain `<h4>` and `<p>` inside `
 
 ### Classes
 
-| Class | Kind | Purpose |
-|---|---|---|
-| `.kt-state` | block | Centered vertical stack. 32 / 20 padding, center alignment. |
-| `.kt-state__icon` | element | 38 × 38 icon tile. Surface-2 background, medium radius. |
-| `.kt-state__title` | element | Heading line. 15 px sans, 600 weight. |
-| `.kt-state__body` | element | Description line. 13 px sans, max reading measure 38ch. |
+| Class              | Kind    | Purpose                                                     |
+| ------------------ | ------- | ----------------------------------------------------------- |
+| `.kt-state`        | block   | Centered vertical stack. 32 / 20 padding, center alignment. |
+| `.kt-state__icon`  | element | 38 × 38 icon tile. Surface-2 background, medium radius.     |
+| `.kt-state__title` | element | Heading line. 15 px sans, 600 weight.                       |
+| `.kt-state__body`  | element | Description line. 13 px sans, max reading measure 38ch.     |
 
 ---
 
@@ -800,24 +932,23 @@ The class form is canonical; the kit also styles plain `<h4>` and `<p>` inside `
 
 Authoring syntax differs across engines, but every form below MUST produce the DOM defined above. This table is ported verbatim from [SPEC §7.3](../../SPEC.md). The native-first principle ([SPEC §1](../../SPEC.md)) means engines keep their idiomatic authoring forms instead of unifying around a single one.
 
-| Component | MkDocs | Docusaurus | Hugo |
-|---|---|---|---|
-| Callout (12 kinds) | `!!! tip "Pro tip"` (Material admonition, with custom types for caution / important / quote / example / deprecated / experimental) | `<Callout type="tip" title="Pro tip">` (MDX, globally registered) | `{{< callout type="tip" title="Pro tip" >}}` |
-| Code block with tabs | `=== "Kotlin"` plus a fenced code block (Material tabs) | `<Tabs>` + `<TabItem>` or Docusaurus-native code tabs | `{{< code-tabs >}}` + `{{< code-tab >}}` |
-| Card / CardGrid | HTML partial (`docs/partials/cards.html`) or `{% include %}` via macros plugin | `<Card>` + `<CardGrid>` (MDX, global) | `{{< card-grid >}}` + `{{< card >}}` |
-| Hero | partial include | `<Hero>` (MDX) | `{{< hero >}}` |
-| FeatureGrid | partial include | `<FeatureGrid>` | `{{< feature-grid >}}` |
-| Badge | `:badge-experimental:` (via `kotlin-docs-mkdocs-plugin`) | `<Badge variant="experimental">` | `{{< badge variant="experimental" >}}` |
-| HTTP method | inline HTML | `<Method type="get">` | `{{< method type="get" >}}` |
-| Content tabs | `=== "Kotlin"` (Material tabs) | `<Tabs>` + `<TabItem>` | `{{< tabs >}}` + `{{< tab >}}` |
-| Parameter table | Standard Markdown table plus custom classes via `attr_list` | `<Params>` MDX component with array prop | `{{< params >}}` |
+| Component            | Docusaurus                                                        | Hugo                                         |
+| -------------------- | ----------------------------------------------------------------- | -------------------------------------------- |
+| Callout (12 kinds)   | `<Callout type="tip" title="Pro tip">` (MDX, globally registered) | `{{< callout type="tip" title="Pro tip" >}}` |
+| Code block with tabs | `<Tabs>` + `<TabItem>` or Docusaurus-native code tabs             | `{{< code-tabs >}}` + `{{< code-tab >}}`     |
+| Card / CardGrid      | `<Card>` + `<CardGrid>` (MDX, global)                             | `{{< card-grid >}}` + `{{< card >}}`         |
+| Hero                 | `<Hero>` (MDX)                                                    | `{{< hero >}}`                               |
+| FeatureGrid          | `<FeatureGrid>`                                                   | `{{< feature-grid >}}`                       |
+| Badge                | `<Badge variant="experimental">`                                  | `{{< badge variant="experimental" >}}`       |
+| HTTP method          | `<Method type="get">`                                             | `{{< method type="get" >}}`                  |
+| Content tabs         | `<Tabs>` + `<TabItem>`                                            | `{{< tabs >}}` + `{{< tab >}}`               |
+| Parameter table      | `<Params>` MDX component with array prop                          | `{{< params >}}`                             |
 
 ---
 
 ## Related documents
 
 - [`claude-ds-rename.md`](./claude-ds-rename.md) — Mapping from the original flat Claude DS class names to the BEM names used here.
-- [`engine-mappings/mkdocs.md`](./engine-mappings/mkdocs.md) — Internal spec for how `kotlin-docs-mkdocs` remaps Material classes and admonitions to the contract.
 - [`engine-mappings/docusaurus.md`](./engine-mappings/docusaurus.md) — Internal spec for how `@ktdocs/docusaurus-preset` swizzles theme components and remaps Infima variables.
 - [`engine-mappings/hugo.md`](./engine-mappings/hugo.md) — Internal spec for how the Hugo module wires shortcodes and Chroma classes.
 - [`preview/`](./preview/) — Frozen HTML specimens (24 cards) covering brand, colors, typography, spacing, and components. Used as the visual reference for self-docs and regression checks.

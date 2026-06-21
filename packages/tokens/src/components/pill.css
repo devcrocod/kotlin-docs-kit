@@ -1,0 +1,32 @@
+/* ============================================================================
+   Pill button — full-radius compact action. Default is a quiet surface chip;
+   --primary carries the brand. Dark uses a translucent overlay fill (Fleet).
+   ============================================================================ */
+
+.kt-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-sans); font-weight: 500; font-size: 13px; line-height: 1;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--fg-1);
+  border: 1px solid var(--border-1);
+  cursor: pointer; text-decoration: none; white-space: nowrap; user-select: none;
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+.kt-pill:hover { background: var(--surface-3); border-color: var(--border-2); }
+.kt-pill:active { transform: scale(0.97); }
+.kt-pill:focus-visible { outline: none; box-shadow: var(--focus-ring); border-color: var(--color-interactive-border); }
+.kt-pill:disabled, .kt-pill[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.kt-pill--primary { background: var(--kt-teal-500); color: var(--fg-on-brand); border-color: var(--kt-teal-500); }
+.kt-pill--primary:hover { background: var(--kt-teal-600); border-color: var(--kt-teal-600); }
+
+[data-theme="dark"] .kt-pill:not(.kt-pill--primary) { background: var(--overlay-white-4); }
+[data-theme="dark"] .kt-pill:not(.kt-pill--primary):hover { background: var(--overlay-white-7); }
+[data-theme="dark"] .kt-pill--primary:hover { background: var(--kt-teal-400); border-color: var(--kt-teal-400); }

@@ -1,0 +1,11 @@
+{{- /* Segmented control. Pass a comma-separated `options` list and an optional
+       `active` index (default 0). Static markup — wire interactivity in the
+       theme if needed. */ -}}
+{{- $opts := split (.Get "options") "," -}}
+{{- $active := int (.Get "active" | default 0) -}}
+<div class="kt-segmented" role="tablist"{{ with .Get "label" }} aria-label="{{ . }}"{{ end }}>
+  {{- range $i, $o := $opts -}}
+    {{- $sel := eq $i $active -}}
+    <button class="kt-segmented__segment{{ if $sel }} kt-segmented__segment--active{{ end }}" role="tab" aria-selected="{{ if $sel }}true{{ else }}false{{ end }}" type="button">{{ trim $o " " }}</button>
+  {{- end -}}
+</div>

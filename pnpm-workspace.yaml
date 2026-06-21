@@ -1,16 +1,18 @@
 packages:
-  - 'packages/tokens'
-  - 'packages/docusaurus'
-  - 'templates/docusaurus'
-  - 'docs'
+  - "packages/tokens"
+  - "packages/docusaurus"
+  - "packages/docusaurus/__fixtures__/*"
+  - "templates/docusaurus"
+  - "docs"
 
 # Substitute @ktdocs/* deps with the workspace versions for local builds.
 overrides:
-  '@ktdocs/docusaurus-preset': workspace:*
-  '@ktdocs/tokens': workspace:*
+  "@ktdocs/docusaurus-preset": workspace:*
+  "@ktdocs/tokens": workspace:*
 
 # Postinstall scripts disabled for these deps — they aren't needed at runtime
 # (style-dictionary's script is a noop for our usage; glob's is unrelated).
 allowBuilds:
-  '@bundled-es-modules/glob': false
+  "@bundled-es-modules/glob": false
+  core-js: false
   style-dictionary: false

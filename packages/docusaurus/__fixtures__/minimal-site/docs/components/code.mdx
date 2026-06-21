@@ -1,0 +1,52 @@
+---
+title: Code blocks
+description: Premium CodeBlock with title and line highlight, plus CodeTabs.
+---
+
+# Code blocks
+
+## Plain fence with title and line highlight
+
+```kotlin title="App.kt" {2,4-5}
+fun main() {
+    val name = "Kotlin"
+    val greeting = greet(name)
+    println(greeting)
+    println("Powered by @ktdocs/docusaurus-preset")
+}
+```
+
+## Terminal block
+
+```bash
+$ ./gradlew run
+> Task :app:run
+Hello, Kotlin!
+```
+
+## CodeTabs (premium multi-file)
+
+<CodeTabs
+  items={[
+    {
+      label: 'Kotlin',
+      language: 'kotlin',
+      code: `fun greet(name: String): String =
+    "Hello, " + name + "!"`,
+    },
+    {
+      label: 'Java',
+      language: 'java',
+      code: `static String greet(String name) {
+    return "Hello, " + name + "!";
+}`,
+    },
+    {
+      label: 'Groovy',
+      language: 'groovy',
+      code: `static String greet(String name) {
+    return "Hello, $name!"
+}`,
+    },
+  ]}
+/>

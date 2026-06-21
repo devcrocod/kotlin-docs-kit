@@ -7,17 +7,10 @@ import { cssNameFromPath } from './name-utils.mjs';
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, '..');
 
-const typeUtilities = readFileSync(
-  resolve(pkgRoot, 'src/_static/type-utilities.css'),
-  'utf8',
-);
-const elementDefaults = readFileSync(
-  resolve(pkgRoot, 'src/_static/element-defaults.css'),
-  'utf8',
-);
+const typeUtilities = readFileSync(resolve(pkgRoot, 'src/_static/type-utilities.css'), 'utf8');
+const elementDefaults = readFileSync(resolve(pkgRoot, 'src/_static/element-defaults.css'), 'utf8');
 
-const endsWith = (token, suffix) =>
-  token.filePath.replace(/\\/g, '/').endsWith(suffix);
+const endsWith = (token, suffix) => token.filePath.replace(/\\/g, '/').endsWith(suffix);
 
 const FILTERS = {
   primitive: (t) => endsWith(t, 'src/color/primitive.json'),
@@ -95,9 +88,7 @@ export function kitColorsAndTypeFormat({ dictionary }) {
 
   // semantic.dark is skipped by SD (see style-dictionary.config.mjs parsers)
   // because it shares paths with semantic.light; we walk the JSON directly here.
-  const darkDecls = emitDeclsFromJson(
-    resolve(pkgRoot, 'src/color/semantic.dark.json'),
-  );
+  const darkDecls = emitDeclsFromJson(resolve(pkgRoot, 'src/color/semantic.dark.json'));
 
   const families = all.filter(FILTERS.families).map(declLine);
   const scale = all.filter(FILTERS.scale).map(declLine);

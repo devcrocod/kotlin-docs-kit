@@ -1,0 +1,7 @@
+{{- $variant := .Get "variant" | default (.Get 0) -}}
+{{- $href := .Get "href" -}}
+{{- if $href -}}
+<a class="kt-pill{{ with $variant }} kt-pill--{{ . }}{{ end }}" href="{{ $href | relURL }}">{{ .Inner }}</a>
+{{- else -}}
+<button class="kt-pill{{ with $variant }} kt-pill--{{ . }}{{ end }}" type="button">{{ .Inner }}</button>
+{{- end -}}

@@ -1,0 +1,103 @@
+/*
+ * @ktdocs/docusaurus-preset — search re-skin.
+ *
+ * Themes Algolia DocSearch (bundled by @docusaurus/preset-classic) and the
+ * @easyops-cn/docusaurus-search-local theme, both of which render the
+ * `.DocSearch-*` DOM. Loaded after docusaurus-overrides.css.
+ *
+ * DocSearch exposes its own `--docsearch-*` custom properties; mapping those to
+ * kit tokens is the lowest-specificity way to re-skin the modal. Because the
+ * kit tokens already flip under `[data-theme='dark']`, the modal follows the
+ * color mode without a separate dark block — only the fixed scrim is set per
+ * mode. The button itself is restyled to match the kit's `.kt-docs-search`.
+ */
+
+:root {
+  --docsearch-primary-color: var(--color-interactive);
+  --docsearch-text-color: var(--fg-1);
+  --docsearch-muted-color: var(--fg-3);
+  --docsearch-spacing: 12px;
+
+  /* Modal surfaces */
+  --docsearch-modal-background: var(--surface-1);
+  --docsearch-modal-shadow: var(--shadow-lg);
+  --docsearch-container-background: color-mix(in srgb, #0b0d12 55%, transparent);
+
+  /* Searchbox */
+  --docsearch-searchbox-height: 48px;
+  --docsearch-searchbox-background: var(--surface-2);
+  --docsearch-searchbox-focus-background: var(--surface-1);
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--color-interactive);
+
+  /* Hits */
+  --docsearch-hit-height: 44px;
+  --docsearch-hit-color: var(--fg-2);
+  --docsearch-hit-active-color: var(--fg-on-brand);
+  --docsearch-hit-background: var(--surface-1);
+  --docsearch-hit-shadow: none;
+
+  /* ⌘K key chips */
+  --docsearch-key-gradient: linear-gradient(-225deg, var(--surface-3), var(--surface-2));
+  --docsearch-key-shadow: none;
+  --docsearch-key-pressed-shadow: none;
+
+  /* Footer + logo */
+  --docsearch-footer-background: var(--surface-1);
+  --docsearch-footer-shadow: 0 -1px 0 0 var(--border-1);
+  --docsearch-logo-color: var(--color-interactive);
+}
+
+[data-theme='dark'] {
+  /* Slightly deeper scrim over dark surfaces. */
+  --docsearch-container-background: color-mix(in srgb, #000 64%, transparent);
+}
+
+/* ===========================================================================
+ * Navbar search button — match the kit's `.kt-docs-search` field.
+ * ========================================================================= */
+
+.DocSearch-Button {
+  margin: 0;
+  padding: 0 8px 0 12px;
+  height: 36px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  color: var(--fg-3);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  transition: border-color var(--motion-fast) var(--motion-ease);
+}
+.DocSearch-Button:hover {
+  background: var(--surface-1);
+  border-color: var(--border-2);
+  box-shadow: none;
+  color: var(--fg-2);
+}
+.DocSearch-Button:active,
+.DocSearch-Button:focus-visible {
+  outline: none;
+  border-color: var(--color-interactive);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-interactive) 22%, transparent);
+}
+.DocSearch-Search-Icon { width: 16px; height: 16px; color: var(--fg-3); }
+.DocSearch-Button-Placeholder { font-size: 13px; padding: 0 8px; }
+.DocSearch-Button-Keys { min-width: auto; gap: 2px; }
+.DocSearch-Button-Key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0 4px;
+  top: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: 4px;
+  box-shadow: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-2);
+}

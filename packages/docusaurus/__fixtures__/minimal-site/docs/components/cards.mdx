@@ -1,0 +1,31 @@
+---
+title: Cards
+description: Card, CardGrid, and FeatureGrid samples.
+---
+
+# Cards
+
+## Auto-fit grid
+
+<CardGrid>
+  <Card href="#" title="Quickstart" arrow>
+    Run your first Kotlin program in five minutes.
+  </Card>
+  <Card href="#" title="Concepts" arrow>
+    Null safety, coroutines, sealed types, multiplatform.
+  </Card>
+  <Card href="#" title="API reference" arrow>
+    Standard library and framework APIs.
+  </Card>
+  <Card href="#" title="Tutorials" arrow>
+    Build a server, an Android app, a CLI tool.
+  </Card>
+</CardGrid>
+
+## Fixed three-column FeatureGrid
+
+<FeatureGrid cols={3}>
+  <Card title="Server">Spring, Ktor, http4k. Native binary, JVM jar, or container.</Card>
+  <Card title="Mobile">Compose Multiplatform for iOS + Android from a single codebase.</Card>
+  <Card title="Web">Kotlin/JS with React, or Compose for Web.</Card>
+</FeatureGrid>

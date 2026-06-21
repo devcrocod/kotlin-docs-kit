@@ -1,0 +1,619 @@
+/*
+ * @ktdocs/docusaurus-preset — Docusaurus DOM re-skin.
+ *
+ * Re-shapes Infima / theme-classic emitted classes (.navbar, .menu, etc.) so
+ * they visually match the kit's BEM contract (components.md). Together with
+ * components.css this carries ~80% of visual fidelity without React swizzles.
+ * The remaining 20% is handled by wrappers in src/theme/*.
+ */
+
+/* ===========================================================================
+ * Navbar — re-skin .navbar to match .kt-topnav
+ * ========================================================================= */
+
+/* The Navbar swizzle wraps the nav in a `.kt-topnav` host. The design-system
+   `.kt-topnav` component (components.css) is `display:flex`, which shrinks the
+   wrapped Infima `.navbar` to content width — collapsing `space-between` and
+   dropping the right-side group (GitHub + theme toggle + search) into the
+   middle of the bar. Make the wrapper layout-transparent so the navbar fills
+   the bar and the right group sits flush right. All navbar chrome (sticky,
+   border, background, blur) lives on `.navbar` below, so nothing is lost. */
+.kt-topnav { display: contents; }
+
+.navbar {
+  height: var(--docs-header-height);
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border-1);
+  background: var(--ifm-navbar-background-color);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.navbar__brand { gap: 10px; margin-right: 16px; }
+.navbar__title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fg-1);
+}
+.navbar__logo { height: 30px; width: 30px; }
+.navbar__items { gap: 4px; }
+.navbar__link {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg-2);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: color var(--motion-fast) var(--motion-ease),
+              background var(--motion-fast) var(--motion-ease);
+}
+.navbar__link:hover  { color: var(--fg-1); background: var(--surface-2); }
+.navbar__link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.navbar__link--active { color: var(--color-interactive); }
+.navbar__items--right > :not(:last-child) { margin-right: 4px; }
+
+/* Search slot inside navbar */
+.navbar__search,
+.navbar .navbar__search-input {
+  font-family: var(--font-sans);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  color: var(--fg-2);
+}
+
+/* GitHub icon-only link. The navbar item (docusaurus.config.ts, type:'html')
+   renders an <a class="header-github-link"> wrapping an inline <svg
+   fill="currentColor">, so the mark paints reliably and tints with the link
+   color in both color modes (a CSS-mask ::before did not render). */
+.header-github-link {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--fg-2);
+  transition: color var(--motion-fast) var(--motion-ease),
+              background var(--motion-fast) var(--motion-ease);
+}
+.header-github-link:hover { color: var(--fg-1); background: var(--surface-2); }
+.header-github-link svg { width: 20px; height: 20px; display: block; }
+
+/* ===========================================================================
+ * Sidebar — re-skin .menu / .theme-doc-sidebar-* to match .kt-sidenav
+ * ========================================================================= */
+
+.theme-doc-sidebar-container { border-right: 1px solid var(--border-1); }
+.menu {
+  padding: 20px 14px 32px;
+  font-family: var(--font-sans);
+}
+.menu__list { gap: 3px; }
+.menu__list-item:not(:first-child) { margin-top: 0; }
+.menu__list-item-collapsible .menu__link,
+.menu__link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg-2);
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  transition: color var(--motion-fast) var(--motion-ease),
+              background var(--motion-fast) var(--motion-ease),
+              box-shadow var(--motion-fast) var(--motion-ease);
+}
+.menu__link:hover { color: var(--fg-1); background: var(--surface-2); }
+.menu__link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.menu__link--active,
+.menu__link--active:hover {
+  color: var(--color-interactive);
+  background: var(--color-interactive-soft);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 0 var(--color-interactive);
+}
+.menu__list-item-collapsible:hover { background: transparent; }
+.menu__caret::before, .menu__link--sublist-caret::after {
+  background: var(--fg-3);
+  opacity: 0.6;
+}
+
+/* ---- Nav tree redesign ---------------------------------------------------
+ * Top-level categories become mono eyebrow dividers (uppercase, quiet), with
+ * generous top margin to group the tree into clear sections. Nested lists get
+ * a hairline indent guide; sub-category labels read one step stronger than
+ * leaf links. Standalone level-1 links (Introduction, Roadmap, Changelog) keep
+ * the normal link look — they're pages, not sections. */
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link,
+.theme-doc-sidebar-item-category-level-1 > .menu__link {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--fg-3);
+}
+.theme-doc-sidebar-item-category-level-1:not(:first-child) { margin-top: 18px; }
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link:hover {
+  background: transparent;
+  color: var(--fg-2);
+}
+
+/* Indent guide for nested items (level 2+). */
+.menu__list .menu__list {
+  margin-left: 11px;
+  padding-left: 8px;
+  border-left: 1px solid var(--border-1);
+}
+
+/* Nested sub-category labels (e.g. Docusaurus / Hugo / Components). */
+.theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg-1);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ===========================================================================
+ * TOC — re-skin .table-of-contents to match .kt-toc
+ * ========================================================================= */
+
+/* The TOC swizzle wraps Docusaurus's TOC in a `.kt-toc` host. The design-system
+   `.kt-toc` (nav.css) is `display:flex` with its own padding — so the wrapper
+   becomes a short (content-height) box, and the `position:sticky` on the inner
+   `.theme-doc-toc-desktop` can only stick *within that short box*, i.e. it
+   scrolls away almost immediately. Make the wrapper layout-transparent (same
+   trick as `.kt-topnav`) so the sticky column is a direct child of Infima's
+   tall `.col` and sticks against the viewport. Also drops the doubled padding
+   (kt-toc padding + .table-of-contents padding). */
+.kt-toc { display: contents; }
+
+.table-of-contents {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border-left: none;
+  padding: 20px 20px 24px;
+}
+.table-of-contents__left-border { border-left: none; }
+
+/* "On this page" eyebrow above the desktop TOC (Mintlify-style). Scoped to the
+   desktop column so it never shows on the mobile floating TOC. `.table-of-contents`
+   only renders when the page has headings, so the label never appears empty. */
+.theme-doc-toc-desktop .table-of-contents::before {
+  content: 'On this page';
+  display: block;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-3);
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+.table-of-contents__link {
+  color: var(--fg-2);
+  padding: 4px 0 4px 10px;
+  border-left: 2px solid transparent;
+  transition: color var(--motion-fast) var(--motion-ease),
+              border-color var(--motion-fast) var(--motion-ease);
+}
+.table-of-contents__link:hover { color: var(--fg-1); }
+.table-of-contents__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.table-of-contents__link--active {
+  color: var(--color-interactive);
+  border-left-color: var(--color-interactive);
+  font-weight: 500;
+}
+.table-of-contents ul ul .table-of-contents__link {
+  font-size: 12.5px;
+  padding-left: 20px;
+}
+
+/* Mobile floating TOC */
+.theme-doc-toc-mobile { font-size: 13px; }
+
+/* ===========================================================================
+ * Breadcrumbs — .breadcrumbs__item → .kt-crumbs
+ * ========================================================================= */
+
+.breadcrumbs {
+  font-family: var(--font-label); /* IBM Plex Mono — path/route aesthetic */
+  font-size: 12.5px;
+  letter-spacing: -0.01em;
+  color: var(--fg-3);
+}
+.breadcrumbs__item + .breadcrumbs__item::before {
+  content: '/';
+  margin: 0 8px;
+  color: var(--fg-3);
+  opacity: 0.6;
+  background: none;
+}
+.breadcrumbs__link {
+  color: var(--fg-2);
+  padding: 0;
+  background: none;
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.breadcrumbs__link:hover { color: var(--color-link-hover); text-decoration: underline; }
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: none;
+  color: var(--fg-1);
+  font-weight: 500;
+}
+
+/* ===========================================================================
+ * Pagination — .pagination-nav → .kt-docs-pager
+ * ========================================================================= */
+
+.pagination-nav { grid-gap: 12px; margin-top: 48px; }
+.pagination-nav__link {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  background: var(--surface-1);
+  transition: border-color var(--motion-fast) var(--motion-ease),
+              background var(--motion-fast) var(--motion-ease);
+}
+.pagination-nav__link:hover { border-color: var(--color-interactive-border); background: var(--surface-2); }
+.pagination-nav__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-color: var(--color-interactive-border); }
+.pagination-nav__sublabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+}
+.pagination-nav__label {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg-1);
+  margin-top: 4px;
+}
+
+/* ===========================================================================
+ * Default Docusaurus CodeBlock container — re-skin until premium swizzle takes
+ * over. After the swizzle these selectors still apply to nested originals,
+ * which is harmless because our swizzled CodeBlock emits its own .kt-codeblock
+ * host that overrides these styles via components.css.
+ * ========================================================================= */
+
+[class^='codeBlockContainer'] {
+  background: var(--code-bg);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+[class^='codeBlockTitle'] {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-1);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+  padding: 8px 14px;
+}
+[class*='codeBlockLines'] { font-family: var(--font-mono); font-size: var(--type-code-size); }
+[class^='codeBlockContent'] pre { font-family: var(--font-mono); }
+.theme-code-block-highlighted-line {
+  background: var(--code-line-hl);
+  box-shadow: inset 2px 0 0 0 var(--color-interactive);
+}
+[class*='codeLineNumber'] { color: var(--fg-3); opacity: 0.7; }
+
+/* Inline code only. `:not(pre) >` excludes the <code> inside our swizzled
+   .kt-codeblock__body (a direct child of <pre>), which otherwise matched this
+   rule and double-boxed the block body (it ties on specificity with the
+   .kt-codeblock__body code reset but wins by load order). */
+:not(pre) > code:not([class*='codeBlock'])  {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-sm);
+  padding: 0.15em 0.35em;
+  font-size: 0.92em;
+}
+
+/* ===========================================================================
+ * Docusaurus content tabs — .tabs / .tabs__item → kt-tabs look
+ * ========================================================================= */
+
+.tabs {
+  font-family: var(--font-sans);
+  border-bottom: 1px solid var(--border-1);
+  gap: 4px;
+}
+.tabs__item {
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg-2);
+  padding: 8px 12px;
+  margin: 0;
+  border-radius: 0;
+  background: none;
+  transition: color var(--motion-fast) var(--motion-ease),
+              border-color var(--motion-fast) var(--motion-ease);
+}
+.tabs__item:hover { background: none; color: var(--fg-1); }
+.tabs__item:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.tabs__item--active {
+  border-bottom-color: var(--color-interactive);
+  color: var(--color-interactive);
+  background: none;
+}
+
+/* ===========================================================================
+ * Hr, blockquote, tables — make article rhythm match .kt-docs-article
+ * ========================================================================= */
+
+article blockquote {
+  border-left: 3px solid var(--border-2);
+  color: var(--fg-2);
+  padding: 4px 14px;
+  background: none;
+}
+article table { font-family: var(--font-sans); font-size: 14px; }
+article table thead {
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+article hr { border-color: var(--border-1); }
+
+/* ===========================================================================
+ * Docs shell — 3-col grid that mirrors components.md §Docs shell
+ *
+ * Docusaurus emits its own column markup inside the docs route (Infima-hashed
+ * class names like `.docRoot_xxx`, `.docMainContainer_yyy`). Rather than fork
+ * the tree with a heavy swizzle (which destabilises ScrollControllerProvider in
+ * Docusaurus 3.10+), we target those containers directly via attribute
+ * selectors and apply the kit's layout tokens. These hashed classes are only
+ * emitted on docs pages, so non-docs pages keep their default layout.
+ *
+ * These rules stay *unlayered* on purpose: they target hashed Infima classes
+ * and win by source order (this sheet loads after Infima), with no `!important`
+ * to fight — so CSS cascade layers buy nothing here. The only place the kit
+ * uses `@layer` is the importantOverrides block at the foot of this file, which
+ * exists solely to beat Infima's `!important` utility classes.
+ * ========================================================================= */
+
+/* Center the docs shell and apply max shell width. Docusaurus 3.5+ renders the
+   top-level docs container as `.docRoot_<hash>` (the old `.docPage_*` class was
+   removed in 3.x), so target that. */
+[class^='docRoot_'],
+[class*=' docRoot_'] {
+  max-width: var(--docs-shell-max);
+  margin: 0 auto;
+}
+
+/* Left column — sidenav */
+.theme-doc-sidebar-container {
+  width: var(--docs-sidebar-width);
+  flex: 0 0 var(--docs-sidebar-width);
+  position: sticky;
+  top: var(--docs-header-height);
+  align-self: flex-start;
+  height: calc(100vh - var(--docs-header-height));
+  overflow-y: auto;
+}
+
+/* Middle column — main content. Reset Infima padding, apply our own. */
+[class^='docMainContainer_'],
+[class*=' docMainContainer_'] {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 36px 48px 80px;
+}
+
+/* Right column — TOC */
+.theme-doc-toc-desktop {
+  width: var(--docs-toc-width);
+  flex: 0 0 var(--docs-toc-width);
+  position: sticky;
+  top: var(--docs-header-height);
+  align-self: flex-start;
+  max-height: calc(100vh - var(--docs-header-height));
+  overflow-y: auto;
+}
+
+/* Article column — apply the reading measure inside the main slot.
+   `position: relative` makes <article> the containing block for the copy-page
+   button (prepended inside it by the plugin) so we can pin it to the crumb row. */
+[class^='docItemCol_'] article,
+[class*=' docItemCol_'] article {
+  max-width: var(--docs-content-max);
+  position: relative;
+}
+[class^='docItemCol_'] article > p,
+[class*=' docItemCol_'] article > p,
+[class^='docItemCol_'] article > ul,
+[class*=' docItemCol_'] article > ul,
+[class^='docItemCol_'] article > ol,
+[class*=' docItemCol_'] article > ol,
+[class^='docItemCol_'] article > blockquote,
+[class*=' docItemCol_'] article > blockquote {
+  max-width: var(--reading-measure);
+}
+
+/* Breakpoint — collapse TOC below 1024 (matches contract) */
+@media (max-width: 1023.98px) {
+  .theme-doc-toc-desktop { display: none; }
+  [class^='docMainContainer_'],
+  [class*=' docMainContainer_'] {
+    padding: 32px 40px 64px;
+  }
+}
+
+/* Breakpoint — collapse sidebar below 720 (matches contract). Docusaurus
+ * already turns the sidebar into a drawer below its `--ifm-mobile-sidebar`
+ * threshold; we just tighten the main padding to match the kit's contract. */
+@media (max-width: 719.98px) {
+  [class^='docMainContainer_'],
+  [class*=' docMainContainer_'] {
+    padding: 24px 20px 60px;
+  }
+}
+
+/* ===========================================================================
+ * Footer
+ * ========================================================================= */
+
+.footer { background: var(--surface-1); color: var(--fg-2); border-top: 1px solid var(--border-1); }
+.footer__title { color: var(--fg-1); font-size: 13px; font-weight: 600; }
+.footer__link-item { color: var(--fg-2); }
+.footer__link-item:hover { color: var(--color-link-hover); text-decoration: underline; }
+.footer__copyright { color: var(--fg-3); font-size: 12px; }
+
+/* `footer.style: 'dark'` is a fixed-dark footer in *both* color modes, so use
+   non-flipping gray primitives — not `--surface-inverse`/`--fg-*`, which invert
+   in dark mode and would paint a near-white footer with low-contrast text. */
+.footer--dark { background: var(--gray-900); color: var(--gray-300); border-top-color: var(--gray-800); }
+.footer--dark .footer__title { color: var(--gray-0); }
+.footer--dark .footer__link-item { color: var(--gray-300); }
+.footer--dark .footer__link-item:hover { color: var(--gray-0); }
+.footer--dark .footer__copyright { color: var(--gray-400); }
+
+/* ===========================================================================
+ * Versioning — re-skin the version banner + badge to match the kit.
+ *
+ * Docusaurus emits `.theme-doc-version-banner` (carrying Infima `alert
+ * alert--warning`) on outdated/unreleased docs, and `.theme-doc-version-badge`
+ * (Infima `badge`) next to the page title. Both win here by source order at
+ * equal specificity — no `!important` needed. The `docsVersionDropdown` navbar
+ * item reuses `.navbar__link` styling from the Navbar section above.
+ * The `DocVersionBanner` swizzle wraps the original in a `.kt-version-banner`
+ * host for future kit decoration.
+ * ========================================================================= */
+
+.theme-doc-version-banner {
+  background: var(--color-warning-soft);
+  border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent);
+  color: var(--fg-1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  box-shadow: none;
+}
+.theme-doc-version-banner a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.theme-doc-version-badge {
+  background: var(--surface-2);
+  color: var(--fg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ===========================================================================
+ * Copy-page button — themed when the `copyPage` preset option is on.
+ *
+ * docusaurus-plugin-copy-page-button auto-injects the button; the preset passes
+ * it `.kt-copy-page*` class names via its `customStyles` option (see index.ts),
+ * which we re-skin here to kit tokens. No swizzle needed.
+ * ========================================================================= */
+
+.kt-copy-page__btn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-2);
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  transition: border-color var(--motion-fast) var(--motion-ease),
+              background var(--motion-fast) var(--motion-ease),
+              color var(--motion-fast) var(--motion-ease);
+}
+.kt-copy-page__btn:hover {
+  background: var(--surface-2);
+  border-color: var(--border-2);
+  color: var(--fg-1);
+}
+.kt-copy-page__menu {
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+  /* The plugin renders the menu with inline `position: fixed; left: <px>` (no
+     `right`). The kit's shared .kt-copy-page__menu (components.css) sets
+     `right: 0` for Hugo/specimen (absolute, anchored right). Here `left` +
+     `right` would stretch the fixed box across the viewport (~900px wide), so
+     reset `right` and let content/min-width size it. */
+  right: auto;
+  width: max-content;
+  min-width: 260px;
+  max-width: 340px;
+}
+.kt-copy-page__item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-2);
+  border-radius: var(--radius-sm);
+}
+.kt-copy-page__item:hover {
+  background: var(--surface-2);
+  color: var(--fg-1);
+}
+
+/* Placement: the DocBreadcrumbs swizzle wraps the crumbs in `.kt-crumbs`, so the
+   plugin's "insert after breadcrumbs" heuristic misses and it prepends the
+   button as <article>'s first child (above the crumbs). Pull it onto the crumb
+   row, right-aligned. <article> is the positioning context (see docItemCol rule).
+   No positioning is set inline by the plugin (we pass no positioning in
+   customStyles), so these win cleanly. */
+#copy-page-button-container[data-fallback] {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  z-index: 5;
+}
+
+/* ===========================================================================
+ * Kit MDX component adjustments — Docusaurus-side CSS for a couple of kit
+ * components that the shared components.css (in @ktdocs/tokens) does not carry.
+ * ========================================================================= */
+
+/* FeatureGrid — fixed N-column variant. The component sets `--kt-feature-cols`
+   inline and adds `.kt-feature-grid`; this (0,2,0) rule beats the base
+   `.kt-card-grid` auto-fit so the column count applies, while the media query
+   still collapses to a single column on mobile (an inline grid-template-columns
+   could not be overridden by any media query — the bug this replaces). */
+.kt-card-grid.kt-feature-grid {
+  grid-template-columns: repeat(var(--kt-feature-cols, 3), minmax(0, 1fr));
+}
+@media (max-width: 600px) {
+  .kt-card-grid.kt-feature-grid { grid-template-columns: 1fr; }
+}
+
+/* Params — spacing for the "required" badge (replaces a magic inline style). */
+.kt-params__required { margin-inline-start: 6px; }
+
+/* ===========================================================================
+ * importantOverrides — the kit's ONLY cascade layer.
+ *
+ * Docusaurus / Infima do not declare any `@layer`, so the rest of this sheet is
+ * deliberately unlayered and wins by source order. Infima's utility classes
+ * (`.margin-*`, `.text--*`, …) use `!important`, which source order cannot beat.
+ * Per CSS Cascade 5, an `!important` declaration inside a layer outranks an
+ * `!important` declaration outside any layer — so this block is the seam for
+ * overriding those utilities when they leak into kit-themed surfaces.
+ * (Rules targeting classes not present on a page are simply inert.)
+ * ========================================================================= */
+
+@layer docusaurus.infima.importantOverrides {
+  /* Tighten the Infima margin utility inside the version banner's secondary
+     line so it matches the kit's rhythm. */
+  .theme-doc-version-banner .margin-top--md {
+    margin-top: var(--space-2) !important;
+  }
+}

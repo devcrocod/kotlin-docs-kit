@@ -1,0 +1,2 @@
+{{- $on := or (eq (.Get "on") "true") (eq (.Get 0) "on") -}}
+<button class="kt-toggle" type="button" aria-pressed="{{ if $on }}true{{ else }}false{{ end }}">{{ .Inner }}</button>

@@ -1,0 +1,25 @@
+{{- /* Outer container for a multi-file premium code block.
+       Nested code-tab shortcodes write their {lang, title, body} into
+       .Scratch under "tabs" via slice append; we render the wrapper here
+       after .Inner has populated the slice. */ -}}
+{{- $_ := .Inner -}}
+{{- $tabs := .Scratch.Get "tabs" -}}
+<div class="kt-codeblock">
+  <div class="kt-codeblock__header">
+    <div class="kt-codeblock__tabs">
+      {{- range $i, $t := $tabs -}}
+        <button class="kt-codeblock__tab{{ if eq $i 0 }} kt-codeblock__tab--active{{ end }}" data-tab="{{ $i }}" type="button">{{ partial "kt-icon.html" (dict "name" "file" "class" "kt-codeblock__file-icon") }}{{ $t.title }}</button>
+      {{- end -}}
+    </div>
+    <div class="kt-codeblock__actions">
+      <button class="kt-codeblock__action-btn" data-copy type="button">{{ partial "kt-icon.html" "copy" }}<span data-copy-label>copy</span></button>
+    </div>
+  </div>
+  <div class="kt-codeblock__body">
+    {{- range $i, $t := $tabs -}}
+      <div class="kt-codeblock__panel" data-tab="{{ $i }}"{{ if ne $i 0 }} hidden{{ end }}>
+        {{ transform.Highlight (trim $t.body "\n") ($t.lang | lower) "linenos=false" }}
+      </div>
+    {{- end -}}
+  </div>
+</div>

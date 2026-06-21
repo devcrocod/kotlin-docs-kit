@@ -1,0 +1,33 @@
+{{- /* Parameter table.
+       Author supplies rows as "name|type|description" lines in .Inner,
+       one row per line. Empty lines and lines starting with # are ignored. */ -}}
+<table class="kt-params">
+  <thead>
+    <tr><th>Parameter</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    {{- $cutset := " \t" -}}
+    {{- range $line := split (trim .Inner "\n") "\n" -}}
+      {{- $line = trim $line $cutset -}}
+      {{- if and $line (ne (substr $line 0 1) "#") -}}
+        {{- $parts := split $line "|" -}}
+        {{- $name := trim (index $parts 0) $cutset -}}
+        {{- $type := "" -}}
+        {{- $desc := "" -}}
+        {{- if ge (len $parts) 3 -}}
+          {{- $type = trim (index $parts 1) $cutset -}}
+          {{- $desc = trim (index $parts 2) $cutset -}}
+        {{- else if eq (len $parts) 2 -}}
+          {{- $desc = trim (index $parts 1) $cutset -}}
+        {{- end -}}
+        <tr>
+          <td>
+            <code class="kt-params__name">{{ $name }}</code>
+            {{- with $type }}<span class="kt-params__type">{{ . }}</span>{{ end -}}
+          </td>
+          <td>{{ $desc | markdownify }}</td>
+        </tr>
+      {{- end -}}
+    {{- end -}}
+  </tbody>
+</table>

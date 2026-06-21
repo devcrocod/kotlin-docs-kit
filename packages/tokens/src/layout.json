@@ -1,11 +1,15 @@
 {
-  "$description": "Documentation layout defaults. 3-column shell — sidebar (260) · content (max ~720) · TOC (220) — adapted from Mintlify.",
+  "$description": "Documentation layout defaults. Full-width 3-column shell — sidebar (280, flush left) · content (max ~860, centered) · TOC (240, right) — adapted from Mintlify.",
   "docs": {
-    "sidebar-width":  { "$type": "dimension", "$value": "260px" },
-    "toc-width":      { "$type": "dimension", "$value": "220px" },
-    "content-max":    { "$type": "dimension", "$value": "720px" },
-    "shell-max":      { "$type": "dimension", "$value": "1440px" },
-    "header-height":  { "$type": "dimension", "$value": "60px" }
+    "sidebar-width": { "$type": "dimension", "$value": "280px" },
+    "toc-width": { "$type": "dimension", "$value": "240px" },
+    "content-max": { "$type": "dimension", "$value": "860px" },
+    "shell-max": { "$type": "dimension", "$value": "1440px" },
+    "header-height": { "$type": "dimension", "$value": "60px" }
   },
-  "reading-measure": { "$type": "dimension", "$value": "72ch", "$description": "Max prose width in chars for reading comfort." }
+  "reading-measure": {
+    "$type": "dimension",
+    "$value": "72ch",
+    "$description": "Max prose width in chars for reading comfort."
+  }
 }

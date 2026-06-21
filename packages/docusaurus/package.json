@@ -1,0 +1,91 @@
+{
+  "name": "@ktdocs/docusaurus-preset",
+  "version": "0.0.0",
+  "description": "Kotlin-styled Docusaurus 3 preset — themed components, swizzled layout, MDX globals.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/devcrocod/kotlin-docs-kit/tree/main/packages/docusaurus",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devcrocod/kotlin-docs-kit.git",
+    "directory": "packages/docusaurus"
+  },
+  "bugs": "https://github.com/devcrocod/kotlin-docs-kit/issues",
+  "type": "commonjs",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./components": {
+      "types": "./lib/theme/components/index.d.ts",
+      "default": "./lib/theme/components/index.js"
+    },
+    "./tabs": {
+      "types": "./lib/tabs.d.ts",
+      "default": "./lib/tabs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "typecheck": "tsc --noEmit",
+    "build": "pnpm run clean && tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
+    "prepack": "pnpm run build"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^3.5.0",
+    "@docusaurus/preset-classic": "^3.5.0",
+    "@docusaurus/theme-common": "^3.5.0",
+    "@docusaurus/theme-mermaid": "^3.5.0",
+    "@easyops-cn/docusaurus-search-local": "^0.55.0",
+    "@signalwire/docusaurus-plugin-llms-txt": "^1.2.0",
+    "docusaurus-plugin-copy-page-button": "^0.7.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@docusaurus/theme-mermaid": {
+      "optional": true
+    },
+    "@easyops-cn/docusaurus-search-local": {
+      "optional": true
+    },
+    "@signalwire/docusaurus-plugin-llms-txt": {
+      "optional": true
+    },
+    "docusaurus-plugin-copy-page-button": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "clsx": "^2.1.0",
+    "prism-react-renderer": "^2.4.0"
+  },
+  "devDependencies": {
+    "@docusaurus/core": "^3.5.0",
+    "@docusaurus/module-type-aliases": "^3.5.0",
+    "@docusaurus/preset-classic": "^3.5.0",
+    "@docusaurus/theme-classic": "^3.5.0",
+    "@docusaurus/theme-common": "^3.5.0",
+    "@docusaurus/tsconfig": "^3.5.0",
+    "@docusaurus/types": "^3.5.0",
+    "@ktdocs/tokens": "workspace:*",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "~5.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,87 @@
+---
+title: Callouts
+description: All twelve callout kinds — admonition syntax and <Callout> component.
+---
+
+# Callouts
+
+The preset remaps every Docusaurus admonition kind onto the
+`kt-callout--{kind}` BEM modifier and registers seven kit-extras
+(`success`, `caution`, `important`, `quote`, `example`, `deprecated`,
+`experimental`) as admonition keywords. Below — all 12.
+
+## Admonition syntax
+
+:::note Note
+Use for neutral asides — context that's nice to know but not critical.
+:::
+
+:::info Info
+A blue-tinted variant for purely informational content.
+:::
+
+:::tip Tip
+Press <kbd>⌘</kbd>+<kbd>K</kbd> to focus the search input.
+:::
+
+:::success Success
+All migrations completed without rollback.
+:::
+
+:::warning Warning
+`pnpm build` will fail on broken links (`onBrokenLinks: 'throw'`).
+:::
+
+:::caution Caution
+Running this destroys the database — there is no undo.
+:::
+
+:::danger Danger
+Hardcoded credentials are committed to history.
+:::
+
+:::important Important
+Bump the major version when changing the public API.
+:::
+
+:::quote Quote
+"Simplicity is a great virtue but it requires hard work to achieve it." — Edsger Dijkstra
+:::
+
+:::example Example
+Below is a worked example you can copy into your own project.
+:::
+
+:::deprecated Deprecated
+`oldHelper()` is going away in v2. Migrate to `newHelper()`.
+:::
+
+:::experimental Experimental
+This API is unstable. Expect breaking changes before v1.
+:::
+
+## `<Callout>` component
+
+For programmatic kinds — when the type comes from data or you need richer
+children — use the React component:
+
+<Callout type="tip" title="The same kinds via React">
+  Use this form when you need richer children or programmatic types.
+</Callout>
+
+<Callout type="experimental">No title — the body is rendered without a heading row.</Callout>
+
+## Source
+
+```mdx
+:::tip Pro tip
+Press <kbd>⌘</kbd>+<kbd>K</kbd> to focus search.
+:::
+
+<Callout type="experimental">No title — the body renders without a heading row.</Callout>
+```
+
+The seven kit-extras (`success`, `caution`, `important`, `quote`,
+`example`, `deprecated`, `experimental`) are registered automatically by
+the preset — no `admonitions.keywords` entry in `docusaurus.config.ts`
+required.

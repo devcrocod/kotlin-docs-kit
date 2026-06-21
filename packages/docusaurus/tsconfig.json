@@ -1,0 +1,21 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2020",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noEmit": true,
+    "types": ["node", "@docusaurus/module-type-aliases"]
+  },
+  "include": ["src", "scripts"],
+  "exclude": ["lib", "node_modules", "__fixtures__"]
+}

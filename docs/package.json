@@ -1,0 +1,53 @@
+{
+  "name": "@ktdocs/docs-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Self-documentation site for kotlin-docs-kit, built with @ktdocs/docusaurus-preset (dogfood).",
+  "scripts": {
+    "prebuild": "node scripts/prepare-specimens.mjs && node scripts/generate-tokens-mdx.mjs",
+    "start": "pnpm run prebuild && docusaurus start",
+    "build": "pnpm run prebuild && docusaurus build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
+    "typecheck": "tsc --noEmit",
+    "prepare:specimens": "node scripts/prepare-specimens.mjs",
+    "prepare:tokens": "node scripts/generate-tokens-mdx.mjs",
+    "shots": "node scripts/capture-template-shots.mjs"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.5.0",
+    "@docusaurus/plugin-content-docs": "^3.5.0",
+    "@docusaurus/preset-classic": "^3.5.0",
+    "@docusaurus/theme-common": "^3.5.0",
+    "@easyops-cn/docusaurus-search-local": "^0.55.0",
+    "@ktdocs/docusaurus-preset": "workspace:*",
+    "@ktdocs/tokens": "workspace:*",
+    "@signalwire/docusaurus-plugin-llms-txt": "^1.2.0",
+    "clsx": "^2.1.0",
+    "docusaurus-plugin-copy-page-button": "^0.7.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.5.0",
+    "@docusaurus/theme-classic": "^3.5.0",
+    "@docusaurus/tsconfig": "^3.5.0",
+    "@docusaurus/types": "^3.5.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "puppeteer-core": "^25.1.0",
+    "typescript": "~5.6.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome versions",
+      "last 3 firefox versions",
+      "last 5 safari versions"
+    ]
+  }
+}

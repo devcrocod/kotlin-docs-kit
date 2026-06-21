@@ -14,13 +14,10 @@ body:
       label: Affected package
       options:
         - "@ktdocs/tokens"
-        - kotlin-docs-mkdocs
         - "@ktdocs/docusaurus-preset"
         - kotlin-docs-hugo (Hugo module)
-        - mkdocs template
         - docusaurus template
         - hugo template
-        - landing
         - docs (self-docs)
         - other / not sure
     validations:

@@ -1,0 +1,22 @@
+---
+title: Subpath exports
+---
+
+import KtTabs from '@ktdocs/docusaurus-preset/tabs';
+import { Badge, Pill } from '@ktdocs/docusaurus-preset/components';
+
+# Subpath exports
+
+Smoke-checks that the published subpath exports (`./tabs`, `./components`)
+resolve and build. `Tabs` / `TabItem` are registered globally by the preset, so
+only the data presets and named components are imported.
+
+<p>
+  <Badge variant="success">components export</Badge> <Pill>pill export</Pill>
+</p>
+
+<Tabs groupId="os" values={KtTabs.os} defaultValue={KtTabs.defaultOs}>
+  <TabItem value="macos">macOS default branch</TabItem>
+  <TabItem value="windows">Windows default branch</TabItem>
+  <TabItem value="linux">Linux default branch</TabItem>
+</Tabs>

@@ -1,0 +1,30 @@
+/* ============================================================================
+   Toggle button — on/off press state. The pressed state uses the interaction
+   accent (teal in dark, purple in light) via --color-interactive*.
+   Drive the state with aria-pressed="true" (canonical) or the --on modifier.
+   ============================================================================ */
+
+.kt-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-sans); font-weight: 500; font-size: 13px; line-height: 1;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  color: var(--fg-2);
+  border: 1px solid var(--border-1);
+  cursor: pointer; white-space: nowrap; user-select: none;
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease);
+}
+.kt-toggle:hover { color: var(--fg-1); background: var(--surface-2); }
+.kt-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kt-toggle:disabled, .kt-toggle[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+.kt-toggle[aria-pressed="true"], .kt-toggle--on {
+  background: var(--color-interactive-soft);
+  color: var(--color-interactive);
+  border-color: var(--color-interactive-border);
+}

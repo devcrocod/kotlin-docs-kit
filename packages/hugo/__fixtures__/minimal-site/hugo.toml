@@ -1,0 +1,39 @@
+baseURL = "/"
+title = "kt-test"
+
+[languages]
+  [languages.en]
+    locale = "en-us"
+    weight = 1
+
+[params]
+  version = "0.0.0"
+  author = "kotlin-docs-kit"
+
+# Enables the theme's AI-friendly endpoints. Hugo merges [outputFormats] from the
+# theme module but NOT [outputs], so the consuming site must opt in here (see
+# config/_default/hugo.toml in the theme). This exercises copy-page (per-page MD
+# twins), /llms.txt and /llms-full.txt in the smoke test.
+[outputs]
+  home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+  section = ["HTML", "RSS", "MD"]
+  page = ["HTML", "MD"]
+
+[module]
+  [[module.imports]]
+    path = "github.com/devcrocod/kotlin-docs-kit/packages/hugo"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+    style = "github"
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[[menu.main]]
+  name = "Docs"
+  url = "/"
+  weight = 1

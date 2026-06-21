@@ -1,0 +1,13 @@
+{{- /* /llms.txt — an index of the site's docs for LLMs (https://llmstxt.org). */ -}}
+{{- printf "# %s\n\n" .Site.Title -}}
+{{- with .Site.Params.description }}{{- printf "> %s\n\n" . -}}{{- end -}}
+{{- range .Site.Sections.ByWeight -}}
+{{- printf "## %s\n\n" .Title -}}
+{{- with .Description }}{{- printf "%s\n\n" . -}}{{- end -}}
+{{- range .Pages.ByWeight -}}
+{{- printf "- [%s](%s)" .Title .Permalink -}}
+{{- with .Description }}{{- printf ": %s" . -}}{{- end -}}
+{{- printf "\n" -}}
+{{- end -}}
+{{- printf "\n" -}}
+{{- end -}}

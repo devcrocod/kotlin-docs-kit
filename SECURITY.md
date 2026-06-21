@@ -15,7 +15,7 @@ Please **do not** report security vulnerabilities through public GitHub issues o
 To help triage and respond quickly, please include:
 
 - A description of the vulnerability
-- Affected package (`@ktdocs/tokens`, `kotlin-docs-mkdocs`, `@ktdocs/docusaurus-preset`, `kotlin-docs-hugo`, a template, or the landing page)
+- Affected package (`@ktdocs/tokens`, `@ktdocs/docusaurus-preset`, `kotlin-docs-hugo`, a template, or the landing page)
 - Steps to reproduce
 - The potential impact
 - Any suggested fixes (optional)

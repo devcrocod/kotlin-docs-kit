@@ -15,6 +15,7 @@ const STYLE = 'normal';
 
 const SPEC = [
   { family: 'ibm-plex-sans', weights: [400, 500, 600, 700] },
+  { family: 'ibm-plex-mono', weights: [400, 500] },
   { family: 'jetbrains-mono', weights: [400, 500, 700] },
 ];
 

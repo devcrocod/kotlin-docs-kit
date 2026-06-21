@@ -1,0 +1,44 @@
+{{- /* Card. Optional icon: a known icon name (resolved via partials/kt-icon.html)
+       or a raw inline <svg…>. A missing/empty/unknown icon emits NO icon box. */ -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $href := .Get "href" | default "" -}}
+{{- $iconParam := .Get "icon" | default "" -}}
+{{- $hoverable := or (eq (.Get "hoverable") "true") (ne $href "") -}}
+{{- $tag := cond (ne $href "") "a" "div" -}}
+{{- $iconHTML := "" -}}
+{{- with $iconParam -}}
+  {{- if hasPrefix . "<" -}}{{- $iconHTML = . -}}{{- else -}}{{- $iconHTML = partial "kt-icon.html" . -}}{{- end -}}
+{{- end -}}
+{{- $body := "" -}}
+{{- with .Inner -}}{{- $body = . | markdownify -}}{{- end -}}
+{{- /* Resolve href: external/anchor/mailto pass through; root-absolute via
+       relURL; bare-relative & ../ resolved against THIS page's URL — so section
+       cards like href="installation/" land under the section and the sub-path
+       baseURL is preserved. relURL alone resolves from the site root → 404.
+       Resolve against the canonical HTML permalink, NOT .Page.RelPermalink: when
+       this shortcode renders inside an .md output twin (list.md/single.md) the
+       latter is the page's .md path (…/index.md), which would otherwise yield a
+       broken …/index.md/installation/ link. */ -}}
+{{- $resolved := $href -}}
+{{- $base := $.Page.RelPermalink -}}
+{{- with $.Page.OutputFormats.Get "html" -}}{{- $base = .RelPermalink -}}{{- end -}}
+{{- with $href -}}
+  {{- if or (hasPrefix . "http") (hasPrefix . "#") (hasPrefix . "mailto:") -}}
+    {{- $resolved = . -}}
+  {{- else if hasPrefix . "/" -}}
+    {{- $resolved = . | relURL -}}
+  {{- else -}}
+    {{- $resolved = urls.JoinPath $base . -}}
+    {{- if not (hasSuffix $resolved "/") -}}{{- $resolved = printf "%s/" $resolved -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- printf `<%s class="kt-card%s"%s>%s%s%s%s</%s>`
+    $tag
+    (cond $hoverable " kt-card--hoverable" "")
+    (cond (ne $href "") (printf ` href=%q` $resolved) "")
+    (cond (ne (printf "%s" $iconHTML) "") (printf `<div class="kt-card__icon">%s</div>` $iconHTML) "")
+    (cond (ne $title "") (printf `<h3 class="kt-card__title">%s</h3>` (htmlEscape $title)) "")
+    (cond (ne (printf "%s" $body) "") (printf `<p class="kt-card__body">%s</p>` $body) "")
+    (cond (ne $href "") `<span class="kt-card__arrow">→</span>` "")
+    $tag
+  | safeHTML -}}

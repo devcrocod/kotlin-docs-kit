@@ -1,0 +1,26 @@
+---
+title: Spacing & shadow
+sidebar_position: 4
+---
+
+# Spacing & shadow
+
+A 4 px grid, six corner radii, four elevation shadows.
+
+## Spacing scale
+
+`--space-0` through `--space-24`. 15 steps spanning 0 / 1px / 2px / 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 / 80 / 96.
+
+<Specimen src="spacing-scale" height={380} title="Spacing scale (4px grid)" />
+
+## Corner radii
+
+Six steps: `none`, `sm` (4), `md` (6), `lg` (8), `xl` (12), `full` (9999).
+
+<Specimen src="spacing-radius" height={220} title="Radius scale" />
+
+## Shadow
+
+Four elevation shadows (`xs`, `sm`, `md`, `lg`) plus a dedicated `brand-glow` for hero accents. Light and dark themes ship distinct values — shadows on `--surface-1` need different falloff at light vs. dark backgrounds.
+
+<Specimen src="spacing-shadow" height={300} title="Shadow scale" />

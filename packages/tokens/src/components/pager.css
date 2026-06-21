@@ -16,10 +16,10 @@
   color: var(--fg-1);
   transition: border-color var(--motion-fast) var(--motion-ease), background var(--motion-fast) var(--motion-ease);
 }
-.kt-docs-pager__link:hover { border-color: var(--kt-purple-300); background: var(--surface-1); }
+.kt-docs-pager__link:hover { border-color: var(--color-interactive-border); background: var(--surface-1); }
 .kt-docs-pager__link--next { text-align: right; }
 .kt-docs-pager__direction {
-  font-family: var(--font-mono); font-size: 11px;
+  font-family: var(--font-label); font-size: 11px;
   color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.06em;
 }
 .kt-docs-pager__title {

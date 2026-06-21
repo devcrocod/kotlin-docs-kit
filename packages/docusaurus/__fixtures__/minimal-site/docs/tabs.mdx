@@ -1,0 +1,25 @@
+---
+title: Content tabs
+description: Docusaurus <Tabs> / <TabItem> re-skinned to .kt-tabs.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Content tabs
+
+Use Docusaurus' built-in `<Tabs>` / `<TabItem>` for prose tabs (e.g. Kotlin / Java side-by-side
+explanations). The CSS re-skin in `docusaurus-overrides.css` reshapes them to match the kit's
+`.kt-tabs` look.
+
+<Tabs>
+  <TabItem value="kotlin" label="Kotlin" default>
+    Kotlin uses **trailing lambdas** and **named arguments** for fluent builders.
+  </TabItem>
+  <TabItem value="java" label="Java">
+    Java relies on the **Builder pattern** with chained setters.
+  </TabItem>
+  <TabItem value="groovy" label="Groovy">
+    Groovy supports **dynamic invocation** and runtime metaprogramming.
+  </TabItem>
+</Tabs>

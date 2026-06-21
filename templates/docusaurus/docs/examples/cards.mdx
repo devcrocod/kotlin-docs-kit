@@ -1,0 +1,106 @@
+---
+title: Cards & feature grids
+description: Card, CardGrid, FeatureGrid, Hero samples.
+---
+
+# Cards & feature grids
+
+`<Card>`, `<CardGrid>`, `<FeatureGrid>` and `<Hero>` are first-class MDX
+components — no inline HTML required.
+
+## Auto-fit card grid
+
+`<CardGrid>` is the auto-fit `.kt-card-grid` — column count adapts to the
+container width.
+
+<CardGrid>
+  <Card href="../guides/basic-usage" title="Author guide" arrow>
+    MDX admonitions, content tabs, premium code blocks.
+  </Card>
+  <Card href="../guides/customization" title="Customise" arrow>
+    CSS variable overrides, logo swap, swizzling.
+  </Card>
+  <Card href="../getting-started/deploy" title="Deploy" arrow>
+    Ship to GitHub Pages on every push.
+  </Card>
+  <Card href="../reference/tokens" title="Tokens" arrow>
+    All `--kt-*` variables, in one table.
+  </Card>
+  <Card href="../reference/components" title="Components" arrow>
+    16 BEM groups shared across engines.
+  </Card>
+  <Card href="callouts" title="Callouts" arrow>
+    12 variants — note, tip, warning, danger, deprecated, …
+  </Card>
+</CardGrid>
+
+## Fixed three-column FeatureGrid
+
+`<FeatureGrid cols={3}>` pins the column count regardless of viewport
+width — useful for landing-page feature sections.
+
+<FeatureGrid cols={3}>
+  <Card title="Server">Spring, Ktor, http4k. Native binary, JVM jar, or container.</Card>
+  <Card title="Mobile">Compose Multiplatform for iOS + Android from a single codebase.</Card>
+  <Card title="Web">Kotlin/JS with React, or Compose for Web.</Card>
+</FeatureGrid>
+
+## Single card
+
+A standalone card outside a grid uses the same `<Card>` component:
+
+<Card href="../getting-started/installation" title="Get started in 60 seconds" arrow>
+  Install @ktdocs/docusaurus-preset, wire it into `docusaurus.config.ts`, and ship your first page.
+</Card>
+
+## Hero
+
+The hero matches the surface used on the home page. Pair it with a
+`<CardGrid>` or `<FeatureGrid>` underneath.
+
+<Hero
+  title="Kotlin-styled docs,"
+  gradient="powered by Docusaurus."
+  tagline="Built on @ktdocs/docusaurus-preset — Kotlin palette, premium code blocks, and visual parity with the Hugo flavour."
+  actions={
+    <>
+      <a className="kt-button kt-button--primary" href="../getting-started/installation">
+        Get started
+      </a>
+      <a className="kt-button kt-button--ghost" href="../guides/customization">
+        Customise
+      </a>
+    </>
+  }
+/>
+
+## Source
+
+```mdx
+<CardGrid>
+  <Card href="/getting-started/installation" title="Getting started" arrow>
+    Install and ship your first page.
+  </Card>
+</CardGrid>
+
+<FeatureGrid cols={3}>
+  <Card title="Server">…</Card>
+  <Card title="Mobile">…</Card>
+  <Card title="Web">…</Card>
+</FeatureGrid>
+
+<Hero
+  title="Kotlin-styled docs,"
+  gradient="powered by Docusaurus."
+  tagline="…"
+  actions={
+    <a className="kt-button kt-button--primary" href="…">
+      Get started
+    </a>
+  }
+/>
+```
+
+Drop the `href` to render a non-link card. Drop `arrow` to skip the
+trailing arrow glyph. `<Card>` becomes `<a>` when `href` is set and `<div>`
+otherwise — both render the same BEM block.

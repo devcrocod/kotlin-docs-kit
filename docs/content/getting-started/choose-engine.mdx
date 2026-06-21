@@ -1,0 +1,41 @@
+---
+title: Choose your engine
+sidebar_position: 1
+---
+
+# Choose your engine
+
+The kit ships two engine implementations of the same visual system. They are functionally interchangeable for the **rendered docs**, but the **authoring** and **build** experience differs. Pick the one that fits your team and stack.
+
+## At a glance
+
+| Aspect                    | Docusaurus                                                 | Hugo                                     |
+| ------------------------- | ---------------------------------------------------------- | ---------------------------------------- |
+| Language                  | Node.js / React                                            | Go                                       |
+| Authoring                 | MDX (Markdown + JSX)                                       | Markdown + Hugo shortcodes               |
+| Component embeds          | `<Callout type="tip"/>`, full React components in pages    | `{{< callout type="note" >}}` shortcodes |
+| Build speed (medium site) | Moderate                                                   | Very fast                                |
+| JS interactivity          | First-class (React)                                        | Minimal (vanilla)                        |
+| Package manager           | `npm` / `pnpm` / `yarn`                                    | `hugo mod` (Go modules)                  |
+| Customization             | Swizzling (full React control)                             | Layout lookup order                      |
+| API reference fit         | Good with `@docusaurus/plugin-content-docs` + Dokka recipe | Good for static API HTML                 |
+
+## Recommended defaults
+
+<Callout type="tip" title="When in doubt, pick Docusaurus">
+  The Docusaurus preset is the most dogfooded path in this kit (this very site uses it). MDX lets you embed kit
+  components like `<Hero />
+  `, `<Specimen />
+  `, and `<CodeTabs />` directly inline without leaving Markdown.
+</Callout>
+
+- **You want components inside content (interactive demos, custom widgets) and you're comfortable with React.** Go with **Docusaurus**.
+- **You're optimizing for static-site speed and Go ergonomics, or you already host a Hugo site.** Go with **Hugo**.
+
+## Decision tree
+
+1. **Already running one of the two?** Use that one.
+2. **Need React components in pages (interactive demos, complex tables, Playground embeds)?** → Docusaurus.
+3. **Pure Markdown shop, want the fastest builds?** → Hugo.
+
+Both engines share the same look — visual decisions don't depend on this choice.

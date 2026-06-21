@@ -1,0 +1,68 @@
+# Build the dogfood docs site (docs/) from the monorepo and publish it to the
+# repo's own GitHub Pages at https://devcrocod.github.io/kotlin-docs-kit/.
+#
+# The homepage (docs/content/intro.mdx) doubles as the project landing page.
+# Everything is built in-repo, so `workspace:*` deps resolve natively — no
+# mirror repo, no subtree split, no workspace-protocol rewrite.
+#
+# Setup (one-time): Settings → Pages → Source: GitHub Actions.
+
+name: Deploy docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "packages/docusaurus/**"
+      - "packages/tokens/**"
+      - ".github/workflows/deploy-docs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Node deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build docs site
+        run: task docs:build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/build
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

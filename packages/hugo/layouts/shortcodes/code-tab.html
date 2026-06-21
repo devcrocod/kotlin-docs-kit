@@ -1,0 +1,6 @@
+{{- /* Inner — appends {title, lang, body} to the parent's "tabs" scratch
+       slice. Renders nothing; the parent code-tabs shortcode reads the
+       slice after .Inner has been evaluated and emits the markup. */ -}}
+{{- $title := .Get "title" | default (.Get "lang") | default "code" -}}
+{{- $lang := .Get "lang" | default "" -}}
+{{- .Parent.Scratch.Add "tabs" (slice (dict "title" $title "lang" $lang "body" .Inner)) -}}

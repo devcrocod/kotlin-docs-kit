@@ -1,0 +1,206 @@
+---
+title: Basic usage
+description: MDX, admonitions, content tabs, code tabs, cards — engine-idiomatic.
+---
+
+# Basic usage
+
+The starter is engine-idiomatic MDX — anything that works in Docusaurus 3
+works here, plus the kit's MDX component set registered globally. This page
+is a fast tour; for the visual spec see the
+[components reference](../reference/components.mdx).
+
+## Pages and navigation
+
+Drop files under `docs/` and register them in `sidebars.ts`. Section index
+pages use the `link: { type: 'doc', id: '...' }` form:
+
+```ts
+{
+  type: 'category',
+  label: 'Guides',
+  link: { type: 'doc', id: 'guides/basic-usage' },
+  items: ['guides/basic-usage', 'guides/customization'],
+}
+```
+
+## Callouts
+
+All 12 callout kinds are exposed two ways. Admonition syntax is the most
+ergonomic for plain prose:
+
+```markdown
+:::tip Pro tip
+Press <kbd>⌘</kbd>+<kbd>K</kbd> to focus the search input.
+:::
+
+:::deprecated Going away in v2
+This API will be removed. Migrate to `newApi()`.
+:::
+```
+
+:::note
+A bare note with no title.
+:::
+
+:::tip Pro tip
+Press <kbd>⌘</kbd>+<kbd>K</kbd> to focus the search input.
+:::
+
+:::warning Watch out
+`pnpm build` will fail on broken links (`onBrokenLinks: 'throw'`).
+:::
+
+:::deprecated Going away in v2
+This helper will be removed once we ship the typed API.
+:::
+
+The seven extras (`success`, `caution`, `important`, `quote`, `example`,
+`deprecated`, `experimental`) are registered automatically by the preset.
+You don't need to add `admonitions.keywords` to your config.
+
+For programmatic types — e.g. when the kind comes from data — use the
+`<Callout>` component:
+
+<Callout type="experimental" title="Beta feature">
+  This API is unstable. Expect breaking changes before v1.
+</Callout>
+
+## Code blocks
+
+Fenced blocks render through the kit's swizzled `CodeBlock`. It supports the
+standard Docusaurus metastring (title, line highlight, line numbers):
+
+````markdown
+```kotlin title="App.kt" {2,4-5} showLineNumbers
+fun main() {
+    val name = "Kotlin"
+    val greeting = greet(name)
+    println(greeting)
+    println("Powered by @ktdocs/docusaurus-preset")
+}
+```
+````
+
+```kotlin title="App.kt" {2,4-5} showLineNumbers
+fun main() {
+    val name = "Kotlin"
+    val greeting = greet(name)
+    println(greeting)
+    println("Powered by @ktdocs/docusaurus-preset")
+}
+```
+
+`bash`, `shell`, `sh`, `zsh`, `console`, and `terminal` blocks automatically
+get the `.kt-codeblock--terminal` look:
+
+```bash
+$ ./gradlew run
+> Task :app:run
+Hello, Kotlin!
+```
+
+For multi-file premium code blocks (file tabs in one shared border), use
+`<CodeTabs>`:
+
+```mdx
+<CodeTabs
+  items={[
+    { label: 'Kotlin', language: 'kotlin', code: 'fun main() = println("Hello")' },
+    { label: 'Java', language: 'java', code: 'System.out.println("Hello");' },
+  ]}
+/>
+```
+
+<CodeTabs
+  items={[
+    { label: 'Kotlin', language: 'kotlin', code: 'fun main() = println("Hello")' },
+    { label: 'Java', language: 'java', code: 'System.out.println("Hello");' },
+  ]}
+/>
+
+## Content tabs
+
+For prose tabs (e.g. macOS / Linux / Windows install instructions), use
+Docusaurus' built-in `<Tabs>` / `<TabItem>`. The kit's overrides re-skin
+their DOM to match `.kt-tabs`:
+
+```mdx
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="mac" label="macOS" default>
+    Use Homebrew: `brew install pnpm`
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+    Use your distro's package manager.
+  </TabItem>
+  <TabItem value="win" label="Windows">
+    Use Scoop or winget.
+  </TabItem>
+</Tabs>
+```
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="mac" label="macOS" default>
+    Use Homebrew: `brew install pnpm`
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+    Use your distro's package manager.
+  </TabItem>
+  <TabItem value="win" label="Windows">
+    Use Scoop or winget.
+  </TabItem>
+</Tabs>
+
+## Parameter tables
+
+`<Params>` renders an API-reference style table with type and required
+markers:
+
+```mdx
+<Params
+  items={[
+    { name: 'name', type: 'string', description: "The user's display name." },
+    { name: 'id', type: 'string', required: true, description: 'Unique identifier.' },
+  ]}
+/>
+```
+
+<Params
+  items={[
+    { name: 'name', type: 'string', description: "The user's display name." },
+    { name: 'id', type: 'string', required: true, description: 'Unique identifier.' },
+  ]}
+/>
+
+## Cards, hero, feature grid
+
+Cards and the feature grid are first-class MDX components — no inline HTML
+required:
+
+```mdx
+<CardGrid>
+  <Card href="/getting-started/installation" title="Getting started" arrow>
+    Install and ship your first page.
+  </Card>
+</CardGrid>
+```
+
+See the [cards example](../examples/cards.mdx) for hero, feature-grid and
+single-card variants.
+
+## Inline labels
+
+`<Badge>`, `<Method>` and `<Tag>` cover the inline pill use cases:
+
+```mdx
+<Badge variant="info">new</Badge>
+<Method type="get" /> `/users/{id}`<Tag>prerelease</Tag>
+```
+
+<Badge variant="info">new</Badge> <Method type="get" /> `/users/{id}` <Tag>prerelease</Tag>

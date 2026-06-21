@@ -1,0 +1,35 @@
+{{- /* Code block render hook — wraps every fenced ```block``` in the
+       .kt-codeblock BEM contract (docs/contracts/components.md), matching
+       shortcodes/code-tabs.html for single-file blocks. Plain Markdown fences
+       would otherwise emit bare Chroma output with no card chrome.
+
+       Highlighting — including opt-in line numbers ({linenos=table}) and line
+       highlighting ({hl_lines="2 4-5"}) — is delegated to
+       transform.HighlightCodeBlock, which honours .Options merged with the
+       site's [markup.highlight] config (lineNos=false ⇒ numbers are opt-in).
+
+       A `title=` / `file=` attribute turns the lang label into a filename tab;
+       terminal languages get the dark --terminal modifier. The copy button is
+       wired by assets/js/theme.js ([data-copy]). */ -}}
+{{- $lang := .Type | default "text" -}}
+{{- $terminal := in (slice "bash" "sh" "shell" "zsh" "console" "terminal") (lower $lang) -}}
+{{- $title := or .Attributes.title .Attributes.file -}}
+<div class="kt-codeblock{{ if $terminal }} kt-codeblock--terminal{{ end }}">
+  <div class="kt-codeblock__header">
+    {{- if $title -}}
+    <div class="kt-codeblock__tabs">
+      <button class="kt-codeblock__tab kt-codeblock__tab--active" type="button">{{ partial "kt-icon.html" (dict "name" "file" "class" "kt-codeblock__file-icon") }}{{ $title }}</button>
+    </div>
+    {{- else if $terminal -}}
+    <span class="kt-codeblock__lang">{{ partial "kt-icon.html" "terminal" }}{{ $lang }}</span>
+    {{- else -}}
+    <span class="kt-codeblock__lang">{{ partial "kt-icon.html" "code" }}{{ $lang }}</span>
+    {{- end -}}
+    <div class="kt-codeblock__actions">
+      <button class="kt-codeblock__action-btn" data-copy type="button">{{ partial "kt-icon.html" "copy" }}<span data-copy-label>copy</span></button>
+    </div>
+  </div>
+  <div class="kt-codeblock__body">
+    {{- (transform.HighlightCodeBlock .).Wrapped -}}
+  </div>
+</div>

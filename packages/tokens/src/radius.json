@@ -2,10 +2,10 @@
   "$description": "Border-radius scale. Documentation feels structural — avoid heavy rounding. Buttons/inputs use md; cards and code blocks use lg.",
   "radius": {
     "none": { "$type": "dimension", "$value": "0" },
-    "sm":   { "$type": "dimension", "$value": "4px",    "$description": "Inline code, tags, pills." },
-    "md":   { "$type": "dimension", "$value": "6px",    "$description": "Buttons, inputs, callouts." },
-    "lg":   { "$type": "dimension", "$value": "8px",    "$description": "Cards, code blocks." },
-    "xl":   { "$type": "dimension", "$value": "12px",   "$description": "Hero containers, modals." },
+    "sm": { "$type": "dimension", "$value": "4px", "$description": "Inline code, tags, pills." },
+    "md": { "$type": "dimension", "$value": "6px", "$description": "Buttons, inputs, callouts." },
+    "lg": { "$type": "dimension", "$value": "8px", "$description": "Cards, code blocks." },
+    "xl": { "$type": "dimension", "$value": "12px", "$description": "Hero containers, modals." },
     "full": { "$type": "dimension", "$value": "9999px" }
   }
 }

@@ -4,6 +4,7 @@
 
 .kt-docs-article {
   max-width: var(--docs-content-max);
+  margin-inline: auto;
   font-family: var(--font-sans);
 }
 .kt-docs-article > * + * { margin-top: 16px; }

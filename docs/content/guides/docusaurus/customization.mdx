@@ -1,0 +1,72 @@
+---
+title: Customization
+sidebar_position: 3
+---
+
+# Docusaurus · Customization
+
+The kit follows a [layered model](../../customization/layers.mdx) — start with the cheapest layer that fits.
+
+## Layer 1 — Docusaurus config
+
+Site title, logo, navbar items, footer, color mode — all in `docusaurus.config.ts`. No kit-specific changes required.
+
+## Layer 2 — CSS variable override
+
+Add a custom CSS file and pass it to the preset:
+
+```ts
+presets: [
+  [
+    '@ktdocs/docusaurus-preset',
+    {
+      theme: { customCss: require.resolve('./src/css/brand.css') },
+    },
+  ],
+];
+```
+
+```css
+/* src/css/brand.css */
+:root {
+  --kt-purple-500: #7b61ff;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+[data-theme='dark'] {
+  --surface-1: #0c0d11;
+}
+```
+
+The kit's CSS loads **before** yours, so your overrides win without `!important`.
+
+## Layer 3 — Swizzle a theme component
+
+Docusaurus' swizzle CLI works the same way for kit components as for `theme-classic`:
+
+```bash
+pnpm docusaurus swizzle @ktdocs/docusaurus-preset Navbar --wrap
+```
+
+The wrap form keeps the kit's behaviour and lets you add your own decoration around it.
+
+## What is already swizzled
+
+The preset swizzles these components — re-swizzling them in your site is fine, but use the `--wrap` form so you don't lose the kit's behaviour:
+
+- `Navbar`, `Footer`, `TOC`, `DocSidebar`, `DocBreadcrumbs`, `DocPaginator`, `DocVersionBanner` — thin wrappers that add a `.kt-*` host class for the CSS re-skin
+- `CodeBlock` — premium codeblock with language label, copy button, line highlighting
+- `MDXComponents` — global registry for `Callout`, `Card`, `Hero`, `CodeTabs`, `Targets`, `Specimen`, etc.
+- `Admonition/Types` — registers the seven extra admonition keywords (`success`, `caution`, `important`, `quote`, `example`, `deprecated`, `experimental`) with the kit's icons and `theme-admonition-<type>` classes
+
+The 3-column docs shell is **not** a swizzle — it's applied through attribute selectors in `docusaurus-overrides.css`. The optional "copy page" button is injected by `docusaurus-plugin-copy-page-button` (also no swizzle) and themed via the `.kt-copy-page*` classes.
+
+<Callout type="caution" title="Self-import recursion">
+  When you swizzle a kit component, the generated stub imports from `@theme-original/X`. Inside a third-party preset
+  that resolves back into the same preset and crashes the build. The kit itself uses `@theme-init/X` for its swizzles to
+  avoid this; mirror that pattern if you re-swizzle from within another preset.
+</Callout>
+
+## Layer 4 — Token override
+
+Fork or override the source DTCG tokens, run the kit's Style Dictionary pipeline, ship the rebuilt CSS. Documented in [Token overrides](../../customization/token-overrides.mdx). Advanced path, not the recommended first step.

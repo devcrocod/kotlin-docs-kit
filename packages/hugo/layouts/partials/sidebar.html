@@ -1,0 +1,21 @@
+<nav class="kt-sidenav" aria-label="Section navigation">
+  {{ $current := .RelPermalink }}
+  {{ $sections := .Site.Sections }}
+  {{ if $sections }}
+    {{ range $sections }}
+      <div class="kt-sidenav__section">
+        <a class="kt-sidenav__sec-label{{ if eq $current .RelPermalink }} kt-sidenav__sec-label--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ range .Pages }}
+          <a class="kt-sidenav__item{{ if eq $current .RelPermalink }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+  {{ else }}
+    <div class="kt-sidenav__section">
+      <div class="kt-sidenav__sec-label">{{ .Site.Title }}</div>
+      {{ range .Site.RegularPages }}
+        <a class="kt-sidenav__item{{ if eq $current .RelPermalink }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+    </div>
+  {{ end }}
+</nav>

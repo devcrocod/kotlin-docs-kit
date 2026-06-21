@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "ff5815ad3397a394464bafb1aaee1f700e34a57b",
+  "packages": {
+    "packages/docusaurus": {
+      "release-type": "node",
+      "package-name": "@ktdocs/docusaurus-preset",
+      "component": "docusaurus",
+      "changelog-path": "CHANGELOG.md"
+    },
+    "packages/hugo": {
+      "release-type": "go",
+      "package-name": "kotlin-docs-hugo",
+      "component": "hugo",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": true
+    }
+  },
+  "separate-pull-requests": false,
+  "include-component-in-tag": false,
+  "pull-request-title-pattern": "chore: release ${component} ${version}",
+  "changelog-sections": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "revert", "section": "Reverts" },
+    { "type": "docs", "section": "Documentation", "hidden": false },
+    { "type": "refactor", "section": "Code Refactoring", "hidden": true },
+    { "type": "test", "section": "Tests", "hidden": true },
+    { "type": "build", "section": "Build System", "hidden": true },
+    { "type": "ci", "section": "Continuous Integration", "hidden": true },
+    { "type": "chore", "section": "Miscellaneous", "hidden": true },
+    { "type": "style", "section": "Styles", "hidden": true }
+  ]
+}

@@ -117,9 +117,17 @@ your-site/
 Re-style Hugo's `.TableOfContents` `<ul>` to match `.toc-item`:
 
 ```css
-.toc nav#TableOfContents ul { list-style: none; padding: 0; margin: 0; }
-.toc nav#TableOfContents > ul > li > a   { /* .toc-item */ }
-.toc nav#TableOfContents ul ul > li > a  { /* .toc-item.is-nested */ }
+.toc nav#TableOfContents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc nav#TableOfContents > ul > li > a {
+  /* .toc-item */
+}
+.toc nav#TableOfContents ul ul > li > a {
+  /* .toc-item.is-nested */
+}
 ```
 
 ## 7. Admonition mapping — custom Hugo shortcode
@@ -164,20 +172,20 @@ You can pass `--watch` to rebuild on save.
 
 All 12 callout kinds:
 
-| `type=` | Callout class |
-|---|---|
-| `note` (default)  | `.callout-note` |
-| `info`            | `.callout-info` |
-| `tip`             | `.callout-tip` |
-| `success`         | `.callout-success` |
-| `warning`         | `.callout-warning` |
-| `caution`         | `.callout-caution` |
-| `danger`          | `.callout-danger` |
-| `important`       | `.callout-important` |
-| `quote`           | `.callout-quote` |
-| `example`         | `.callout-example` |
-| `deprecated`      | `.callout-deprecated` |
-| `experimental`    | `.callout-experimental` |
+| `type=`          | Callout class           |
+| ---------------- | ----------------------- |
+| `note` (default) | `.callout-note`         |
+| `info`           | `.callout-info`         |
+| `tip`            | `.callout-tip`          |
+| `success`        | `.callout-success`      |
+| `warning`        | `.callout-warning`      |
+| `caution`        | `.callout-caution`      |
+| `danger`         | `.callout-danger`       |
+| `important`      | `.callout-important`    |
+| `quote`          | `.callout-quote`        |
+| `example`        | `.callout-example`      |
+| `deprecated`     | `.callout-deprecated`   |
+| `experimental`   | `.callout-experimental` |
 
 ## 8. Code blocks
 
@@ -190,13 +198,39 @@ hugo gen chromastyles --style=onedark > assets/css/chroma.css
 Then edit `chroma.css` and re-map:
 
 ```css
-.chroma .k, .chroma .kd, .chroma .kt { color: var(--code-keyword); font-weight: 500; }
-.chroma .s, .chroma .s1, .chroma .s2 { color: var(--code-string); }
-.chroma .m, .chroma .mi, .chroma .mf { color: var(--code-number); }
-.chroma .c, .chroma .c1, .chroma .cm { color: var(--code-comment); font-style: italic; }
-.chroma .nf, .chroma .nb             { color: var(--code-function); }
-.chroma .nc, .chroma .nn             { color: var(--code-type); }
-.chroma .p                           { color: var(--code-punctuation); }
+.chroma .k,
+.chroma .kd,
+.chroma .kt {
+  color: var(--code-keyword);
+  font-weight: 500;
+}
+.chroma .s,
+.chroma .s1,
+.chroma .s2 {
+  color: var(--code-string);
+}
+.chroma .m,
+.chroma .mi,
+.chroma .mf {
+  color: var(--code-number);
+}
+.chroma .c,
+.chroma .c1,
+.chroma .cm {
+  color: var(--code-comment);
+  font-style: italic;
+}
+.chroma .nf,
+.chroma .nb {
+  color: var(--code-function);
+}
+.chroma .nc,
+.chroma .nn {
+  color: var(--code-type);
+}
+.chroma .p {
+  color: var(--code-punctuation);
+}
 ```
 
 Wrap Chroma's `<pre class="chroma">` in our `.codeblock`:
@@ -221,12 +255,12 @@ Add to `static/js/theme.js` and include in `head.html`:
 
 ```js
 const root = document.documentElement;
-const saved = localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-root.setAttribute("data-theme", saved);
-document.getElementById("theme-toggle")?.addEventListener("click", () => {
-  const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  root.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
+const saved = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+root.setAttribute('data-theme', saved);
+document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
 });
 ```
 

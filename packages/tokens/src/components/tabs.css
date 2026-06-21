@@ -14,4 +14,5 @@
   transition: color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
 }
 .kt-tabs__tab:hover { color: var(--fg-1); }
-.kt-tabs__tab--active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+.kt-tabs__tab:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.kt-tabs__tab--active { color: var(--color-interactive); border-bottom-color: var(--color-interactive); }

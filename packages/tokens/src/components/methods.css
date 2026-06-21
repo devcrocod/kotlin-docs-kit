@@ -5,8 +5,8 @@
 
 .kt-method {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 11px; font-weight: 700;
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 500;
   padding: 2px 7px;
   border-radius: var(--radius-sm);
   letter-spacing: 0.04em;

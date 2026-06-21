@@ -1,0 +1,2 @@
+{{- $type := .Get "type" | default (.Get 0) | default "get" | lower -}}
+<span class="kt-method kt-method--{{ $type }}">{{ $type | upper }}</span>

@@ -1,0 +1,103 @@
+---
+title: CSS variable overrides
+sidebar_position: 2
+---
+
+# CSS variable overrides
+
+The recommended customization layer. The kit's CSS is built around custom properties; override any of them in your own stylesheet and the cascade does the rest.
+
+## Where to put your CSS
+
+<Tabs groupId="engine">
+<TabItem value="docusaurus" label="Docusaurus">
+
+```ts
+presets: [
+  [
+    '@ktdocs/docusaurus-preset',
+    {
+      theme: { customCss: require.resolve('./src/css/brand.css') },
+    },
+  ],
+];
+```
+
+The preset already appends `customCss` after its own files; no order tweaking needed.
+
+</TabItem>
+<TabItem value="hugo" label="Hugo">
+
+Drop the file under `assets/css/brand.css`. The kit's `head.html` partial loads project CSS after the module's via Hugo Pipes:
+
+```toml
+[params.css]
+  brand = "css/brand.css"
+```
+
+</TabItem>
+</Tabs>
+
+## Examples
+
+### Retheme the brand accent
+
+```css
+:root {
+  --kt-purple-500: #7b61ff;
+  --kt-purple-400: #9078ff;
+  --kt-purple-600: #5f4cd9;
+  /* keep -50, -100, -200, -300 in sync if you use them as soft surfaces */
+}
+```
+
+### Swap the body font
+
+```css
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+```
+
+The kit's bundled IBM Plex Sans `@font-face` declarations still load — but nothing references them anymore. Strip them by setting `--font-sans` and overriding `extra_css` ordering if you want the network request gone entirely.
+
+### Tighten the reading measure
+
+```css
+:root {
+  --reading-measure: 64ch; /* default 72ch */
+  --docs-content-max: 640px; /* default 720px */
+}
+```
+
+### Push the dark theme deeper
+
+```css
+[data-theme='dark'] {
+  --surface-1: #050609;
+  --surface-2: #0c0d11;
+  --border-1: #1a1d24;
+}
+```
+
+## Tips
+
+- **Theme-aware variables** (`--surface-*`, `--fg-*`, `--border-*`, `--color-*`) ship two values — one inside `:root` (light), one inside `[data-theme='dark']`. Override both unless you intentionally only want to change one mode.
+- **CSS variable propagation** through iframes does not happen — if you embed an iframe specimen, set the same variables inside the iframe's stylesheet.
+- **Cascade order**: the kit's CSS is loaded in this order: `fonts.css` → `colors_and_type.css` → `tokens.css` → `components.css` → engine-specific shim → your CSS. Anything you write is at the end.
+
+## Cascade layers and `!important`
+
+The kit's overrides win by **source order** — they load after Infima, so they need neither high specificity nor `!important`. Your own CSS loads last, so it wins over everything without `!important` too.
+
+The one exception is Infima's _utility classes_ (`.margin-*`, `.text--*`, `.padding-*`, …), which ship with `!important` that source order cannot beat. For those, the Docusaurus shim uses a single cascade layer — `@layer docusaurus.infima.importantOverrides` — because, per CSS Cascade 5, an `!important` declaration inside a layer outranks an `!important` declaration outside any layer. If you ever need to override an Infima utility, do the same:
+
+```css
+@layer docusaurus.infima.importantOverrides {
+  .theme-doc-version-banner .margin-top--md {
+    margin-top: 0.5rem !important;
+  }
+}
+```
+
+Docusaurus 3 / Infima do **not** otherwise emit cascade layers, so everything else stays unlayered on purpose. (Docusaurus' own opt-in layer system only activates when you set `future.v4.useCssCascadeLayers` in your config — the kit does not depend on it.)

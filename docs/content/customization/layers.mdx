@@ -1,0 +1,58 @@
+---
+title: Customization layers
+sidebar_position: 1
+---
+
+# Customization layers
+
+The kit gives you four progressively more powerful ways to make a docs site your own. **Start with the cheapest layer that fits** — most projects never need the bottom layers.
+
+## Layer 1 — Engine-native config
+
+Site title, logo, navigation, social links, footer text. All of this lives in the engine's own config file (`docusaurus.config.ts`, `hugo.toml`) and the kit does not change that surface. See the per-engine [Configuration](../guides/docusaurus/configuration.md) guide.
+
+## Layer 2 — CSS variable override
+
+The kit ships every visual decision as a CSS custom property. Override any of them in your own stylesheet:
+
+```css
+:root {
+  --kt-purple-500: #7b61ff; /* tweak the brand accent */
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+[data-theme='dark'] {
+  --surface-1: #0c0d11; /* darker dark mode */
+}
+```
+
+Browse the [Tokens reference](../reference/tokens.mdx) for the full list of variables. This is the layer most teams stop at.
+
+## Layer 3 — Token override (advanced)
+
+If you need to maintain a brand fork — say a sister kit with different accent ramps for a different product — you can publish your own `brand.tokens.json` and rerun the kit's Style Dictionary pipeline.
+
+<Callout type="caution" title="Advanced — only when CSS-variable overrides aren't enough">
+  Token overrides require rebuilding the CSS distribution and republishing the engine package that pulls it in. This is
+  heavier than CSS-variable overrides and only pays off when many sites share the fork. See [Token
+  overrides](./token-overrides.mdx).
+</Callout>
+
+## Layer 4 — Engine-native slot system
+
+Each engine ships its own override mechanism — use it when you need to change the **structure** of a partial, not just its colours.
+
+- **Docusaurus** — swizzling. `pnpm docusaurus swizzle @ktdocs/docusaurus-preset Navbar --wrap`. Use `--wrap` to keep the kit's behaviour.
+- **Hugo** — layout lookup. Your project's `layouts/` always wins over the theme's.
+
+See [Swizzling and overrides](./swizzling.mdx) for per-engine details.
+
+## What is NOT customizable
+
+These are intentionally **not** part of the customization surface — changing them means forking the kit:
+
+- The HTML structure of content components (the contract in `docs/contracts/components.md`)
+- The CSS class names — `.kt-callout`, `.kt-codeblock`, `.kt-docs-shell`, the `.kt-tok-*` syntax tokens
+- The font loading mechanism (which fonts are bundled and how they're declared)
+
+If you need one of these changed, please open an issue with the use case — it might mean the contract needs to grow rather than that you should fork.

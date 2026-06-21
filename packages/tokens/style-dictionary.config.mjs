@@ -67,9 +67,7 @@ StyleDictionary.registerTransform({
   type: 'value',
   filter: (token) => token.$type === 'fontFamily',
   transform: (token) =>
-    token.$value
-      .map((family) => (/\s/.test(family) ? `"${family}"` : family))
-      .join(', '),
+    token.$value.map((family) => (/\s/.test(family) ? `"${family}"` : family)).join(', '),
 });
 
 // cubicBezier array -> CSS `cubic-bezier(...)` literal.
@@ -104,22 +102,12 @@ StyleDictionary.registerTransformGroup({
 // CSS variable cascade), so we omit refToVar but keep our naming.
 StyleDictionary.registerTransformGroup({
   name: 'kit/scss',
-  transforms: [
-    'attribute/cti',
-    'name/kit/css',
-    'value/kit/fontFamily',
-    'value/kit/cubicBezier',
-  ],
+  transforms: ['attribute/cti', 'name/kit/css', 'value/kit/fontFamily', 'value/kit/cubicBezier'],
 });
 
 StyleDictionary.registerTransformGroup({
   name: 'kit/json',
-  transforms: [
-    'attribute/cti',
-    'name/kit/css',
-    'value/kit/fontFamily',
-    'value/kit/cubicBezier',
-  ],
+  transforms: ['attribute/cti', 'name/kit/css', 'value/kit/fontFamily', 'value/kit/cubicBezier'],
 });
 
 // --- formats ---------------------------------------------------------------

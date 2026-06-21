@@ -1,0 +1,2 @@
+{{- $title := .Get "title" | default (.Get 0) | default "Tab" -}}
+{{- .Parent.Scratch.Add "tabs" (slice (dict "title" $title "body" .Inner)) -}}

@@ -9,11 +9,9 @@ body:
       label: Target package
       options:
         - "@ktdocs/tokens"
-        - kotlin-docs-mkdocs
         - "@ktdocs/docusaurus-preset"
         - kotlin-docs-hugo
         - templates
-        - landing
         - docs / tooling
         - cross-cutting
     validations:

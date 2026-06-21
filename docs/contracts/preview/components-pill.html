@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; width: 76px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div class="row"><span class="lab">Default</span>
+      <button class="kt-pill">All</button>
+      <button class="kt-pill">Kotlin</button>
+      <button class="kt-pill">Java</button>
+      <button class="kt-pill" disabled>Archived</button>
+    </div>
+    <div class="row"><span class="lab">Primary</span>
+      <button class="kt-pill kt-pill--primary">Follow</button>
+      <a class="kt-pill kt-pill--primary" href="#">Subscribe</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

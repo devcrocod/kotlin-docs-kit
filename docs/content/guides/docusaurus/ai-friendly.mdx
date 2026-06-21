@@ -1,0 +1,54 @@
+---
+title: AI-friendly docs
+sidebar_position: 7
+---
+
+# Docusaurus · AI-friendly docs
+
+Two opt-in options make your docs easy for LLMs and AI assistants to consume: a generated `llms.txt` index, and a per-page "Copy page / view as Markdown" button. Both are off by default; enable the ones you want and install their (optional) dependency.
+
+## `llms.txt`
+
+Generates [`llms.txt`](https://llmstxt.org/) and `llms-full.txt` at the site root via [`@signalwire/docusaurus-plugin-llms-txt`](https://www.npmjs.com/package/@signalwire/docusaurus-plugin-llms-txt). The kit fills in `siteTitle`/`siteDescription` from your `siteConfig`; pass an object to override or extend.
+
+```bash
+pnpm add @signalwire/docusaurus-plugin-llms-txt
+```
+
+```ts
+presets: [
+  [
+    '@ktdocs/docusaurus-preset',
+    {
+      llmsTxt: true,
+      // or, to customize:
+      // llmsTxt: { depth: 3, content: { enableLlmsFullTxt: true } },
+    },
+  ],
+];
+```
+
+After a build, check `build/llms.txt` and `build/llms-full.txt`.
+
+## Copy page button
+
+Adds a button (auto-injected near the page title / TOC — no swizzle) that lets readers copy the page as Markdown or open it in an AI tool. Uses [`docusaurus-plugin-copy-page-button`](https://www.npmjs.com/package/docusaurus-plugin-copy-page-button); the kit themes it to match (`.kt-copy-page*`).
+
+```bash
+pnpm add docusaurus-plugin-copy-page-button
+```
+
+```ts
+presets: [
+  [
+    '@ktdocs/docusaurus-preset',
+    {
+      copyPage: true,
+      // pass plugin options to override the kit defaults, e.g.:
+      // copyPage: { enabledActions: ['copy', 'view'], placement: 'article' },
+    },
+  ],
+];
+```
+
+The kit enables `generateMarkdownRoutes` by default, so every page also gets a plain-`.md` URL — handy on its own and a good companion to `llms.txt`. See the [plugin docs](https://www.npmjs.com/package/docusaurus-plugin-copy-page-button) for the full action list (`copy`, `view`, `chatgpt`, `claude`, …).

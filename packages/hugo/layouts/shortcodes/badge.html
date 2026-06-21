@@ -1,0 +1,2 @@
+{{- $variant := .Get "variant" | default (.Get 0) -}}
+<span class="kt-badge{{ with $variant }} kt-badge--{{ . }}{{ end }}">{{ .Inner }}</span>

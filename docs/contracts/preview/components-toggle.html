@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; width: 76px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div class="row"><span class="lab">Off</span>
+      <button class="kt-toggle" aria-pressed="false">Wrap lines</button>
+      <button class="kt-toggle" aria-pressed="false">Show types</button>
+    </div>
+    <div class="row"><span class="lab">On</span>
+      <button class="kt-toggle" aria-pressed="true">Wrap lines</button>
+      <button class="kt-toggle kt-toggle--on">Show types</button>
+    </div>
+    <div class="row"><span class="lab">Disabled</span>
+      <button class="kt-toggle" aria-pressed="false" disabled>Beta features</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

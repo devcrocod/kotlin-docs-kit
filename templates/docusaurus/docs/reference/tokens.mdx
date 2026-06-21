@@ -1,0 +1,153 @@
+---
+title: Design tokens
+description: Every CSS custom property the kit exposes, with defaults.
+---
+
+# Design tokens
+
+The starter inherits every CSS custom property from the kit's design tokens,
+bundled inside the preset. Override any variable in your own stylesheet to re-skin
+the site without touching React.
+
+## Where they live
+
+The preset injects six stylesheets via Docusaurus `customCss`:
+
+<Params
+  items={[
+    { name: 'fonts.css', description: '@font-face for IBM Plex Sans + JetBrains Mono.' },
+    {
+      name: 'colors_and_type.css',
+      description: 'Brand palette + light/dark semantic colours + type scale.',
+    },
+    { name: 'tokens.css', description: 'Spacing, radius, shadow, motion, z-index, layout.' },
+    { name: 'components.css', description: 'All 16 component groups (BEM, kt- prefixed).' },
+    { name: 'preset/css/custom.css', description: 'Infima → kit-token remap, 12 admonition styles, Prism token map.' },
+    {
+      name: 'preset/css/docusaurus-overrides.css',
+      description: 'Re-skin .navbar, .menu, .table-of-contents, .breadcrumbs, .pagination-nav, .tabs, .footer.',
+    },
+  ]}
+  headers={['File', "What's in it"]}
+/>
+
+## Brand colour scales
+
+Six brand ramps follow the Kotlin palette:
+
+<Params
+  items={[
+    { name: '--kt-color-purple-{50..900}', description: 'Primary brand (purple).' },
+    { name: '--kt-color-magenta-{50..700}', description: 'Accent — gradients, callouts.' },
+    { name: '--kt-color-red-{50..700}', description: 'Danger, errors.' },
+    { name: '--kt-color-pink-{50..700}', description: 'Highlights.' },
+    { name: '--kt-color-orange-{50..600}', description: 'Warning.' },
+    { name: '--kt-color-blue-{50..600}', description: 'Info, links.' },
+  ]}
+  headers={['Variable', 'Range']}
+/>
+
+Neutral scale: `--gray-{0..950}` in 50-step increments.
+
+Semantic primitives: `--green-*`, `--amber-*`, `--red-*`, `--cyan-*` at
+`100/300/500/600` stops.
+
+## Semantic tokens (light / dark)
+
+These are the variables you'll override most often:
+
+<Params
+  items={[
+    {
+      name: 'Surface',
+      description: '--surface-page, --surface-default, --surface-raised, --surface-sunken, --surface-overlay',
+    },
+    { name: 'Foreground', description: '--fg-default, --fg-muted, --fg-subtle, --fg-inverse' },
+    { name: 'Border', description: '--border-default, --border-muted, --border-strong' },
+    {
+      name: 'Action',
+      description: '--color-primary, --color-primary-hover, --color-primary-active, --color-primary-soft',
+    },
+    { name: 'Accent', description: '--color-accent, --color-accent-soft' },
+    { name: 'Link', description: '--color-link, --color-link-hover, --color-link-visited' },
+    { name: 'Focus', description: '--color-focus' },
+    {
+      name: 'Callouts',
+      description:
+        '--color-{note,info,tip,success,warning,caution,danger,important,quote,example,deprecated,experimental} + -soft',
+    },
+    {
+      name: 'Code syntax',
+      description: '--code-bg, --code-fg, --code-line-bg, --code-line-hl, --kt-tok-{k,s,n,c,f,t,p,a}',
+    },
+  ]}
+  headers={['Group', 'Variables']}
+/>
+
+## Typography
+
+<Params
+  items={[
+    { name: '--font-sans', description: '"IBM Plex Sans", system-ui, sans-serif' },
+    { name: '--font-mono', description: '"JetBrains Mono", ui-monospace, monospace' },
+  ]}
+  headers={['Variable', 'Default']}
+/>
+
+The 8-token type scale (`--type-display`, `--type-h1`, `--type-h2`,
+`--type-h3`, `--type-body`, `--type-small`, `--type-caption`,
+`--type-code`) drives every heading and body size.
+
+## Spacing
+
+4-px grid via `--space-{0, px, 0_5, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24}`
+(values: 0, 1px, 2px, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96).
+
+## Radius, shadow, motion
+
+<Params
+  items={[
+    { name: '--radius-{none, sm, md, lg, xl, full}', description: '0 / 4 / 6 / 8 / 12 / 9999 px' },
+    { name: '--shadow-{xs, sm, md, lg, brand-glow}', description: 'Light + dark variants.' },
+    { name: '--motion-{fast, base, slow}', description: '120 / 200 / 320 ms' },
+    { name: '--motion-ease', description: 'cubic-bezier(0.2, 0, 0, 1)' },
+  ]}
+  headers={['Variable', 'Values']}
+/>
+
+## Layout
+
+<Params
+  items={[
+    { name: '--docs-sidebar-width', description: '260px' },
+    { name: '--docs-toc-width', description: '220px' },
+    { name: '--docs-content-max', description: '720px' },
+    { name: '--docs-shell-max', description: '1440px' },
+    { name: '--docs-header-height', description: '60px' },
+    { name: '--reading-measure', description: '72ch' },
+  ]}
+  headers={['Variable', 'Default']}
+/>
+
+## Overriding
+
+Pass a stylesheet via the preset's `theme.customCss` option in
+`docusaurus.config.ts`:
+
+```ts
+{
+  theme: {
+    customCss: './src/css/brand.css',
+  },
+}
+```
+
+```css
+:root {
+  --color-primary: #ff6b35;
+  --color-link: var(--color-primary);
+}
+```
+
+Restart `pnpm start` — overrides apply across both palettes via the
+`[data-theme]` mechanism the kit uses for dark mode.

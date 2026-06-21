@@ -1,6 +1,6 @@
 /* ============================================================================
    Callouts / Admonitions — 12 kinds.
-   Map to MkDocs admonitions, Docusaurus admonitions, and Hugo shortcodes.
+   Map to Docusaurus admonitions and Hugo shortcodes.
    ============================================================================ */
 
 .kt-callout {
@@ -9,6 +9,7 @@
   gap: 12px;
   padding: 14px 16px;
   border-radius: var(--radius-md);
+  border: 1px solid var(--border-1);
   border-left: 3px solid;
   background: var(--surface-1);
   font-family: var(--font-sans);

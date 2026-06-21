@@ -1,0 +1,44 @@
+{
+  "name": "kotlin-docs-docusaurus-template",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Standard-scope Docusaurus starter built on @ktdocs/docusaurus-preset (Kotlin-styled Docusaurus 3).",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
+    "swizzle": "docusaurus swizzle",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.5.0",
+    "@docusaurus/preset-classic": "^3.5.0",
+    "@ktdocs/docusaurus-preset": "^0.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.5.0",
+    "@docusaurus/plugin-content-docs": "^3.5.0",
+    "@docusaurus/tsconfig": "^3.5.0",
+    "@docusaurus/types": "^3.5.0",
+    "typescript": "~5.6.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome versions",
+      "last 3 firefox versions",
+      "last 5 safari versions"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

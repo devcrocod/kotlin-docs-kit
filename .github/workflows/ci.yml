@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install Node deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Prettier (JSON/YAML/MD/MDX/TS/JS)
+        run: pnpm run format:check
+
+      - name: ESLint (TS/TSX/JS/MJS)
+        run: pnpm run lint
+
+      - name: gofmt (Hugo packages)
+        run: |
+          out=$(gofmt -l packages/hugo templates/hugo)
+          if [ -n "$out" ]; then
+            echo "::error::gofmt found unformatted files:"
+            echo "$out"
+            gofmt -d packages/hugo templates/hugo
+            exit 1
+          fi
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache: true
+
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 0.163.2
+          extended: true
+
+      - uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install (pnpm)
+        run: task install
+
+      - name: Validate DTCG tokens
+        run: pnpm --filter @ktdocs/tokens run validate
+
+      - name: Typecheck (TypeScript packages)
+        run: |
+          pnpm --filter @ktdocs/docusaurus-preset typecheck
+          pnpm --filter @ktdocs/docs-site typecheck
+          pnpm --filter kotlin-docs-docusaurus-template typecheck
+
+      - name: CI pipeline (tokens + templates + docs)
+        run: task ci
+
+      - name: Hugo render smoke
+        working-directory: templates/hugo
+        run: hugo --renderToMemory --quiet

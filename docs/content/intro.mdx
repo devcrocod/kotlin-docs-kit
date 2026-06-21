@@ -1,0 +1,44 @@
+---
+title: Kotlin Docs Kit
+sidebar_label: Introduction
+sidebar_position: 0
+---
+
+# Kotlin Docs Kit
+
+A **single visual system** for Kotlin-style technical documentation, delivered as two drop-in implementations: **Docusaurus** and **Hugo**. Pick the engine that fits your project; the docs will look — and feel — the same.
+
+The kit is built around three pillars:
+
+- **`@ktdocs/tokens`** — design tokens (DTCG / W3C source), shipped as CSS custom properties, SCSS, and JSON. Owns colors, typography, spacing, motion, and the dark/light theme switch.
+- **Engine packages** — `@ktdocs/docusaurus-preset` (npm) and `kotlin-docs-hugo` (Go module). Each implements the same component contract (`docs/contracts/components.md`) using its native primitives.
+- **Templates** — `templates/{docusaurus,hugo}/` — starter projects with first-run defaults, ready to deploy via GitHub Pages.
+
+## Mental model
+
+```
+              ┌──────────────────────┐
+              │  @ktdocs/tokens      │  ← source of truth (DTCG JSON → CSS)
+              └─────────┬────────────┘
+              ┌─────────┴────────────┐
+              ▼                      ▼
+      Docusaurus preset        Hugo module
+              │                      │
+              ▼                      ▼
+    templates/docusaurus       templates/hugo
+```
+
+A change to a token (say, `--kt-purple-500`) lands in both engines at once. The HTML contract — element class names like `.kt-callout`, `.kt-codeblock`, `.kt-docs-shell` — is identical across engines, so the same CSS does the lifting everywhere.
+
+## Where to next
+
+- New to the kit? Start with **[Choose your engine](./getting-started/choose-engine.mdx)** to pick the right implementation.
+- Already chose an engine? Jump to **[Installation](./getting-started/installation.mdx)**.
+- Just want to see what it looks like? Browse the **[Components reference](./reference/components/overview.mdx)**.
+- Building your own site on top? Read **[Customization](./customization/layers.mdx)**.
+
+<Callout type="info" title="Personal project">
+  kotlin-docs-kit is a personal project. It is **not** officially affiliated with JetBrains or the Kotlin Foundation.
+  The Kotlin brand marks and the brand palette are used in the spirit of the public Kotlin brand guidelines; see the
+  project [NOTICE](https://github.com/devcrocod/kotlin-docs-kit/blob/main/packages/tokens/src/assets/NOTICE.md).
+</Callout>

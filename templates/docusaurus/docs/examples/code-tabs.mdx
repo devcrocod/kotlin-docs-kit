@@ -1,0 +1,106 @@
+---
+title: Code & terminal blocks
+description: Premium CodeBlock, terminal styling, and <CodeTabs>.
+---
+
+# Code & terminal blocks
+
+The kit's swizzled `CodeBlock` ships with a copy button, language label,
+title, line highlight, and 8 syntax colours mapped onto `--kt-tok-*`.
+
+## Plain code block
+
+```kotlin
+fun greet(name: String) {
+    val message = "Hello, $name"
+    println(message)
+}
+
+fun main() = greet("Kotlin")
+```
+
+## With title and line highlight
+
+```kotlin title="App.kt" {2,4-5}
+fun main() {
+    val name = "Kotlin"
+    val greeting = greet(name)
+    println(greeting)
+    println("Powered by @ktdocs/docusaurus-preset")
+}
+```
+
+## Terminal block
+
+`bash`, `shell`, `sh`, `zsh`, `console`, and `terminal` blocks automatically
+get the `.kt-codeblock--terminal` look:
+
+```bash
+$ pnpm install
+$ pnpm start
+
+> Local:   http://localhost:3000/
+> Network: use --host to expose
+```
+
+## Code tabs (multi-file, premium)
+
+`<CodeTabs>` renders one `.kt-codeblock` host with `.kt-codeblock__tabs` in
+the header — one shared border, one copy button, switchable bodies. Use
+this when each tab is a code snippet that should share a single frame.
+
+<CodeTabs
+  items={[
+    {
+      label: 'Kotlin',
+      language: 'kotlin',
+      code: `data class User(val id: Int, val name: String)
+
+fun greet(user: User) = println("Hello, \${user.name}")`,
+    },
+    {
+      label: 'Java',
+      language: 'java',
+      code: `public record User(int id, String name) { }
+
+public static void greet(User user) {
+System.out.println("Hello, " + user.name());
+}`,
+    },
+    {
+      label: 'Swift',
+      language: 'swift',
+      code: `struct User { let id: Int; let name: String }
+
+func greet(\_ user: User) {
+print("Hello, \\(user.name)")
+}`,
+},
+]}
+/>
+
+## Content tabs vs code tabs
+
+For prose tabs (e.g. macOS / Linux / Windows install steps), use
+Docusaurus' built-in `<Tabs>` / `<TabItem>` — see the
+[basic-usage guide](../guides/basic-usage.mdx#content-tabs). The kit's
+overrides re-skin both to match the same BEM contract but their DOM and
+semantics differ.
+
+## Inline code
+
+Inline `code` uses JetBrains Mono and the syntax tokens. Combine with the
+`<Method>` component for HTTP method pills:
+
+<Method type="get" /> `/users/{id}`
+
+## Source
+
+```mdx
+<CodeTabs
+  items={[
+    { label: 'Kotlin', language: 'kotlin', code: 'fun main() = println("Hello")' },
+    { label: 'Java', language: 'java', code: 'System.out.println("Hello");' },
+  ]}
+/>
+```

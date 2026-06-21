@@ -6,5 +6,5 @@
 .t-h3      { font-family: var(--font-sans); font-size: var(--type-h3-size);      line-height: var(--type-h3-line);      font-weight: var(--type-h3-weight);      letter-spacing: var(--type-h3-tracking);      color: var(--fg-1); }
 .t-body    { font-family: var(--font-sans); font-size: var(--type-body-size);    line-height: var(--type-body-line);    font-weight: var(--type-body-weight);    color: var(--fg-1); }
 .t-small   { font-family: var(--font-sans); font-size: var(--type-small-size);   line-height: var(--type-small-line);   color: var(--fg-2); }
-.t-caption { font-family: var(--font-sans); font-size: var(--type-caption-size); line-height: var(--type-caption-line); letter-spacing: var(--type-caption-tracking); color: var(--fg-3); text-transform: uppercase; font-weight: var(--type-caption-weight); }
+.t-caption { font-family: var(--font-label); font-size: var(--type-caption-size); line-height: var(--type-caption-line); letter-spacing: var(--type-caption-tracking); color: var(--fg-3); text-transform: uppercase; font-weight: var(--type-caption-weight); }
 .t-code    { font-family: var(--font-mono); font-size: var(--type-code-size);    line-height: var(--type-code-line);    font-weight: var(--type-code-weight); }

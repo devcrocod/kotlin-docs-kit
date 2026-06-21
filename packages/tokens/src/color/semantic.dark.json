@@ -1,77 +1,140 @@
 {
   "$description": "Dark-theme semantic colors. Applied to [data-theme='dark']. Overrides the light defaults. Where soft variants use color-mix(), the raw CSS expression is preserved as a string.",
   "surface": {
-    "0":       { "$type": "color", "$value": "{color.gray.950}" },
-    "1":       { "$type": "color", "$value": "{color.gray.900}" },
-    "2":       { "$type": "color", "$value": "{color.gray.850}" },
-    "3":       { "$type": "color", "$value": "{color.gray.800}" },
-    "code":    { "$type": "color", "$value": "#14111E", "$description": "Deep purple-tinted code block bg." },
+    "0": { "$type": "color", "$value": "#090909", "$description": "Page (Fleet Neutral_10)." },
+    "1": {
+      "$type": "color",
+      "$value": "#18191B",
+      "$description": "Panels, cards, sidebar (Fleet Neutral_20 / island)."
+    },
+    "2": {
+      "$type": "color",
+      "$value": "#252629",
+      "$description": "Wells, code header (Fleet Neutral_30)."
+    },
+    "3": {
+      "$type": "color",
+      "$value": "#323438",
+      "$description": "Inline code, raised (Fleet Neutral_40)."
+    },
+    "code": {
+      "$type": "color",
+      "$value": "#18191B",
+      "$description": "Neutral near-black code block bg (JetBrains Dark-Teal editor); equals surface.1 by design — separated by the code header bar and hairline border."
+    },
     "inverse": { "$type": "color", "$value": "{color.gray.50}" }
   },
   "fg": {
-    "1":        { "$type": "color", "$value": "#ECECF1" },
-    "2":        { "$type": "color", "$value": "#A8AAB5" },
-    "3":        { "$type": "color", "$value": "#7A7D88" },
+    "1": { "$type": "color", "$value": "#ECECF1" },
+    "2": { "$type": "color", "$value": "#A8AAB5" },
+    "3": { "$type": "color", "$value": "#7A7D88" },
     "disabled": { "$type": "color", "$value": "{color.gray.600}" },
     "on-brand": { "$type": "color", "$value": "{color.gray.0}" }
   },
   "border": {
-    "1":      { "$type": "color", "$value": "#262932" },
-    "2":      { "$type": "color", "$value": "#353945" },
-    "strong": { "$type": "color", "$value": "#4A4E5C" }
+    "1": { "$type": "color", "$value": "{overlay.white.13}" },
+    "2": { "$type": "color", "$value": "{overlay.white.17}" },
+    "strong": { "$type": "color", "$value": "{overlay.white.26}" }
   },
   "color": {
-    "primary":        { "$type": "color", "$value": "{color.kt-purple.400}" },
-    "primary-hover":  { "$type": "color", "$value": "{color.kt-purple.300}" },
+    "primary": { "$type": "color", "$value": "{color.kt-purple.400}" },
+    "primary-hover": { "$type": "color", "$value": "{color.kt-purple.300}" },
     "primary-active": { "$type": "color", "$value": "{color.kt-purple.200}" },
-    "primary-soft":   { "$type": "string", "$value": "color-mix(in srgb, var(--kt-purple-500) 22%, transparent)" },
-    "accent":         { "$type": "color", "$value": "{color.kt-magenta.400}" },
-    "accent-hover":   { "$type": "color", "$value": "{color.kt-magenta.300}" },
-    "accent-soft":    { "$type": "string", "$value": "color-mix(in srgb, var(--kt-magenta-500) 22%, transparent)" },
+    "primary-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-purple-500) 22%, transparent)"
+    },
+    "accent": { "$type": "color", "$value": "{color.kt-magenta.400}" },
+    "accent-hover": { "$type": "color", "$value": "{color.kt-magenta.300}" },
+    "accent-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-magenta-500) 22%, transparent)"
+    },
 
-    "link":         { "$type": "color", "$value": "{color.kt-purple.300}" },
-    "link-hover":   { "$type": "color", "$value": "{color.kt-purple.200}" },
+    "interactive": { "$type": "color", "$value": "{color.kt-teal.400}" },
+    "interactive-hover": { "$type": "color", "$value": "{color.kt-teal.300}" },
+    "interactive-soft": { "$type": "string", "$value": "#097F8E40" },
+    "interactive-border": { "$type": "string", "$value": "#097F8E33" },
+
+    "link": { "$type": "color", "$value": "{color.kt-teal.300}" },
+    "link-hover": { "$type": "color", "$value": "{color.kt-teal.200}" },
     "link-visited": { "$type": "color", "$value": "{color.kt-purple.300}" },
 
-    "focus":        { "$type": "color", "$value": "#B196FF" },
+    "focus": { "$type": "color", "$value": "{color.kt-teal.400}" },
 
-    "note":              { "$type": "color",  "$value": "{color.gray.300}" },
-    "note-soft":         { "$type": "string", "$value": "color-mix(in srgb, var(--gray-500) 18%, transparent)" },
-    "info":              { "$type": "color",  "$value": "{color.kt-blue.300}" },
-    "info-soft":         { "$type": "string", "$value": "color-mix(in srgb, var(--kt-blue-400) 18%, transparent)" },
-    "tip":               { "$type": "color",  "$value": "{color.kt-purple.300}" },
-    "tip-soft":          { "$type": "string", "$value": "color-mix(in srgb, var(--kt-purple-500) 20%, transparent)" },
-    "success":           { "$type": "color",  "$value": "{color.green.300}" },
-    "success-soft":      { "$type": "string", "$value": "color-mix(in srgb, var(--green-500) 22%, transparent)" },
-    "warning":           { "$type": "color",  "$value": "{color.amber.300}" },
-    "warning-soft":      { "$type": "string", "$value": "color-mix(in srgb, var(--amber-500) 22%, transparent)" },
-    "danger":            { "$type": "color",  "$value": "{color.red.300}" },
-    "danger-soft":       { "$type": "string", "$value": "color-mix(in srgb, var(--red-500) 22%, transparent)" },
-    "caution":           { "$type": "color",  "$value": "{color.kt-orange.300}" },
-    "caution-soft":      { "$type": "string", "$value": "color-mix(in srgb, var(--kt-orange-500) 22%, transparent)" },
-    "important":         { "$type": "color",  "$value": "{color.kt-magenta.300}" },
-    "important-soft":    { "$type": "string", "$value": "color-mix(in srgb, var(--kt-magenta-500) 22%, transparent)" },
-    "quote":             { "$type": "color",  "$value": "{color.gray.400}" },
-    "quote-soft":        { "$type": "string", "$value": "color-mix(in srgb, var(--gray-500) 16%, transparent)" },
-    "example":           { "$type": "color",  "$value": "{color.kt-blue.300}" },
-    "example-soft":      { "$type": "string", "$value": "color-mix(in srgb, var(--kt-blue-400) 20%, transparent)" },
-    "deprecated":        { "$type": "color",  "$value": "{color.amber.300}" },
-    "deprecated-soft":   { "$type": "string", "$value": "color-mix(in srgb, var(--amber-500) 24%, transparent)" },
-    "experimental":      { "$type": "color",  "$value": "{color.kt-pink.300}" },
-    "experimental-soft": { "$type": "string", "$value": "color-mix(in srgb, var(--kt-pink-500) 22%, transparent)" }
+    "note": { "$type": "color", "$value": "{color.gray.300}" },
+    "note-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--gray-500) 18%, transparent)"
+    },
+    "info": { "$type": "color", "$value": "{color.kt-blue.300}" },
+    "info-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-blue-400) 18%, transparent)"
+    },
+    "tip": { "$type": "color", "$value": "{color.kt-purple.300}" },
+    "tip-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-purple-500) 20%, transparent)"
+    },
+    "success": { "$type": "color", "$value": "{color.green.300}" },
+    "success-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--green-500) 22%, transparent)"
+    },
+    "warning": { "$type": "color", "$value": "{color.amber.300}" },
+    "warning-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--amber-500) 22%, transparent)"
+    },
+    "danger": { "$type": "color", "$value": "{color.red.300}" },
+    "danger-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--red-500) 22%, transparent)"
+    },
+    "caution": { "$type": "color", "$value": "{color.kt-orange.300}" },
+    "caution-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-orange-500) 22%, transparent)"
+    },
+    "important": { "$type": "color", "$value": "{color.kt-magenta.300}" },
+    "important-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-magenta-500) 22%, transparent)"
+    },
+    "quote": { "$type": "color", "$value": "{color.gray.400}" },
+    "quote-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--gray-500) 16%, transparent)"
+    },
+    "example": { "$type": "color", "$value": "{color.kt-blue.300}" },
+    "example-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-blue-400) 20%, transparent)"
+    },
+    "deprecated": { "$type": "color", "$value": "{color.amber.300}" },
+    "deprecated-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--amber-500) 24%, transparent)"
+    },
+    "experimental": { "$type": "color", "$value": "{color.kt-pink.300}" },
+    "experimental-soft": {
+      "$type": "string",
+      "$value": "color-mix(in srgb, var(--kt-pink-500) 22%, transparent)"
+    }
   },
   "code": {
-    "bg":          { "$type": "color", "$value": "{surface.code}" },
-    "fg":          { "$type": "color", "$value": "#ECECF1" },
-    "line-bg":     { "$type": "color", "$value": "{surface.code}" },
-    "line-hl":     { "$type": "color", "$value": "#261B40" },
-    "keyword":     { "$type": "color", "$value": "{color.kt-purple.300}" },
-    "string":      { "$type": "color", "$value": "{color.green.300}" },
-    "number":      { "$type": "color", "$value": "{color.kt-orange.300}" },
-    "comment":     { "$type": "color", "$value": "{color.gray.500}" },
-    "function":    { "$type": "color", "$value": "{color.kt-blue.300}" },
-    "type":        { "$type": "color", "$value": "{color.kt-orange.300}" },
-    "punctuation": { "$type": "color", "$value": "{color.gray.400}" },
-    "tag":         { "$type": "color", "$value": "{color.kt-pink.300}" }
+    "bg": { "$type": "color", "$value": "{surface.code}" },
+    "fg": { "$type": "color", "$value": "#E0E1E4" },
+    "line-bg": { "$type": "color", "$value": "{surface.code}" },
+    "line-hl": { "$type": "color", "$value": "#16282D" },
+    "keyword": { "$type": "color", "$value": "#82D2CE" },
+    "string": { "$type": "color", "$value": "#E394DC" },
+    "number": { "$type": "color", "$value": "#EBC88D" },
+    "comment": { "$type": "color", "$value": "#898E94" },
+    "function": { "$type": "color", "$value": "#EBC88D" },
+    "type": { "$type": "color", "$value": "#87C3FF" },
+    "punctuation": { "$type": "color", "$value": "#C3C5C9" },
+    "tag": { "$type": "color", "$value": "#A8CC7C" }
   }
 }

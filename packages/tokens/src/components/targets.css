@@ -1,0 +1,35 @@
+/* ============================================================================
+   Targets — Kotlin Multiplatform target badges for API reference pages.
+   A labelled row of pills (JVM, JS, Native, Android, iOS, …). Sibling to
+   .kt-badge; consumed by the Docusaurus <Targets> component and the Hugo
+   `targets` shortcode.
+   ============================================================================ */
+
+.kt-targets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+.kt-targets__label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: var(--fg-3);
+}
+.kt-targets__list { display: flex; flex-wrap: wrap; gap: 6px; }
+.kt-targets__item {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 12px; font-weight: 500;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--fg-2);
+  border: 1px solid var(--border-1);
+  line-height: 1.45;
+}
+.kt-targets__icon { width: 14px; height: 14px; color: var(--color-interactive); flex-shrink: 0; }

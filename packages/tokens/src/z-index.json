@@ -1,13 +1,13 @@
 {
   "$description": "Stacking layers. Reserve large gaps so components can be inserted between layers without renumbering.",
   "z": {
-    "base":    { "$type": "number", "$value": 0 },
-    "raised":  { "$type": "number", "$value": 10 },
-    "sticky":  { "$type": "number", "$value": 100 },
+    "base": { "$type": "number", "$value": 0 },
+    "raised": { "$type": "number", "$value": 10 },
+    "sticky": { "$type": "number", "$value": 100 },
     "overlay": { "$type": "number", "$value": 1000 },
-    "modal":   { "$type": "number", "$value": 1100 },
+    "modal": { "$type": "number", "$value": 1100 },
     "popover": { "$type": "number", "$value": 1200 },
-    "toast":   { "$type": "number", "$value": 1300 },
+    "toast": { "$type": "number", "$value": 1300 },
     "tooltip": { "$type": "number", "$value": 1400 }
   }
 }

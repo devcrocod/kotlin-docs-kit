@@ -1,6 +1,7 @@
 {
   "name": "@ktdocs/tokens",
   "version": "0.0.0",
+  "private": true,
   "description": "Kotlin-styled design tokens, fonts and component CSS for kotlin-docs-kit. DTCG W3C source, Style Dictionary build.",
   "type": "module",
   "license": "Apache-2.0",
@@ -11,9 +12,6 @@
     "directory": "packages/tokens"
   },
   "bugs": "https://github.com/devcrocod/kotlin-docs-kit/issues",
-  "publishConfig": {
-    "access": "public"
-  },
   "sideEffects": [
     "dist/colors_and_type.css",
     "dist/tokens.css",
@@ -65,6 +63,7 @@
     "prepack": "pnpm run build"
   },
   "devDependencies": {
+    "@fontsource/ibm-plex-mono": "^5.0.0",
     "@fontsource/ibm-plex-sans": "^5.0.0",
     "@fontsource/jetbrains-mono": "^5.0.0",
     "ajv": "^8.17.1",

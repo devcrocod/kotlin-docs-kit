@@ -1,0 +1,94 @@
+---
+title: Components
+description: Authoring surface — admonitions, MDX components, swizzled DOM.
+---
+
+# Components
+
+All 16 component groups in the kit's
+[BEM contract](https://github.com/devcrocod/kotlin-docs-kit/blob/main/docs/contracts/components.md)
+work in this starter. The table below maps the **authoring syntax** you
+write in MDX to the component you get in the rendered page.
+
+<Params
+  items={[
+    { name: 'Callout (12 kinds)', description: ':::tip Title (admonition) or <Callout type="tip" title="Title"/>' },
+    { name: 'Code block', description: 'Triple-fenced block with language hint and Docusaurus metastring' },
+    { name: 'Code tabs (file tabs)', description: '<CodeTabs items={[{label, language, code}]}/>' },
+    { name: 'Content tabs', description: '<Tabs>/<TabItem> from @theme/Tabs' },
+    { name: 'Card', description: '<Card href="..." title="..." arrow>body</Card>' },
+    { name: 'Card grid', description: '<CardGrid>…</CardGrid> (auto-fit)' },
+    { name: 'Feature grid', description: '<FeatureGrid cols={3}>…</FeatureGrid> (fixed columns)' },
+    { name: 'Hero', description: '<Hero title="…" gradient="…" tagline="…" actions={…}/>' },
+    { name: 'Parameter table', description: '<Params items={[{name, type?, required?, description?}]}/>' },
+    { name: 'State', description: '<State title="…" icon={…}>body</State>' },
+    { name: 'Badge', description: '<Badge variant="info">new</Badge>' },
+    { name: 'HTTP method', description: '<Method type="get"/>' },
+    { name: 'Tag', description: '<Tag>prerelease</Tag>' },
+    { name: 'Breadcrumbs', description: 'Auto-emitted by the swizzled DocBreadcrumbs (.kt-crumbs).' },
+    { name: 'Topnav', description: 'Auto-emitted by the swizzled Navbar (.kt-topnav).' },
+    { name: 'Sidenav', description: 'Auto-emitted by the swizzled DocSidebar (.kt-sidenav).' },
+    { name: 'TOC', description: 'Auto-emitted by the swizzled TOC (.kt-toc).' },
+    { name: 'Pagination', description: 'Auto-emitted by the swizzled DocPaginator (.kt-docs-pager).' },
+    { name: 'Docs shell', description: 'Auto (.kt-docs-shell).' },
+  ]}
+  headers={['Component', 'How to author it']}
+/>
+
+## Parameter table example
+
+```mdx
+<Params
+  items={[
+    { name: 'name', type: 'string', description: "The user's display name." },
+    { name: 'id', type: 'string', required: true, description: 'Unique identifier.' },
+    { name: 'roles', type: 'string[]', description: 'List of role strings. Defaults to [].' },
+  ]}
+/>
+```
+
+<Params
+  items={[
+    { name: 'name', type: 'string', description: "The user's display name." },
+    { name: 'id', type: 'string', required: true, description: 'Unique identifier.' },
+    { name: 'roles', type: 'string[]', description: 'List of role strings. Defaults to [].' },
+  ]}
+/>
+
+## Inline badge / method / tag
+
+```mdx
+<Badge variant="info">new</Badge>
+<Method type="get" /> `/users/{id}`<Tag>prerelease</Tag>
+```
+
+<Badge variant="info">new</Badge> <Method type="get" /> `/users/{id}` <Tag>prerelease</Tag>
+
+## State
+
+For empty / loading / error placeholders:
+
+```mdx
+<State title="No results" icon={<span aria-hidden>📭</span>}>
+  Try a different search term, or clear the active filter.
+</State>
+```
+
+<State title="No results" icon={<span aria-hidden>📭</span>}>
+  Try a different search term, or clear the active filter.
+</State>
+
+## Named imports (outside MDX)
+
+For TSX / JSX files in `src/pages/` or `src/components/`, import the
+components by name — there are no globals outside MDX:
+
+```tsx
+import { Callout, Card, CardGrid, Hero, Badge } from '@ktdocs/docusaurus-preset/components';
+```
+
+## What you cannot customise
+
+The DOM emitted by these components (class names, nesting, ARIA roles) is
+fixed by contract. The visual appearance is fully tweakable through CSS
+variables — see the [tokens reference](tokens.mdx).

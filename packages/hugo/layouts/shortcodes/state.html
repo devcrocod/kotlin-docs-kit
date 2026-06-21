@@ -1,0 +1,15 @@
+{{- $kind := .Get "kind" | default "empty" -}}
+{{- $title := .Get "title" -}}
+<div class="kt-state">
+  <div class="kt-state__icon">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      {{- if eq $kind "loading" -}}
+        <path d="M21 12a9 9 0 1 1-6.22-8.56"/>
+      {{- else -}}
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+      {{- end -}}
+    </svg>
+  </div>
+  {{- with $title -}}<h4 class="kt-state__title">{{ . }}</h4>{{- end -}}
+  {{- with .Inner -}}<p class="kt-state__body">{{ . | markdownify }}</p>{{- end -}}
+</div>

@@ -1,0 +1,30 @@
+---
+title: Typography
+sidebar_position: 3
+---
+
+# Typography
+
+Two families and an 8-step scale.
+
+## Sans
+
+IBM Plex Sans (400, 500, 600, 700) — bundled woff2, no Google Fonts request. Used for body text, headings, UI labels.
+
+<Specimen src="type-sans" height={360} title="IBM Plex Sans — sans family" />
+
+## Mono
+
+JetBrains Mono (400, 500, 700) — bundled woff2. Used for code, kbd, eyebrow labels.
+
+<Specimen src="type-mono" height={300} title="JetBrains Mono — mono family" />
+
+## Scale
+
+Eight fixed steps: `display`, `h1`, `h2`, `h3`, `body`, `small`, `caption`, `code`. Each step is defined by `--type-{name}-size`, `-line`, `-weight`, `-tracking`.
+
+<Specimen src="type-scale" height={520} title="Type scale (8 steps)" />
+
+## Why fixed steps?
+
+Open-ended scales drift. Eight steps cover everything a docs site needs — display banners, two heading levels for content, body, captions, code. If a design calls for a size that isn't in the scale, that's a signal to combine existing steps (heavier weight, tighter tracking) rather than add a step.

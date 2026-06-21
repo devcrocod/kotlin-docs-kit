@@ -1,0 +1,85 @@
+# Sync the two template starters (templates/{docusaurus,hugo}/) to
+# their mirror repos so that the GitHub "Use this template" button works.
+# The monorepo is the source of truth; mirror repos are append-only views
+# refreshed via `git subtree split` + force-push on every push to main.
+#
+# Implements issue #18 and SPEC §12.1. Mirrors users do NOT fork — they
+# template-copy, so force-push here never rewrites consumer history.
+#
+# Setup (one-time, per mirror — full guide in docs/content/maintainer/mirrors.md):
+#   1. Create empty public repos:
+#        - devcrocod/kotlin-docs-docusaurus-template
+#        - devcrocod/kotlin-docs-hugo-template
+#   2. Settings → General → Template repository: ON.
+#   3. Settings → Pages → Source: GitHub Actions (the deploy.yml in each
+#      template auto-publishes on first push).
+#   4. Mint a PAT with `public_repo` scope; save as monorepo secret
+#      `TEMPLATES_MIRROR_TOKEN`.
+
+name: Sync templates to mirrors
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "templates/**"
+      - "packages/hugo/**"
+      - ".github/workflows/sync-templates.yml"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # Job-level so `matrix.engine` is in scope — gives each engine its own
+    # group. At workflow level `matrix` is unavailable and both legs would
+    # collapse into one group, serializing the docusaurus/hugo splits.
+    concurrency:
+      group: sync-templates-${{ matrix.engine }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [docusaurus, hugo]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure git identity
+        run: |
+          git config user.name 'ktdocs-bot'
+          git config user.email 'bot@ktdocs'
+
+      # Hugo's go.mod points the theme module at a relative path for local
+      # dev; that line is invalid outside the monorepo, so it's stripped
+      # before the subtree split sees it.
+      - name: Strip dev-only artifacts
+        run: |
+          if [ "${{ matrix.engine }}" = "hugo" ]; then
+            sed -i '/^replace github.com\/devcrocod\/kotlin-docs-kit/d' templates/hugo/go.mod
+          fi
+
+      # `git subtree split` only sees committed history, so any sed-edited
+      # file has to land in a commit first. The `|| true` covers engines
+      # where the strip step was a no-op and there's nothing to commit.
+      - name: Commit stripped artifacts
+        run: |
+          git add templates/${{ matrix.engine }}
+          git commit -m "build: strip dev-only artifacts for mirror" --no-verify || true
+
+      - name: Subtree split templates/${{ matrix.engine }}
+        run: |
+          git subtree split --prefix=templates/${{ matrix.engine }} -b split-${{ matrix.engine }}
+
+      - name: Push to mirror
+        env:
+          TEMPLATES_MIRROR_TOKEN: ${{ secrets.TEMPLATES_MIRROR_TOKEN }}
+        run: |
+          if [ -z "$TEMPLATES_MIRROR_TOKEN" ]; then
+            echo "TEMPLATES_MIRROR_TOKEN not set — skipping push (CI dry run)."
+            exit 0
+          fi
+          git push --force \
+            https://x-access-token:${TEMPLATES_MIRROR_TOKEN}@github.com/devcrocod/kotlin-docs-${{ matrix.engine }}-template.git \
+            split-${{ matrix.engine }}:main

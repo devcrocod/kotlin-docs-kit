@@ -1,0 +1,71 @@
+---
+title: Variant tabs
+sidebar_position: 5
+---
+
+import KtTabs from '@ktdocs/docusaurus-preset/tabs';
+
+# Docusaurus · Variant tabs
+
+Docs that document more than one build tool, language, or platform should let the reader pick once and keep that choice everywhere. Docusaurus' `<Tabs>` already does this; the kit ships a small set of **presets** (`@ktdocs/docusaurus-preset/tabs`) with Kotlin-appropriate options and OS-aware defaults so you don't redefine them on every page.
+
+## How it works
+
+- `groupId` — tabs that share a `groupId` switch together and persist to `localStorage` (key `docusaurus.tab.<groupId>`). Choose "Kotlin DSL" once and every Gradle snippet on the site follows.
+- `queryString` — also mirrors the choice into the URL (`?gradle-dsl=kotlin`), so a link can pre-select a tab.
+
+`<Tabs>` / `<TabItem>` are registered globally by the preset — no import needed. Only `KtTabs` is imported.
+
+## Example
+
+````mdx
+import KtTabs from '@ktdocs/docusaurus-preset/tabs';
+
+<Tabs groupId="gradle-dsl" queryString values={KtTabs.gradleDsl} defaultValue={KtTabs.defaultGradleDsl}>
+  <TabItem value="kotlin">
+
+    ```kotlin title="build.gradle.kts"
+    plugins { kotlin("jvm") version "2.0.0" }
+    ```
+
+  </TabItem>
+  <TabItem value="groovy">
+
+    ```groovy title="build.gradle"
+    plugins { id 'org.jetbrains.kotlin.jvm' version '2.0.0' }
+    ```
+
+  </TabItem>
+</Tabs>
+````
+
+Rendered live (try switching — the choice sticks across reloads and appears in the URL):
+
+<Tabs groupId="gradle-dsl" queryString values={KtTabs.gradleDsl} defaultValue={KtTabs.defaultGradleDsl}>
+  <TabItem value="kotlin">
+
+```kotlin title="build.gradle.kts"
+plugins { kotlin("jvm") version "2.0.0" }
+```
+
+  </TabItem>
+  <TabItem value="groovy">
+
+```groovy title="build.gradle"
+plugins { id 'org.jetbrains.kotlin.jvm' version '2.0.0' }
+```
+
+  </TabItem>
+</Tabs>
+
+## Available presets
+
+| Import               | `groupId` you'd use | Options                                  | Default     |
+| -------------------- | ------------------- | ---------------------------------------- | ----------- |
+| `KtTabs.gradleDsl`   | `gradle-dsl`        | Kotlin / Groovy                          | `kotlin`    |
+| `KtTabs.buildTool`   | `build-tool`        | Gradle / Maven                           | `gradle`    |
+| `KtTabs.jvmLanguage` | `jvm-language`      | Kotlin / Java                            | `kotlin`    |
+| `KtTabs.kmpTargets`  | `kmp-target`        | JVM / Android / iOS / JS / Wasm / Native | `jvm`       |
+| `KtTabs.os`          | `os`                | macOS / Windows / Linux                  | reader's OS |
+
+Each preset is a `{ label, value }[]` array with a matching `default<Name>` string. You can pass your own arrays too — these are just conventions so the whole site uses the same `groupId`s and labels.

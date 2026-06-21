@@ -1,0 +1,182 @@
+/*
+ * @ktdocs/docusaurus-preset — Infima / admonition / Prism remap.
+ * Port of docs/contracts/engine-mappings/docusaurus.md §3-5.
+ *
+ * This file is loaded *after* the kit's colors_and_type.css, tokens.css and
+ * components.css, so it can safely reference --kt-*, --surface-*, --color-*,
+ * --code-* and --type-* tokens.
+ */
+
+/* ===========================================================================
+ * §3 — Infima variables → Kotlin tokens
+ * ========================================================================= */
+
+:root {
+  /* Primary color ramp — teal (interaction/action accent). Kotlin purple lives
+     only in the brand gradient now. */
+  --ifm-color-primary:               var(--kt-teal-500);
+  --ifm-color-primary-dark:          var(--kt-teal-600);
+  --ifm-color-primary-darker:        var(--kt-teal-600);
+  --ifm-color-primary-darkest:       var(--kt-teal-700);
+  --ifm-color-primary-light:         var(--kt-teal-400);
+  --ifm-color-primary-lighter:       var(--kt-teal-300);
+  --ifm-color-primary-lightest:      var(--kt-teal-200);
+
+  /* Backgrounds */
+  --ifm-background-color:            var(--surface-0);
+  --ifm-background-surface-color:    var(--surface-1);
+
+  /* Typography */
+  --ifm-font-family-base:            var(--font-sans);
+  --ifm-font-family-monospace:       var(--font-mono);
+  --ifm-font-size-base:              var(--type-body-size);
+  --ifm-line-height-base:            var(--type-body-line);
+  --ifm-heading-font-weight:         600;
+  --ifm-heading-color:               var(--fg-1);
+
+  /* Code */
+  --ifm-code-background:             var(--code-bg);
+  --ifm-code-color:                  var(--code-fg);
+  --ifm-code-font-size:              var(--type-code-size);
+  --ifm-code-border-radius:          var(--radius-sm);
+  --ifm-pre-background:              var(--code-bg);
+  --ifm-pre-color:                   var(--code-fg);
+  --ifm-pre-border-radius:           var(--radius-lg);
+
+  /* Navbar / sidebar / toc */
+  --ifm-navbar-background-color:     color-mix(in srgb, var(--surface-1) 86%, transparent);
+  --ifm-navbar-height:               var(--docs-header-height);
+  --ifm-navbar-shadow:               none;
+  --ifm-navbar-link-color:           var(--fg-1);
+  --ifm-navbar-link-hover-color:     var(--color-interactive);
+  --ifm-toc-border-color:            var(--border-1);
+  --ifm-toc-link-color:              var(--fg-2);
+  --ifm-toc-link-color-active:       var(--color-interactive);
+  --ifm-menu-color:                  var(--fg-2);
+  --ifm-menu-color-active:           var(--color-interactive);
+  --ifm-menu-color-background-active: var(--color-interactive-soft);
+  --ifm-menu-color-background-hover: var(--surface-2);
+
+  /* Keep Infima's sidebar reservation in sync with the kit token: Infima sizes
+     `.docMainContainer` as `calc(100% - var(--doc-sidebar-width))`, so this must
+     match the `.theme-doc-sidebar-container` width (--docs-sidebar-width) or a
+     dead gap opens beside the sidebar. */
+  --doc-sidebar-width:               var(--docs-sidebar-width);
+
+  /* Links */
+  --ifm-link-color:                  var(--color-link);
+  --ifm-link-hover-color:            var(--color-link-hover);
+  --ifm-link-decoration:             none;
+  --ifm-link-hover-decoration:       underline;
+
+  /* Misc */
+  --ifm-global-radius:               var(--radius-md);
+  --ifm-card-border-radius:          var(--radius-lg);
+  --ifm-color-emphasis-200:          var(--border-1);
+  --ifm-color-emphasis-300:          var(--border-2);
+  --ifm-color-emphasis-600:          var(--fg-2);
+  --ifm-color-emphasis-700:          var(--fg-1);
+  --ifm-color-content:               var(--fg-1);
+  --ifm-color-content-secondary:     var(--fg-2);
+  --ifm-blockquote-color:            var(--fg-2);
+  --ifm-blockquote-border-color:     var(--border-2);
+  --ifm-table-stripe-background:     var(--surface-2);
+  --ifm-table-border-color:          var(--border-1);
+  --ifm-hr-border-color:             var(--border-1);
+}
+
+/* Use `html[data-theme='dark']` (specificity 0,1,1) — not bare
+   `[data-theme='dark']` — so these win over Infima's own dark block
+   (`html[data-theme='dark'] { --ifm-background-color: #1b1b1d }` in
+   default.css). At equal specificity custom.css loads later and wins; a bare
+   attribute selector (0,1,0) would lose and the page bg would resolve to
+   Infima's grey #1b1b1d (the "black→grey" symptom). */
+html[data-theme='dark'] {
+  --ifm-color-primary:               var(--kt-teal-400);
+  --ifm-color-primary-dark:          var(--kt-teal-500);
+  --ifm-color-primary-darker:        var(--kt-teal-500);
+  --ifm-color-primary-darkest:       var(--kt-teal-600);
+  --ifm-color-primary-light:         var(--kt-teal-300);
+  --ifm-color-primary-lighter:       var(--kt-teal-200);
+  --ifm-color-primary-lightest:      var(--kt-teal-100);
+
+  /* Page/surface backgrounds == kit surfaces (root bg is #090909, not grey). */
+  --ifm-background-color:            var(--surface-0);
+  --ifm-background-surface-color:    var(--surface-1);
+}
+
+/* Docusaurus toggles `data-theme` on <html> — keep our token system in sync. */
+html[data-theme='dark'] { color-scheme: dark; }
+html[data-theme='light'] { color-scheme: light; }
+
+/* ===========================================================================
+ * §4 — Admonition mapping (Docusaurus :::note … → .kt-callout look)
+ * ========================================================================= */
+
+.theme-admonition {
+  border-radius: var(--radius-md);
+  border-left: 3px solid;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  color: var(--fg-1);
+  background: var(--surface-2);
+}
+.theme-admonition .admonitionHeading_node_modules-\@docusaurus-theme-classic-lib-theme-Admonition-Layout-styles-module,
+.theme-admonition [class*='admonitionHeading'] {
+  font-weight: 600;
+  font-size: var(--type-body-size);
+  margin: 0 0 6px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.theme-admonition [class*='admonitionContent'] > p:last-child { margin-bottom: 0; }
+
+.theme-admonition-note         { background: var(--color-note-soft);         border-left-color: var(--color-note);         }
+.theme-admonition-info         { background: var(--color-info-soft);         border-left-color: var(--color-info);         }
+.theme-admonition-tip          { background: var(--color-tip-soft);          border-left-color: var(--color-tip);          }
+.theme-admonition-success      { background: var(--color-success-soft);      border-left-color: var(--color-success);      }
+.theme-admonition-warning      { background: var(--color-warning-soft);      border-left-color: var(--color-warning);      }
+.theme-admonition-caution      { background: var(--color-caution-soft);      border-left-color: var(--color-caution);      }
+.theme-admonition-danger       { background: var(--color-danger-soft);       border-left-color: var(--color-danger);       }
+.theme-admonition-important    { background: var(--color-important-soft);    border-left-color: var(--color-important);    }
+.theme-admonition-quote        { background: var(--color-quote-soft);        border-left-color: var(--color-quote);        }
+.theme-admonition-example      { background: var(--color-example-soft);      border-left-color: var(--color-example);      }
+.theme-admonition-deprecated   { background: var(--color-deprecated-soft);   border-left-color: var(--color-deprecated);   }
+.theme-admonition-experimental { background: var(--color-experimental-soft); border-left-color: var(--color-experimental); }
+
+/* ===========================================================================
+ * §5 — Prism syntax tokens → --code-* tokens
+ * Mirrors the BEM kt-tok-* contract from components.md without renaming Prism
+ * classes. Scoped to `.kt-codeblock__body` (the host our swizzled CodeBlock /
+ * CodeTabs actually emit) rather than Prism's native `.prism-code` wrapper,
+ * which the swizzle does not render — so colours land on real output.
+ * ========================================================================= */
+
+.kt-codeblock__body .token.keyword,
+.kt-codeblock__body .token.builtin,
+.kt-codeblock__body .token.boolean,
+.kt-codeblock__body .token.null,
+.kt-codeblock__body .token.atrule    { color: var(--code-keyword); font-weight: 500; }
+.kt-codeblock__body .token.string,
+.kt-codeblock__body .token.attr-value,
+.kt-codeblock__body .token.char,
+.kt-codeblock__body .token.regex     { color: var(--code-string); }
+.kt-codeblock__body .token.number    { color: var(--code-number); }
+.kt-codeblock__body .token.comment,
+.kt-codeblock__body .token.prolog,
+.kt-codeblock__body .token.doctype,
+.kt-codeblock__body .token.cdata     { color: var(--code-comment); font-style: italic; }
+.kt-codeblock__body .token.function,
+.kt-codeblock__body .token.function-name { color: var(--code-function); }
+.kt-codeblock__body .token.class-name,
+.kt-codeblock__body .token.builtin.type,
+.kt-codeblock__body .token.namespace,
+.kt-codeblock__body .token.symbol    { color: var(--code-type); }
+.kt-codeblock__body .token.punctuation,
+.kt-codeblock__body .token.operator  { color: var(--code-punctuation); }
+.kt-codeblock__body .token.tag,
+.kt-codeblock__body .token.selector,
+.kt-codeblock__body .token.attr-name { color: var(--code-tag); }

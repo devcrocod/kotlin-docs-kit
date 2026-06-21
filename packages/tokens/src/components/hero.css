@@ -4,10 +4,37 @@
 
 .kt-docs-hero {
   position: relative;
+  isolation: isolate;
   padding: 56px 32px 48px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-1);
   background: var(--surface-1);
+}
+/* Subtle IDE dot-grid, strongest toward the empty top-right and masked away
+   from the text. Echoes the editor backdrop without competing with the copy. */
+.kt-docs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--border-2) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(115% 120% at 92% -10%, #000 0%, transparent 62%);
+          mask-image: radial-gradient(115% 120% at 92% -10%, #000 0%, transparent 62%);
+  opacity: 0.55;
+}
+.kt-docs-hero > * { position: relative; z-index: 1; }
+.kt-docs-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 14px;
+  font-family: var(--font-label);
+  font-size: var(--type-caption-size);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-3);
 }
 .kt-docs-hero h1 {
   font-size: var(--type-display-size);
@@ -15,7 +42,7 @@
   letter-spacing: var(--type-display-tracking);
   font-weight: 700;
 }
-.kt-hero__grad-text {
+.kt-docs-hero__grad-text {
   background: var(--kt-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -25,3 +52,4 @@
   font-size: 17px; color: var(--fg-2); line-height: 1.55;
   margin-top: 14px; max-width: 560px;
 }
+.kt-docs-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }

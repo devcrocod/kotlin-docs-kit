@@ -12,7 +12,7 @@ A click-thru demonstration of the design system as a working **documentation the
 
 ## How to read it
 
-This kit shows what the **rendered output** should look like in MkDocs, Docusaurus, or Hugo once you apply the design system. The component classes used here (`.callout-*`, `.codeblock`, `.docs-shell`, etc.) are the same ones documented in `engine-mappings/` for each engine.
+This kit shows what the **rendered output** should look like in Docusaurus or Hugo once you apply the design system. The component classes used here (`.callout-*`, `.codeblock`, `.docs-shell`, etc.) are the same ones documented in `engine-mappings/` for each engine.
 
 The theme toggle in the top nav flips `data-theme` on `<html>` — try it to see dark mode.
 

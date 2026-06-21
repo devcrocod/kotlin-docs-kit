@@ -1,0 +1,22 @@
+---
+title: API surfaces
+description: Params table and State block.
+---
+
+# API surfaces
+
+## Params
+
+<Params
+  items={[
+    { name: 'timeout', type: 'number · ms', required: true, description: 'Request timeout. Defaults to 30000.' },
+    { name: 'retry', type: 'number', description: 'How many times to retry on transient failure.' },
+    { name: 'logger', type: 'Logger | null', description: 'Optional logger instance.' },
+  ]}
+/>
+
+## State
+
+<State title="No results" icon={<span aria-hidden>📭</span>}>
+  Try a different search term, or clear the active filter.
+</State>

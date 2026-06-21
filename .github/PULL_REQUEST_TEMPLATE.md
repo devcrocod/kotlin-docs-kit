@@ -20,7 +20,7 @@
 
 ## Scope
 
-<!-- Affected package(s): tokens, mkdocs, docusaurus, hugo, landing, docs, ci, release, none -->
+<!-- Affected package(s): tokens, docusaurus, hugo, docs, ci, release, none -->
 
 ## Checklist
 

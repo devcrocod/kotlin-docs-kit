@@ -1,0 +1,23 @@
+{{- $title := .Get "title" | default .Page.Title -}}
+{{- $grad := .Get "gradient" -}}
+{{- $subtitle := .Get "subtitle" -}}
+{{- $eyebrow := .Get "eyebrow" -}}
+<section class="kt-docs-hero">
+  {{- with $eyebrow -}}<span class="kt-docs-hero__eyebrow">{{ . }}</span>{{- end -}}
+  <h1>
+    {{- if $grad -}}
+      {{- $parts := split $title $grad -}}
+      {{- if eq (len $parts) 2 -}}
+        {{ index $parts 0 }}<span class="kt-docs-hero__grad-text">{{ $grad }}</span>{{ index $parts 1 }}
+      {{- else -}}
+        {{ $title }}
+      {{- end -}}
+    {{- else -}}
+      {{ $title }}
+    {{- end -}}
+  </h1>
+  {{- with $subtitle -}}<p>{{ . }}</p>{{- end -}}
+  {{- with .Inner -}}
+    <div class="kt-docs-hero__actions">{{ . | $.Page.RenderString }}</div>
+  {{- end -}}
+</section>

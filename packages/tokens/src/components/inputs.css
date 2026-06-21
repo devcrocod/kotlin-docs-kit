@@ -22,8 +22,18 @@
 .kt-input:hover, .kt-textarea:hover, .kt-select:hover { border-color: var(--border-2); }
 .kt-input:focus, .kt-textarea:focus, .kt-select:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
+  border-color: var(--color-interactive-border);
+  box-shadow: var(--focus-ring);
+}
+.kt-input--error, .kt-textarea--error, .kt-select--error { border-color: var(--color-danger); }
+.kt-input--error:focus, .kt-textarea--error:focus, .kt-select--error:focus {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 1px var(--color-danger), 0 0 0 4px color-mix(in srgb, var(--color-danger) 28%, transparent);
+}
+.kt-input--positive, .kt-textarea--positive, .kt-select--positive { border-color: var(--color-success); }
+.kt-input--positive:focus, .kt-textarea--positive:focus, .kt-select--positive:focus {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 1px var(--color-success), 0 0 0 4px color-mix(in srgb, var(--color-success) 28%, transparent);
 }
 .kt-input::placeholder, .kt-textarea::placeholder { color: var(--fg-3); }
 
@@ -44,18 +54,71 @@
   font-family: var(--font-sans);
   font-size: 13px;
   color: var(--fg-3);
-  cursor: text;
+  cursor: pointer;
   transition: border-color var(--motion-fast) var(--motion-ease);
   width: 100%;
 }
 .kt-docs-search:hover { border-color: var(--border-2); }
+.kt-docs-search:focus-visible { outline: none; border-color: var(--color-interactive-border); box-shadow: var(--focus-ring); }
 .kt-docs-search__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
-.kt-docs-search__text { flex: 1; }
+.kt-docs-search__text { flex: 1; text-align: left; }
 .kt-docs-search__kbd {
-  font-family: var(--font-mono); font-size: 11px;
+  font-family: var(--font-label); font-size: 11px;
   background: var(--surface-2);
   border: 1px solid var(--border-1);
   border-radius: 4px;
   padding: 1px 5px;
   color: var(--fg-2);
 }
+
+/* ---------- Search modal (Pagefind-backed; wired in assets/js/search.js) ----------
+   The topnav .kt-docs-search box opens this overlay; PagefindUI renders the
+   input + results inside .kt-search-modal__ui, themed onto kt tokens below. */
+.kt-search-modal {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: flex-start; justify-content: center;
+}
+.kt-search-modal[hidden] { display: none; }
+.kt-search-modal__backdrop {
+  position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--surface-0) 68%, transparent);
+  backdrop-filter: blur(3px);
+}
+.kt-search-modal__dialog {
+  position: relative; margin: 12vh 16px 16px;
+  width: min(620px, 100%);
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.kt-search-modal__ui { padding: 14px 14px 4px; }
+.kt-search-modal__empty { padding: 8px 6px 18px; color: var(--fg-2); font-size: 14px; line-height: 1.55; }
+.kt-search-modal__hint {
+  display: flex; gap: 8px; align-items: center;
+  padding: 9px 16px;
+  border-top: 1px solid var(--border-1);
+  font: 400 11.5px/1 var(--font-label);
+  color: var(--fg-3);
+}
+.kt-search-modal__hint kbd {
+  font: inherit; background: var(--surface-2);
+  border: 1px solid var(--border-1); border-radius: 4px; padding: 2px 5px;
+}
+/* PagefindUI default styles, retoned to the kit palette. */
+.kt-search-modal__ui .pagefind-ui {
+  --pagefind-ui-primary: var(--color-interactive);
+  --pagefind-ui-text: var(--fg-1);
+  --pagefind-ui-background: var(--surface-1);
+  --pagefind-ui-border: var(--border-1);
+  --pagefind-ui-tag: var(--surface-2);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--radius-md);
+  --pagefind-ui-font: var(--font-sans);
+}
+.kt-search-modal__ui .pagefind-ui__search-input { font-weight: 500; background: var(--surface-2); }
+.kt-search-modal__ui .pagefind-ui__result { border-top: 1px solid var(--border-1); }
+.kt-search-modal__ui .pagefind-ui__result-link { color: var(--fg-1); }
+.kt-search-modal__ui .pagefind-ui__result-excerpt { color: var(--fg-2); }
+.kt-search-modal__ui mark { background: var(--color-interactive-soft); color: inherit; border-radius: 2px; }

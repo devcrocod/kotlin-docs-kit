@@ -1,0 +1,80 @@
+# Hugo starter for kotlin-docs-kit.
+#
+# This config doubles as the live demo site at
+# https://devcrocod.github.io/kotlin-docs-hugo-template/ — anything you see
+# rendered there is reproducible from the markdown in content/.
+#
+# Pair it with the kotlin-docs-hugo theme module, which provides the
+# BEM-contract HTML, bundled fonts and CSS via [[module.imports]].
+
+baseURL = "https://devcrocod.github.io/kotlin-docs-hugo-template/"
+title = "Kotlin Docs — Hugo starter"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+
+[languages]
+  [languages.en]
+    locale = "en-us"
+    weight = 1
+
+[params]
+  # Rendered into the topnav version pill by partials/header.html.
+  version = "1.0.0"
+  description = "Standard-scope starter built on kotlin-docs-hugo (Kotlin-styled Hugo theme module)."
+
+# AI-friendly endpoints. The LLMS / LLMSFULL / MD output formats are provided by
+# the theme module; Hugo doesn't merge [outputs] from modules, so it lives here.
+#   home  → /llms.txt + /llms-full.txt   section/page → per-page <path>/index.md
+[outputs]
+  home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+  section = ["HTML", "RSS", "MD"]
+  page = ["HTML", "MD"]
+
+[module]
+  [[module.imports]]
+    path = "github.com/devcrocod/kotlin-docs-kit/packages/hugo"
+
+[markup]
+  [markup.highlight]
+    # Emit Chroma classes (.k/.s/.n/...) so chroma.css can remap them onto
+    # the kit's eight .kt-tok-* tokens. Hard-coded styles would break dark
+    # mode.
+    codeFences = true
+    # Line numbers are opt-in per fence ({linenos=table}); the render-codeblock
+    # hook honours this. Keep false for the clean default look.
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+    style = "github"
+  [markup.goldmark.renderer]
+    # Required: shortcodes emit inline HTML (cards, hero, callouts).
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+
+# Primary nav row — surfaced by the .kt-topnav partial.
+[[menu.main]]
+  name = "Docs"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  name = "Getting started"
+  url = "/getting-started/"
+  weight = 20
+
+[[menu.main]]
+  name = "Guides"
+  url = "/guides/"
+  weight = 30
+
+[[menu.main]]
+  name = "Reference"
+  url = "/reference/"
+  weight = 40
+
+[[menu.main]]
+  name = "Examples"
+  url = "/examples/"
+  weight = 50

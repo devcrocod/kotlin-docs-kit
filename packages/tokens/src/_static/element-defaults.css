@@ -25,7 +25,7 @@ h2 { font-size: var(--type-h2-size); line-height: var(--type-h2-line); font-weig
 h3 { font-size: var(--type-h3-size); line-height: var(--type-h3-line); font-weight: var(--type-h3-weight); letter-spacing: var(--type-h3-tracking); }
 h4 { font-size: 16px; font-weight: 600; }
 h5 { font-size: var(--type-small-size); font-weight: 600; }
-h6 { font-size: var(--type-caption-size); text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-2); font-weight: 500; }
+h6 { font-family: var(--font-label); font-size: var(--type-caption-size); text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg-2); font-weight: 400; }
 
 p { margin: 0; line-height: var(--type-body-line); color: var(--fg-1); }
 
@@ -55,7 +55,7 @@ code, kbd, samp, pre {
   font-weight: 500;
 }
 
-::selection { background: color-mix(in srgb, var(--color-primary) 30%, transparent); color: inherit; }
+::selection { background: color-mix(in srgb, var(--color-interactive) 30%, transparent); color: inherit; }
 
 /* Focus default */
 *:focus-visible {

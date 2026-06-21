@@ -1,0 +1,9 @@
+{{- /* FeatureGrid — fixed N-column variant of card-grid. Mirrors the Docusaurus
+       <FeatureGrid> contract: emits `kt-card-grid kt-feature-grid` and passes the
+       column count (2–4, default 3) as the --kt-feature-cols custom property —
+       NOT an inline grid-template-columns, which would outrank the mobile
+       single-column media query. The matching rule lives in chroma.css. */ -}}
+{{- $cols := int (.Get "cols" | default 3) -}}
+<div class="kt-card-grid kt-feature-grid" style="--kt-feature-cols: {{ $cols }}">
+  {{ .Inner }}
+</div>

@@ -22,3 +22,7 @@
    class is not required. The class-form takes precedence when both are present. */
 .kt-state h4 { font-family: var(--font-sans); font-weight: 600; font-size: 15px; margin: 0; color: var(--fg-1); }
 .kt-state p  { font-family: var(--font-sans); font-size: 13px; color: var(--fg-2); margin: 0; max-width: 38ch; line-height: 1.5; }
+
+/* Page-level state — used by the 404 layout. Taller, larger title. */
+.kt-state--page { min-height: 60vh; }
+.kt-state--page .kt-state__title { font-size: 22px; }

@@ -1,8 +1,0 @@
-# Placeholder so uv accepts templates/mkdocs as a workspace member.
-# Real content lands in ISSUES.md #9.
-[project]
-name = "kotlin-docs-mkdocs-template"
-version = "0.0.0"
-description = "MkDocs starter for kotlin-docs-kit (stub)."
-requires-python = ">=3.10"
-dependencies = []

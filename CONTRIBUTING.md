@@ -29,20 +29,20 @@ All commits **must** follow [Conventional Commits 1.0.0](https://www.conventiona
 
 **Allowed types:**
 
-| Type | Purpose |
-|---|---|
-| `feat` | New feature (minor version bump) |
-| `fix` | Bug fix (patch version bump) |
-| `docs` | Documentation only |
-| `chore` | Tooling, deps, no production code change |
+| Type       | Purpose                                   |
+| ---------- | ----------------------------------------- |
+| `feat`     | New feature (minor version bump)          |
+| `fix`      | Bug fix (patch version bump)              |
+| `docs`     | Documentation only                        |
+| `chore`    | Tooling, deps, no production code change  |
 | `refactor` | Code change that does not change behavior |
-| `test` | Add or update tests |
-| `build` | Build system or external deps |
-| `ci` | CI configuration |
-| `style` | Formatting only |
-| `perf` | Performance improvement |
+| `test`     | Add or update tests                       |
+| `build`    | Build system or external deps             |
+| `ci`       | CI configuration                          |
+| `style`    | Formatting only                           |
+| `perf`     | Performance improvement                   |
 
-**Allowed scopes:** `tokens`, `mkdocs`, `docusaurus`, `hugo`, `landing`, `docs`, `ci`, `release`. The scope is optional but encouraged. Omit it for cross-cutting changes.
+**Allowed scopes:** `tokens`, `docusaurus`, `hugo`, `docs`, `ci`, `release`. The scope is optional but encouraged. Omit it for cross-cutting changes.
 
 **Breaking changes:** append `!` after the type/scope (`feat(tokens)!: …`) **and/or** include a `BREAKING CHANGE:` footer.
 
@@ -51,7 +51,7 @@ All commits **must** follow [Conventional Commits 1.0.0](https://www.conventiona
 ```
 feat(tokens): add motion tokens
 fix(docusaurus): hero alignment in dark mode
-feat(mkdocs)!: drop support for Material 9.4
+feat(hugo)!: require Hugo 0.128+
 docs: update README
 chore(ci): bump actions/checkout to v4
 ```
@@ -69,6 +69,10 @@ A commit that does not match Conventional Commits will not be accepted into `mas
 ## Security
 
 Do **not** report security vulnerabilities in public issues or PRs. Follow the process in [SECURITY.md](./SECURITY.md).
+
+## Mirrors
+
+The two template starters are mirrored from this monorepo into dedicated `kotlin-docs-*-template` repos on each push to `main`; the self-docs site (`docs/`) is built and deployed straight from the monorepo to GitHub Pages. Maintainer setup notes for the template mirrors live in [docs/content/maintainer/mirrors.md](./docs/content/maintainer/mirrors.md).
 
 ## License & CLA
 

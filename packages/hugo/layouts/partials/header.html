@@ -1,0 +1,37 @@
+<header class="kt-topnav">
+  <a class="kt-topnav__brand" href="{{ site.Home.RelPermalink }}">
+    <img src="{{ "img/kotlin-icon-color.svg" | relURL }}" width="28" height="28" alt="">
+    <span class="kt-topnav__brand-name">{{ .Site.Title }}</span>
+    {{ with .Site.Params.version }}<span class="kt-topnav__version">v{{ . }}</span>{{ end }}
+  </a>
+  {{ with .Site.Menus.main }}
+    <nav class="kt-topnav__links">
+      {{ range . }}
+        <a class="kt-topnav__link{{ if $.IsMenuCurrent "main" . }} kt-topnav__link--active{{ end }}" href="{{ .URL | relURL }}">{{ .Name }}</a>
+      {{ end }}
+    </nav>
+  {{ end }}
+  <div class="kt-topnav__right">
+    <div class="kt-docs-search" role="button" tabindex="0" aria-label="Search" aria-keyshortcuts="Meta+K Control+K" data-pagefind-base="{{ "pagefind/" | relURL }}" data-site-base="{{ "" | relURL }}">
+      <svg class="kt-docs-search__icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+      </svg>
+      <span class="kt-docs-search__text">Search…</span>
+      <span class="kt-docs-search__kbd">⌘K</span>
+    </div>
+    {{- /* Tri-state theme toggle. data-theme-mode (set by theme.js) selects which
+           icon shows via CSS; defaults to auto for the no-JS / pre-hydration view. */ -}}
+    <button class="kt-topnav__icon-btn" id="theme-toggle" type="button" data-theme-mode="auto" aria-label="Switch theme">
+      <svg class="kt-theme-icon kt-theme-icon--auto" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path>
+      </svg>
+      <svg class="kt-theme-icon kt-theme-icon--light" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
+      </svg>
+      <svg class="kt-theme-icon kt-theme-icon--dark" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+      </svg>
+    </button>
+  </div>
+</header>

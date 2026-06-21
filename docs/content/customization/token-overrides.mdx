@@ -1,0 +1,52 @@
+---
+title: Token overrides
+sidebar_position: 3
+---
+
+# Token overrides
+
+<Callout type="caution" title="Advanced">
+  This page describes the **token override** customization layer. Most teams should stop at [CSS variable
+  overrides](./css-overrides.mdx) — they get you 95% of the way with a fraction of the moving parts. Read this only if
+  you need a brand fork that ships to multiple sites.
+</Callout>
+
+## What a token override is
+
+The kit's CSS is **generated** from DTCG (W3C Design Tokens Community Group) JSON sources by Style Dictionary. The source lives in `packages/tokens/src/` of the kit repo:
+
+```
+packages/tokens/src/
+├── color/primitive.json          # kt-purple-*, kt-magenta-*, …
+├── color/semantic.light.json     # surface-*, fg-*, color-*
+├── color/semantic.dark.json
+├── typography/scale.json         # type-{step}-*
+├── spacing.json
+├── radius.json
+└── …
+```
+
+A token override means **forking those JSON sources** and rebuilding the dist. The result is a CSS file with different values for the same custom-property names — drop-in compatible with the kit's components.
+
+## When to do it
+
+- You ship a **brand fork** across multiple docs sites (the kit's mode is "use it directly with CSS overrides", but a fork can be the right call for a 3-product company that wants identical visuals across all their docs).
+- You need to **change the structure** of a token group (rename a ramp, add steps).
+- You are building a kit derivative for a different brand.
+
+If any of these don't apply to you, [CSS variable overrides](./css-overrides.mdx) is the better tool.
+
+## How to do it
+
+1. **Fork** `packages/tokens/` into your own repo, or publish a sibling package (`@your-org/tokens`).
+2. Edit the JSON sources. The DTCG format is `{ "$value": …, "$type": … }`; see the [DTCG draft](https://tr.designtokens.org/format/) for the schema.
+3. Run the kit's pipeline (`pnpm --filter @ktdocs/tokens build`) to regenerate `dist/{colors_and_type,tokens,components}.css`.
+4. Republish the package or point your engine's stylesheet imports at your own dist.
+
+## Compatibility window
+
+When the kit's tokens get a major bump (e.g. `@ktdocs/tokens@2.0.0` renames `--kt-purple-*` to `--brand-purple-*`), engine packages declare the supported range in their release notes. A token fork has the same obligation to its consumers.
+
+## Roadmap
+
+A first-class **token override pipeline** — write a `brand.tokens.json` next to your engine config and have the kit auto-rebuild — is on the v0.4 roadmap. Today the path is the manual fork above.

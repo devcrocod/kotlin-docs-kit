@@ -1,0 +1,45 @@
+---
+slug: /
+title: Home
+description: Kotlin-styled Docusaurus starter built on @ktdocs/docusaurus-preset.
+hide_table_of_contents: true
+---
+
+<Hero
+  title="Kotlin-styled docs,"
+  gradient="powered by Docusaurus."
+  tagline="A drop-in preset on top of Docusaurus 3 — Kotlin palette, bundled IBM Plex Sans + JetBrains Mono, premium code blocks, and the same BEM contract as the Hugo flavour of kotlin-docs-kit."
+  actions={
+    <>
+      <a className="kt-button kt-button--primary kt-button--lg" href="getting-started/installation">
+        Get started
+      </a>
+      <a className="kt-button kt-button--ghost kt-button--lg" href="guides/customization">
+        Customise
+      </a>
+    </>
+  }
+/>
+
+## Pick a starting point
+
+<FeatureGrid cols={3}>
+  <Card title="Getting started" href="getting-started/installation" arrow>
+    Install @ktdocs/docusaurus-preset, wire it into `docusaurus.config.ts`, and ship your first page.
+  </Card>
+  <Card title="Author guide" href="guides/basic-usage" arrow>
+    MDX admonitions, content tabs, premium code blocks, cards — all engine-idiomatic.
+  </Card>
+  <Card title="Customise" href="guides/customization" arrow>
+    Override CSS variables, swap the logo, layer your own theme components.
+  </Card>
+  <Card title="Components" href="reference/components" arrow>
+    16 BEM component groups shared with the Hugo flavour. Visual parity by contract.
+  </Card>
+  <Card title="Design tokens" href="reference/tokens" arrow>
+    Every `--kt-*`, `--surface-*`, `--font-*`, `--space-*`, `--radius-*` variable in one table.
+  </Card>
+  <Card title="Deploy" href="getting-started/deploy" arrow>
+    Ship to GitHub Pages with the bundled workflow — zero config after first-time setup.
+  </Card>
+</FeatureGrid>

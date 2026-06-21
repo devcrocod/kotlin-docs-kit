@@ -1,0 +1,48 @@
+---
+title: Roadmap
+sidebar_position: 90
+---
+
+# Roadmap
+
+The kit is in active pre-v0.1 development. This page tracks what's planned for **post-MVP** releases — features that are intentionally excluded from v0.1 to keep scope tight, plus longer-horizon items.
+
+The current MVP scope lives in [`SPEC.md`](https://github.com/devcrocod/kotlin-docs-kit/blob/main/SPEC.md) §3. Anything below is **not** part of v0.1.
+
+## v0.2 — feature growth
+
+- **Visual regression tests** — Playwright + Argos, running on PRs against pinned reference screenshots.
+- **Versioned docs** — native Docusaurus versioning, Hugo content versioning. Recipes and kit-aware styling.
+- **Search UI styling** — Algolia DocSearch + Pagefind fallback, with the kit's `.kt-docs-search` chrome wired up.
+- **OG-image autogeneration** — Satori-based template per page, opt-in.
+- **Kotlin Playground integration** — a `<Playground>` MDX component and Hugo shortcode that embed the official Kotlin Playground.
+- **WCAG AA contrast automation** — CI check that every token pair meets 4.5:1.
+- **Hugo themes.gohugo.io listing** — optional. Add a fourth subtree-split target to `sync-templates.yml` that mirrors `packages/hugo/` into `devcrocod/kotlin-docs-hugo-theme` (with `theme.toml` at the root), then submit to the [Hugo themes registry](https://themes.gohugo.io). The module path already works via `hugo mod get` without this — listing is a discovery channel, picked up only if Hugo adoption signals demand.
+
+## v0.3 — internationalization
+
+- **Multi-language docs styles + recipes** — one recipe per engine.
+- **Language selector component** — `.kt-lang-switcher`.
+- **RTL preparation** — sensible defaults, not full RTL coverage.
+
+## v0.4 — advanced
+
+- **Custom token override pipeline** — write a `brand.tokens.json` next to your engine config and have the kit auto-rebuild. Replaces the "fork the tokens package" workflow described in [Token overrides](./customization/token-overrides.mdx).
+- **Version selector component** — for your library's versions, not the docs' versions.
+- **Kotlin / Java tabs** — specialized `<CodeTabs>` with first-class fallback.
+- **Dokka HTML deep integration** — shared nav between the kit's docs site and the Dokka API reference.
+
+## v1.0
+
+- Stability commitment on the token names and component contract.
+- Migration guides between major versions.
+- LTS policy.
+
+## Out of scope (probably forever)
+
+These are explicit **non-goals** — the kit will not ship them, by design:
+
+- A monolithic single-engine docs framework (the value is _two engines, one look_).
+- A CMS or editor UI.
+- A JS framework for content components beyond what each engine already provides.
+- Support for engines beyond Docusaurus and Hugo (Sphinx, GitBook, VuePress, …) — those have their own ecosystems.

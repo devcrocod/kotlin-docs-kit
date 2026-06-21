@@ -1,0 +1,57 @@
+---
+title: SEO & structured data
+sidebar_position: 8
+---
+
+# Docusaurus · SEO & structured data
+
+Docusaurus already emits the per-page basics (`<title>`, canonical, description, Open Graph). The kit adds an opt-in `seo` option that injects **site-level structured data** (JSON-LD) plus social-card defaults, derived from your `siteConfig`.
+
+## Enable it
+
+```ts
+presets: [
+  [
+    '@ktdocs/docusaurus-preset',
+    {
+      seo: {
+        image: '/img/og-card.png', // social share image (site-root path or absolute URL)
+        twitterSite: '@your_handle',
+        organization: 'Your Org',
+      },
+    },
+  ],
+];
+```
+
+`seo: true` works too — it emits just the `WebSite` JSON-LD with no image/handle.
+
+## What it emits
+
+A `WebSite` JSON-LD node with a `SearchAction` (so search engines can offer a sitelinks search box), and — when `image`/`twitterSite` are set — `og:image`, `twitter:image`, `twitter:card`, and `twitter:site` meta tags. `name`, `url`, and `description` come from `siteConfig.title`, `siteConfig.url`, and `siteConfig.tagline`.
+
+The `SearchAction` points at `/search?q={query}` by default (the route the [local search](./configuration.md#local-offline-search-no-account) theme adds). Override or disable it:
+
+```ts
+seo: {
+  searchUrlTemplate: 'https://example.com/find?q={query}', // or `false` to omit
+}
+```
+
+## Per-page structured data
+
+Site-level data is global. For per-page `WebPage`/`Article` JSON-LD (which needs page-specific metadata), add it from the page itself with Docusaurus' `<Head>`:
+
+```mdx
+import Head from '@docusaurus/Head';
+
+<Head>
+  <script type="application/ld+json">
+    {JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'TechArticle',
+      headline: 'My page title',
+    })}
+  </script>
+</Head>
+```

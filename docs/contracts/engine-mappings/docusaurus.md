@@ -25,36 +25,41 @@ your-site/
 
 ```js
 module.exports = {
-  title: "Your Project Docs",
+  title: 'Your Project Docs',
   themeConfig: {
     navbar: {
       logo: {
-        alt: "Kotlin",
-        src: "img/kotlin-logo.svg",
-        srcDark: "img/kotlin-logo-dark.svg",
+        alt: 'Kotlin',
+        src: 'img/kotlin-logo.svg',
+        srcDark: 'img/kotlin-logo-dark.svg',
       },
       // ...
     },
     colorMode: {
-      defaultMode: "light",
+      defaultMode: 'light',
       respectPrefersColorScheme: true,
     },
     prism: {
-      theme: require("prism-react-renderer/themes/vsLight"),
-      darkTheme: require("prism-react-renderer/themes/vsDark"),
-      additionalLanguages: ["kotlin", "java", "groovy"],
+      theme: require('prism-react-renderer/themes/vsLight'),
+      darkTheme: require('prism-react-renderer/themes/vsDark'),
+      additionalLanguages: ['kotlin', 'java', 'groovy'],
     },
   },
-  presets: [["classic", {
-    theme: {
-      customCss: [
-        require.resolve("./static/css/colors_and_type.css"),
-        require.resolve("./static/css/tokens.css"),
-        require.resolve("./static/css/components.css"),
-        require.resolve("./src/css/custom.css"),
-      ],
-    },
-  }]],
+  presets: [
+    [
+      'classic',
+      {
+        theme: {
+          customCss: [
+            require.resolve('./static/css/colors_and_type.css'),
+            require.resolve('./static/css/tokens.css'),
+            require.resolve('./static/css/components.css'),
+            require.resolve('./src/css/custom.css'),
+          ],
+        },
+      },
+    ],
+  ],
 };
 ```
 
@@ -62,51 +67,51 @@ module.exports = {
 
 ```css
 :root {
-  --ifm-color-primary:               var(--kt-purple-500);
-  --ifm-color-primary-dark:          var(--kt-purple-600);
-  --ifm-color-primary-darker:        var(--kt-purple-700);
-  --ifm-color-primary-darkest:       var(--kt-purple-800);
-  --ifm-color-primary-light:         var(--kt-purple-400);
-  --ifm-color-primary-lighter:       var(--kt-purple-300);
-  --ifm-color-primary-lightest:      var(--kt-purple-200);
+  --ifm-color-primary: var(--kt-purple-500);
+  --ifm-color-primary-dark: var(--kt-purple-600);
+  --ifm-color-primary-darker: var(--kt-purple-700);
+  --ifm-color-primary-darkest: var(--kt-purple-800);
+  --ifm-color-primary-light: var(--kt-purple-400);
+  --ifm-color-primary-lighter: var(--kt-purple-300);
+  --ifm-color-primary-lightest: var(--kt-purple-200);
 
-  --ifm-background-color:            var(--surface-0);
-  --ifm-background-surface-color:    var(--surface-1);
+  --ifm-background-color: var(--surface-0);
+  --ifm-background-surface-color: var(--surface-1);
 
-  --ifm-font-family-base:            "IBM Plex Sans", system-ui, sans-serif;
-  --ifm-font-family-monospace:       "JetBrains Mono", monospace;
-  --ifm-font-size-base:              var(--type-body-size);
-  --ifm-line-height-base:            var(--type-body-line);
-  --ifm-heading-font-weight:         600;
+  --ifm-font-family-base: 'IBM Plex Sans', system-ui, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', monospace;
+  --ifm-font-size-base: var(--type-body-size);
+  --ifm-line-height-base: var(--type-body-line);
+  --ifm-heading-font-weight: 600;
 
-  --ifm-code-background:             var(--code-bg);
-  --ifm-code-color:                  var(--code-fg);
-  --ifm-code-font-size:              var(--type-code-size);
-  --ifm-code-border-radius:          var(--radius-sm);
+  --ifm-code-background: var(--code-bg);
+  --ifm-code-color: var(--code-fg);
+  --ifm-code-font-size: var(--type-code-size);
+  --ifm-code-border-radius: var(--radius-sm);
 
-  --ifm-navbar-background-color:     color-mix(in srgb, var(--surface-1) 86%, transparent);
-  --ifm-navbar-height:               var(--docs-header-height);
-  --ifm-toc-border-color:            var(--border-1);
-  --ifm-toc-link-color:              var(--fg-2);
-  --ifm-toc-link-color-active:       var(--color-primary);
-  --ifm-menu-color-active:           var(--color-primary);
+  --ifm-navbar-background-color: color-mix(in srgb, var(--surface-1) 86%, transparent);
+  --ifm-navbar-height: var(--docs-header-height);
+  --ifm-toc-border-color: var(--border-1);
+  --ifm-toc-link-color: var(--fg-2);
+  --ifm-toc-link-color-active: var(--color-primary);
+  --ifm-menu-color-active: var(--color-primary);
   --ifm-menu-color-background-active: var(--color-primary-soft);
 
-  --ifm-link-color:                  var(--color-link);
-  --ifm-link-hover-color:             var(--color-link-hover);
+  --ifm-link-color: var(--color-link);
+  --ifm-link-hover-color: var(--color-link-hover);
 
-  --ifm-global-radius:               var(--radius-md);
-  --ifm-card-border-radius:          var(--radius-lg);
+  --ifm-global-radius: var(--radius-md);
+  --ifm-card-border-radius: var(--radius-lg);
 }
 
-[data-theme="dark"] {
-  --ifm-color-primary:               var(--kt-purple-400);
-  --ifm-color-primary-dark:          var(--kt-purple-500);
-  --ifm-color-primary-darker:        var(--kt-purple-600);
-  --ifm-color-primary-darkest:       var(--kt-purple-700);
-  --ifm-color-primary-light:         var(--kt-purple-300);
-  --ifm-color-primary-lighter:       var(--kt-purple-200);
-  --ifm-color-primary-lightest:      var(--kt-purple-100);
+[data-theme='dark'] {
+  --ifm-color-primary: var(--kt-purple-400);
+  --ifm-color-primary-dark: var(--kt-purple-500);
+  --ifm-color-primary-darker: var(--kt-purple-600);
+  --ifm-color-primary-darkest: var(--kt-purple-700);
+  --ifm-color-primary-light: var(--kt-purple-300);
+  --ifm-color-primary-lighter: var(--kt-purple-200);
+  --ifm-color-primary-lightest: var(--kt-purple-100);
 }
 ```
 
@@ -125,18 +130,54 @@ Docusaurus uses MDX admonitions: `:::note`, `:::tip`, `:::info`, `:::warning`, `
   font-family: var(--font-sans);
   font-size: var(--type-body-size);
 }
-.theme-admonition-note         { background: var(--color-note-soft);         border-left-color: var(--color-note);         }
-.theme-admonition-info         { background: var(--color-info-soft);         border-left-color: var(--color-info);         }
-.theme-admonition-tip          { background: var(--color-tip-soft);          border-left-color: var(--color-tip);          }
-.theme-admonition-success      { background: var(--color-success-soft);      border-left-color: var(--color-success);      }
-.theme-admonition-warning      { background: var(--color-warning-soft);      border-left-color: var(--color-warning);      }
-.theme-admonition-caution      { background: var(--color-caution-soft);      border-left-color: var(--color-caution);      }
-.theme-admonition-danger       { background: var(--color-danger-soft);       border-left-color: var(--color-danger);       }
-.theme-admonition-important    { background: var(--color-important-soft);    border-left-color: var(--color-important);    }
-.theme-admonition-quote        { background: var(--color-quote-soft);        border-left-color: var(--color-quote);        }
-.theme-admonition-example      { background: var(--color-example-soft);      border-left-color: var(--color-example);      }
-.theme-admonition-deprecated   { background: var(--color-deprecated-soft);   border-left-color: var(--color-deprecated);   }
-.theme-admonition-experimental { background: var(--color-experimental-soft); border-left-color: var(--color-experimental); }
+.theme-admonition-note {
+  background: var(--color-note-soft);
+  border-left-color: var(--color-note);
+}
+.theme-admonition-info {
+  background: var(--color-info-soft);
+  border-left-color: var(--color-info);
+}
+.theme-admonition-tip {
+  background: var(--color-tip-soft);
+  border-left-color: var(--color-tip);
+}
+.theme-admonition-success {
+  background: var(--color-success-soft);
+  border-left-color: var(--color-success);
+}
+.theme-admonition-warning {
+  background: var(--color-warning-soft);
+  border-left-color: var(--color-warning);
+}
+.theme-admonition-caution {
+  background: var(--color-caution-soft);
+  border-left-color: var(--color-caution);
+}
+.theme-admonition-danger {
+  background: var(--color-danger-soft);
+  border-left-color: var(--color-danger);
+}
+.theme-admonition-important {
+  background: var(--color-important-soft);
+  border-left-color: var(--color-important);
+}
+.theme-admonition-quote {
+  background: var(--color-quote-soft);
+  border-left-color: var(--color-quote);
+}
+.theme-admonition-example {
+  background: var(--color-example-soft);
+  border-left-color: var(--color-example);
+}
+.theme-admonition-deprecated {
+  background: var(--color-deprecated-soft);
+  border-left-color: var(--color-deprecated);
+}
+.theme-admonition-experimental {
+  background: var(--color-experimental-soft);
+  border-left-color: var(--color-experimental);
+}
 ```
 
 Docusaurus ships note / tip / info / warning / danger out of the box. Register the other seven as custom admonitions in `docusaurus.config.js`:
@@ -155,13 +196,13 @@ themeConfig: {
 
 ### Full mapping table
 
-| MDX | Callout class | Builtin? |
-|---|---|---|
-| `:::note`         | `.callout-note`         | ✓ |
-| `:::info`         | `.callout-info`         | ✓ |
-| `:::tip`          | `.callout-tip`          | ✓ |
-| `:::warning`      | `.callout-warning`      | ✓ |
-| `:::danger`       | `.callout-danger`       | ✓ |
+| MDX               | Callout class           | Builtin?                |
+| ----------------- | ----------------------- | ----------------------- |
+| `:::note`         | `.callout-note`         | ✓                       |
+| `:::info`         | `.callout-info`         | ✓                       |
+| `:::tip`          | `.callout-tip`          | ✓                       |
+| `:::warning`      | `.callout-warning`      | ✓                       |
+| `:::danger`       | `.callout-danger`       | ✓                       |
 | `:::success`      | `.callout-success`      | register via `keywords` |
 | `:::caution`      | `.callout-caution`      | register via `keywords` |
 | `:::important`    | `.callout-important`    | register via `keywords` |
@@ -176,25 +217,40 @@ Docusaurus uses Prism for syntax highlighting via `prism-react-renderer`. Map Pr
 
 ```css
 .prism-code .token.keyword,
-.prism-code .token.builtin   { color: var(--code-keyword); }
-.prism-code .token.string    { color: var(--code-string); }
-.prism-code .token.number    { color: var(--code-number); }
-.prism-code .token.comment   { color: var(--code-comment); font-style: italic; }
-.prism-code .token.function  { color: var(--code-function); }
+.prism-code .token.builtin {
+  color: var(--code-keyword);
+}
+.prism-code .token.string {
+  color: var(--code-string);
+}
+.prism-code .token.number {
+  color: var(--code-number);
+}
+.prism-code .token.comment {
+  color: var(--code-comment);
+  font-style: italic;
+}
+.prism-code .token.function {
+  color: var(--code-function);
+}
 .prism-code .token.class-name,
-.prism-code .token.type      { color: var(--code-type); }
-.prism-code .token.punctuation { color: var(--code-punctuation); }
+.prism-code .token.type {
+  color: var(--code-type);
+}
+.prism-code .token.punctuation {
+  color: var(--code-punctuation);
+}
 ```
 
 Re-skin the code block wrapper to match `.codeblock`:
 
 ```css
-[class^="codeBlockContainer"] {
+[class^='codeBlockContainer'] {
   background: var(--code-bg) !important;
   border: 1px solid var(--border-1);
   border-radius: var(--radius-lg);
 }
-[class^="codeBlockTitle"] {
+[class^='codeBlockTitle'] {
   background: var(--surface-2);
   border-bottom: 1px solid var(--border-1);
   font-family: var(--font-mono);

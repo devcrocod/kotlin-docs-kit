@@ -1,0 +1,9 @@
+{{ define "main" }}
+  {{ partial "breadcrumbs.html" . }}
+  <div class="kt-doc-titlebar">
+    <h1>{{ .Title }}</h1>
+    {{ partial "copy-page.html" . }}
+  </div>
+  {{ .Content }}
+  {{ partial "pager.html" . }}
+{{ end }}

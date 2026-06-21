@@ -1,15 +1,14 @@
-version: '3'
+version: "3"
 
 # kotlin-docs-kit build orchestration.
-# Most build tasks start working only after issues #4, #6–#11, and #12 are complete.
+# Most build tasks start working only after issues #4 and #6–#11 are complete.
 # `task install` is independent and works as soon as pnpm + uv are installed.
 
 tasks:
   install:
-    desc: Install all deps (Node + Python)
+    desc: Install all deps (Node)
     cmds:
       - pnpm install
-      - uv sync
 
   tokens:build:
     desc: Build design tokens (Style Dictionary)
@@ -21,22 +20,6 @@ tasks:
     generates:
       - dist/**/*
 
-  mkdocs:build:
-    desc: Build MkDocs theme package
-    deps: [tokens:build]
-    cmds:
-      # Sync into overrides/assets/ so mkdocs custom_dir auto-serves the files
-      # at /assets/* in the generated site. CSS (incl. fonts.css) + woff2 live
-      # next to each other in stylesheets/ so url("./fonts/*.woff2") in
-      # fonts.css resolves the same way it does from packages/tokens/dist/.
-      # --delete keeps the dir tidy when tokens dist drops a file, but our
-      # hand-written mkdocs-overrides.css lives in the same directory and
-      # MUST survive every sync — exclude it from both copy and delete sides.
-      - rsync -a --delete --exclude='mkdocs-overrides.css' --include='*.css' --include='fonts/' --include='fonts/**' --exclude='*'
-          packages/tokens/dist/ packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/stylesheets/
-      - rsync -a packages/tokens/dist/assets/ packages/mkdocs/kotlin_docs_mkdocs/overrides/assets/img/
-      - cd packages/mkdocs && uv build
-
   docusaurus:build:
     desc: Build Docusaurus preset
     deps: [tokens:build]
@@ -47,19 +30,27 @@ tasks:
     desc: Sync tokens into Hugo theme
     deps: [tokens:build]
     cmds:
-      # CSS files into assets/css/; fonts get their own assets/fonts/ with
-      # fonts.css alongside so url("./fonts/*") still resolves after Hugo Pipes.
+      # All CSS (incl. fonts.css) goes through Hugo Pipes from assets/css/.
+      # woff2 are served verbatim from static/fonts/ at <baseURL>/fonts/*.woff2.
+      # fonts.css URLs are rewritten from "./fonts/" → "../fonts/" so the
+      # concatenated bundle (emitted at <baseURL>/css/bundle.<hash>.css) resolves
+      # font URLs to <baseURL>/fonts/ — correct under both root and sub-path
+      # baseURLs. An absolute "/fonts/" breaks when the site is served under a
+      # sub-path (e.g. /kotlin-docs-hugo-template/), which is why the logo and
+      # fonts 404'd in the starter.
       - rsync -a --include='*.css' --exclude='*/' --exclude='*'
-          packages/tokens/dist/ packages/hugo/assets/css/
-      - rsync -a packages/tokens/dist/fonts/ packages/hugo/assets/fonts/
-      - cp packages/tokens/dist/fonts.css packages/hugo/assets/fonts/fonts.css
+        packages/tokens/dist/ packages/hugo/assets/css/
+      - sed -E -i.bak 's|url\("\./fonts/|url("../fonts/|g' packages/hugo/assets/css/fonts.css
+      - rm -f packages/hugo/assets/css/fonts.css.bak
+      # colors_and_type.css @imports fonts.css so single-stylesheet consumers
+      # (Docusaurus) pull in the @font-face rules. Hugo's head.html instead
+      # concatenates fonts.css into the bundle explicitly, so the @import would
+      # resolve to a non-existent <baseURL>/css/fonts.css and 404 on every page.
+      # Strip it from the Hugo copy.
+      - sed -E -i.bak '/@import "\.\/fonts\.css";/d' packages/hugo/assets/css/colors_and_type.css
+      - rm -f packages/hugo/assets/css/colors_and_type.css.bak
+      - rsync -a --delete packages/tokens/dist/fonts/ packages/hugo/static/fonts/
       - rsync -a packages/tokens/dist/assets/ packages/hugo/static/img/
-
-  template:mkdocs:build:
-    desc: Build MkDocs template (also serves as live demo)
-    deps: [mkdocs:build]
-    cmds:
-      - cd templates/mkdocs && uv run mkdocs build
 
   template:docusaurus:build:
     desc: Build Docusaurus template (also serves as live demo)
@@ -72,18 +63,48 @@ tasks:
     deps: [hugo:build]
     cmds:
       - cd templates/hugo && hugo --minify
+      # Build the Pagefind search index over the rendered HTML. Must run AFTER
+      # hugo; the theme's assets/js/search.js loads it lazily from /pagefind/.
+      - cd templates/hugo && npx -y pagefind@1.5.2 --site public
 
   templates:build:
-    desc: Build all three engine templates
+    desc: Build both engine templates
     deps:
-      - template:mkdocs:build
       - template:docusaurus:build
       - template:hugo:build
 
-  landing:build:
-    desc: Build static landing site (stub until #12 / RFC #24)
+  docs:build:
+    desc: Build the dogfood docs site (docs/)
+    deps: [docusaurus:build]
     cmds:
-      - echo 'landing:build is not implemented yet (blocked by issue #12 and RFC #24).'
+      - cd docs && pnpm build
+
+  docs:serve:
+    desc: Run the dogfood docs site locally (http://localhost:3000)
+    deps: [docusaurus:build]
+    cmds:
+      - cd docs && pnpm start
+
+  lint:
+    desc: Run all linters (Prettier check, ESLint, gofmt)
+    cmds:
+      - pnpm run format:check
+      - pnpm run lint
+      - 'out=$(gofmt -l packages/hugo templates/hugo); [ -z "$out" ] || { echo "$out"; exit 1; }'
+
+  lint:fix:
+    desc: Auto-fix linters where possible
+    cmds:
+      - pnpm run format
+      - pnpm run lint:fix
+      - gofmt -w packages/hugo templates/hugo
+
+  typecheck:
+    desc: Run tsc --noEmit on TypeScript packages
+    cmds:
+      - pnpm --filter @ktdocs/docusaurus-preset typecheck
+      - pnpm --filter @ktdocs/docs-site typecheck
+      - pnpm --filter kotlin-docs-docusaurus-template typecheck
 
   ci:
     desc: Full CI pipeline locally (smoke tests)
@@ -91,4 +112,4 @@ tasks:
       - task: install
       - task: tokens:build
       - task: templates:build
-      - task: landing:build
+      - task: docs:build

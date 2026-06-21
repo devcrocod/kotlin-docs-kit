@@ -1,0 +1,8 @@
+node_modules/
+lib/
+.docusaurus/
+__fixtures__/*/build/
+__fixtures__/*/.docusaurus/
+__fixtures__/*/node_modules/
+.DS_Store
+*.log

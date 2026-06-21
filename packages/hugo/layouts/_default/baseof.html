@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ default "en" site.Language.Lang }}">
+  <head>
+    {{ partial "head.html" . }}
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+  </head>
+  <body>
+    {{ partial "header.html" . }}
+    <div class="kt-docs-shell">
+      <aside class="kt-docs-shell__side">{{ partial "sidebar.html" . }}</aside>
+      <main class="kt-docs-shell__main">
+        <article class="kt-docs-article" data-pagefind-body>
+          {{ block "main" . }}{{ end }}
+        </article>
+      </main>
+      <aside class="kt-docs-shell__toc">{{ partial "toc.html" . }}</aside>
+    </div>
+    {{ partial "footer.html" . }}
+    {{ $theme := resources.Get "js/theme.js" | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $theme.RelPermalink }}" integrity="{{ $theme.Data.Integrity }}"></script>
+    {{ $copyPage := resources.Get "js/copy-page.js" | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $copyPage.RelPermalink }}" integrity="{{ $copyPage.Data.Integrity }}"></script>
+    {{ $search := resources.Get "js/search.js" | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $search.RelPermalink }}" integrity="{{ $search.Data.Integrity }}"></script>
+  </body>
+</html>

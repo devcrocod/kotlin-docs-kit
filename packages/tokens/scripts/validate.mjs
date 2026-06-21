@@ -10,16 +10,11 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
 
-const schema = JSON.parse(
-  await readFile(resolve(root, 'schemas/dtcg.schema.json'), 'utf8'),
-);
+const schema = JSON.parse(await readFile(resolve(root, 'schemas/dtcg.schema.json'), 'utf8'));
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 const validators = Object.fromEntries(
-  Object.entries(schema.definitions.valueByType).map(([type, sub]) => [
-    type,
-    ajv.compile(sub),
-  ]),
+  Object.entries(schema.definitions.valueByType).map(([type, sub]) => [type, ajv.compile(sub)]),
 );
 
 const REF_RE = /^\{[A-Za-z0-9_.-]+\}$/;

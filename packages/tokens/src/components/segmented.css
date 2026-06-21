@@ -1,0 +1,34 @@
+/* ============================================================================
+   Segmented control — a small track of mutually-exclusive segments. The
+   selected segment is accent-tinted (teal in dark, purple in light). Distinct
+   from content tabs (.kt-tabs): this is a compact inline switch, not a page
+   section selector.
+   ============================================================================ */
+
+.kt-segmented {
+  display: inline-flex; gap: 2px;
+  padding: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+}
+.kt-segmented__segment {
+  appearance: none; -webkit-appearance: none;
+  border: 0; cursor: pointer;
+  font-family: var(--font-sans); font-weight: 500; font-size: 13px; line-height: 1;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--fg-2);
+  white-space: nowrap;
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+}
+.kt-segmented__segment:hover { color: var(--fg-1); }
+.kt-segmented__segment:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kt-segmented__segment--active, .kt-segmented__segment[aria-selected="true"] {
+  background: var(--color-interactive-soft);
+  color: var(--color-interactive);
+}
+[data-theme="dark"] .kt-segmented { background: var(--overlay-white-4); }

@@ -1,13 +1,25 @@
 {
-  "$description": "Font family stacks. Two families: IBM Plex Sans for prose/UI, JetBrains Mono for code. System fallbacks ensure rendering even before woff2 files are bundled.",
+  "$description": "Font family stacks. Three roles: IBM Plex Sans for prose/UI, IBM Plex Mono for eyebrows/labels/metadata/nav, JetBrains Mono for code. System fallbacks ensure rendering even before woff2 files are bundled.",
   "font": {
     "sans": {
       "$type": "fontFamily",
-      "$value": ["IBM Plex Sans", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"]
+      "$value": [
+        "IBM Plex Sans",
+        "ui-sans-serif",
+        "system-ui",
+        "-apple-system",
+        "Segoe UI",
+        "sans-serif"
+      ]
     },
     "mono": {
       "$type": "fontFamily",
       "$value": ["JetBrains Mono", "ui-monospace", "SF Mono", "Menlo", "Consolas", "monospace"]
+    },
+    "label": {
+      "$type": "fontFamily",
+      "$description": "Eyebrows, nav, metadata, tags, badges — uppercase mono labels. Reserved from code so the code font keeps its own voice.",
+      "$value": ["IBM Plex Mono", "ui-monospace", "SF Mono", "Menlo", "Consolas", "monospace"]
     }
   }
 }

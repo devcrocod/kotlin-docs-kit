@@ -1,0 +1,116 @@
+---
+title: Components
+sidebar_position: 5
+---
+
+# Components
+
+The 16-group baseline. Every specimen is a static HTML reference; the same DOM is emitted by each engine implementation. For the full contract (class names, ARIA roles, what is and isn't customizable), see [`docs/contracts/components.md`](https://github.com/devcrocod/kotlin-docs-kit/blob/main/docs/contracts/components.md).
+
+## Buttons
+
+Five variants × three sizes. `.kt-button` + `.kt-button--{primary|secondary|ghost|link|brand}`, sized with `.kt-button--sm` / default / `.kt-button--lg`.
+
+<Specimen src="components-buttons" height={360} title="Button variants" />
+
+## Pill buttons
+
+Compact full-radius actions. `.kt-pill` + optional `.kt-pill--primary`. Quiet by default; dark mode uses a translucent overlay fill.
+
+<Specimen src="components-pill" height={200} title="Pill buttons" />
+
+## Toggle buttons
+
+On/off control. `.kt-toggle` with `aria-pressed="true"` (or `.kt-toggle--on`). The pressed state uses the interaction accent — teal in dark, purple in light.
+
+<Specimen src="components-toggle" height={220} title="Toggle buttons" />
+
+## Segmented control
+
+A compact switch between mutually-exclusive options. `.kt-segmented` track + `.kt-segmented__segment` (+ `--active`). The selected segment is accent-tinted.
+
+<Specimen src="components-segmented" height={200} title="Segmented control" />
+
+## Badges
+
+Status pills with a colored dot. Variants for brand and semantic statuses.
+
+<Specimen src="components-badges" height={240} title="Badges" />
+
+## Callouts
+
+12 callout types — `note`, `info`, `tip`, `success`, `warning`, `caution`, `danger`, `important`, `quote`, `example`, `deprecated`, `experimental`. Each has matching colour, icon, and `--soft` background.
+
+<Specimen src="components-callouts" height={620} title="Callout variants" />
+
+## Cards
+
+`.kt-card` and `.kt-card-grid`. Hoverable variant adds a subtle lift.
+
+<Specimen src="components-cards" height={320} title="Cards and card grid" />
+
+## Code · Tabs
+
+Premium codeblock with multiple language tabs, language label, copy, wrap, line numbers.
+
+<Specimen src="code-tabs" height={360} title="Code block — tabs" />
+
+## Code · Line highlighting
+
+Highlighted line stripe + matching gutter mark.
+
+<Specimen src="code-linehighlight" height={300} title="Code block — line highlighting" />
+
+## Code · Terminal
+
+Terminal variant — prompt glyph, no line numbers.
+
+<Specimen src="code-terminal" height={300} title="Code block — terminal" />
+
+## Navigation
+
+Top nav, side nav, breadcrumbs, pagination — all in the shared shell.
+
+<Specimen src="components-nav" height={420} title="Navigation primitives" />
+
+## Topnav
+
+The header bar — brand, version pill, primary links, search slot, right-side icons.
+
+<Specimen src="components-topnav" height={140} title="Topnav" />
+
+## Parameter table
+
+Used for API reference. `.kt-params` adds the contract layout to a plain markdown table.
+
+<Specimen src="components-params" height={360} title="Parameter table" />
+
+## Targets
+
+Kotlin Multiplatform target badges for API reference pages — a labelled row of pills (`.kt-targets`). Drop `<Targets>` at the top of a symbol's page to show where it is available. Registered globally, so no import is needed in MDX.
+
+<Targets targets={['jvm', 'android', 'ios', 'js', 'wasmJs', 'native']} />
+
+```mdx
+<Targets targets={['jvm', 'android', 'ios']} />
+```
+
+Supported target keys: `jvm`, `js`, `wasmJs`, `native`, `android`, `ios`, `macos`, `watchos`, `tvos`, `linux`, `mingw`. Pass `title={null}` to drop the leading label.
+
+To flag API status, pair it with the `deprecated` and `experimental` admonitions the preset registers:
+
+:::experimental
+This symbol is experimental and may change in a future release.
+:::
+
+```mdx
+:::deprecated
+Use `newApi()` instead — this will be removed in 2.0.
+:::
+```
+
+## Docs shell
+
+The 3-column docs grid: sidebar / main / TOC. Breakpoints collapse TOC at 1024, then sidebar at 720.
+
+<Specimen src="components-shell" height={520} title="Docs shell (3-col)" />

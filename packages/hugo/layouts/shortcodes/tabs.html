@@ -1,0 +1,15 @@
+{{- /* Content tabs — parent. Inner code-tab calls push {title, body} into
+       Scratch; we render the tablist + panels here. Visually distinct
+       from .kt-codeblock__tabs (which lives inside a code block). */ -}}
+{{- $_ := .Inner -}}
+{{- $tabs := .Scratch.Get "tabs" -}}
+<div class="kt-tabs" role="tablist">
+  {{- range $i, $t := $tabs -}}
+    <button class="kt-tabs__tab{{ if eq $i 0 }} kt-tabs__tab--active{{ end }}" role="tab" data-tab="{{ $i }}" aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" type="button">{{ $t.title }}</button>
+  {{- end -}}
+</div>
+{{- range $i, $t := $tabs -}}
+  <div class="kt-tabs__panel{{ if eq $i 0 }} kt-tabs__panel--active{{ end }}" role="tabpanel" data-tab="{{ $i }}"{{ if ne $i 0 }} hidden{{ end }}>
+    {{ $.Page.RenderString $t.body }}
+  </div>
+{{- end -}}

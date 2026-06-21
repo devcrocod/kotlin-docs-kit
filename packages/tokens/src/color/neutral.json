@@ -2,8 +2,8 @@
   "$description": "Neutral gray ramp — Mintlify-ish cool gray. Source of truth for surface and foreground tokens.",
   "color": {
     "gray": {
-      "0":   { "$type": "color", "$value": "#FFFFFF" },
-      "50":  { "$type": "color", "$value": "#FAFAFB" },
+      "0": { "$type": "color", "$value": "#FFFFFF" },
+      "50": { "$type": "color", "$value": "#FAFAFB" },
       "100": { "$type": "color", "$value": "#F4F4F6" },
       "150": { "$type": "color", "$value": "#ECECEF" },
       "200": { "$type": "color", "$value": "#E3E3E8" },
@@ -16,6 +16,17 @@
       "850": { "$type": "color", "$value": "#181A20" },
       "900": { "$type": "color", "$value": "#101218" },
       "950": { "$type": "color", "$value": "#0A0B10" }
+    }
+  },
+  "overlay": {
+    "white": {
+      "4": { "$type": "color", "$value": "#FFFFFF0B" },
+      "7": { "$type": "color", "$value": "#FFFFFF12" },
+      "9": { "$type": "color", "$value": "#FFFFFF16" },
+      "11": { "$type": "color", "$value": "#FFFFFF1B" },
+      "13": { "$type": "color", "$value": "#FFFFFF21" },
+      "17": { "$type": "color", "$value": "#FFFFFF2C" },
+      "26": { "$type": "color", "$value": "#FFFFFF43" }
     }
   }
 }

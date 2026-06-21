@@ -7,13 +7,9 @@ import { cssNameFromPath } from './name-utils.mjs';
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, '..');
 
-const reducedMotion = readFileSync(
-  resolve(pkgRoot, 'src/_static/reduced-motion.css'),
-  'utf8',
-);
+const reducedMotion = readFileSync(resolve(pkgRoot, 'src/_static/reduced-motion.css'), 'utf8');
 
-const endsWith = (token, suffix) =>
-  token.filePath.replace(/\\/g, '/').endsWith(suffix);
+const endsWith = (token, suffix) => token.filePath.replace(/\\/g, '/').endsWith(suffix);
 
 const FILTERS = {
   spacing: (t) => endsWith(t, 'src/spacing.json'),
@@ -33,9 +29,7 @@ const block = (selector, lines) => `${selector} {\n${lines.join('\n')}\n}\n`;
 // `[data-theme="dark"]` block (and the auto-dark @media block) from the raw
 // JSON. Only `$value` strings are present in this subtree; no references.
 function shadowDarkDecls() {
-  const data = JSON.parse(
-    readFileSync(resolve(pkgRoot, 'src/shadow.json'), 'utf8'),
-  );
+  const data = JSON.parse(readFileSync(resolve(pkgRoot, 'src/shadow.json'), 'utf8'));
   const dark = data?.shadow?.dark ?? {};
   return Object.entries(dark)
     .filter(([key]) => !key.startsWith('$'))

@@ -1,0 +1,31 @@
+# Build outputs
+**/node_modules/
+**/dist/
+**/build/
+**/lib/
+**/.docusaurus/
+**/site/
+**/public/
+**/.venv/
+**/__pycache__/
+landing/dist/
+
+# Generated specimen copies
+docs/contracts/reference-prototype/
+docs/static/specimen/
+docs/contracts/preview/
+
+# Generated MDX
+docs/content/reference/tokens.mdx
+
+# Lockfiles
+pnpm-lock.yaml
+uv.lock
+
+# Tokens dist tree
+packages/tokens/dist/
+
+# Generated CSS synced from packages/tokens/dist/
+packages/hugo/assets/css/
+packages/hugo/static/fonts/
+packages/hugo/static/img/

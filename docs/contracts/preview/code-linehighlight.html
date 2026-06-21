@@ -7,33 +7,33 @@
 <link rel="stylesheet" href="../components.css"/>
 <link rel="stylesheet" href="_card.css"/>
 <style>
-  .codeblock { margin: 0; }
-  .codeblock-body { padding: 14px 0; }
+  .kt-codeblock { margin: 0; }
+  .kt-codeblock__body { padding: 14px 0; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="codeblock">
-    <div class="codeblock-header">
-      <div class="codeblock-lang">
+  <div class="kt-codeblock">
+    <div class="kt-codeblock__header">
+      <div class="kt-codeblock__lang">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         kotlin
       </div>
-      <div class="codeblock-actions">
+      <div class="kt-codeblock__actions">
         <span style="font-family:var(--font-mono); font-size:11px; color:var(--fg-3); padding:0 6px;">highlight L4-6</span>
-        <button class="action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy</button>
+        <button class="kt-codeblock__action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy</button>
       </div>
     </div>
-    <div class="codeblock-body">
-      <div class="codeblock-line"><span class="lineno">1</span><code class="ln-code"><span class="tok-k">sealed class</span> <span class="tok-t">Result</span>&lt;<span class="tok-k">out</span> <span class="tok-t">T</span>&gt; {</code></div>
-      <div class="codeblock-line"><span class="lineno">2</span><code class="ln-code">  <span class="tok-k">data class</span> <span class="tok-t">Ok</span>&lt;<span class="tok-t">T</span>&gt;(<span class="tok-k">val</span> v: <span class="tok-t">T</span>) : <span class="tok-t">Result</span>&lt;<span class="tok-t">T</span>&gt;()</code></div>
-      <div class="codeblock-line"><span class="lineno">3</span><code class="ln-code">  <span class="tok-k">data class</span> <span class="tok-t">Err</span>(<span class="tok-k">val</span> code: <span class="tok-t">Int</span>) : <span class="tok-t">Result</span>&lt;<span class="tok-t">Nothing</span>&gt;()</code></div>
-      <div class="codeblock-line is-hl"><span class="lineno">4</span><code class="ln-code">}</code></div>
-      <div class="codeblock-line is-hl"><span class="lineno">5</span><code class="ln-code"></code></div>
-      <div class="codeblock-line is-hl"><span class="lineno">6</span><code class="ln-code"><span class="tok-k">when</span> (<span class="tok-k">val</span> r = repo.<span class="tok-f">load</span>(id)) {</code></div>
-      <div class="codeblock-line"><span class="lineno">7</span><code class="ln-code">  <span class="tok-k">is</span> <span class="tok-t">Ok</span>  -&gt; call.<span class="tok-f">respond</span>(r.v)</code></div>
-      <div class="codeblock-line"><span class="lineno">8</span><code class="ln-code">  <span class="tok-k">is</span> <span class="tok-t">Err</span> -&gt; call.<span class="tok-f">respond</span>(r.code)</code></div>
-      <div class="codeblock-line"><span class="lineno">9</span><code class="ln-code">}</code></div>
+    <div class="kt-codeblock__body">
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">1</span><code class="kt-codeblock__code"><span class="kt-tok-k">sealed class</span> <span class="kt-tok-t">Result</span>&lt;<span class="kt-tok-k">out</span> <span class="kt-tok-t">T</span>&gt; {</code></div>
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">2</span><code class="kt-codeblock__code">  <span class="kt-tok-k">data class</span> <span class="kt-tok-t">Ok</span>&lt;<span class="kt-tok-t">T</span>&gt;(<span class="kt-tok-k">val</span> v: <span class="kt-tok-t">T</span>) : <span class="kt-tok-t">Result</span>&lt;<span class="kt-tok-t">T</span>&gt;()</code></div>
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">3</span><code class="kt-codeblock__code">  <span class="kt-tok-k">data class</span> <span class="kt-tok-t">Err</span>(<span class="kt-tok-k">val</span> code: <span class="kt-tok-t">Int</span>) : <span class="kt-tok-t">Result</span>&lt;<span class="kt-tok-t">Nothing</span>&gt;()</code></div>
+      <div class="kt-codeblock__line kt-codeblock__line--hl"><span class="kt-codeblock__lineno">4</span><code class="kt-codeblock__code">}</code></div>
+      <div class="kt-codeblock__line kt-codeblock__line--hl"><span class="kt-codeblock__lineno">5</span><code class="kt-codeblock__code"></code></div>
+      <div class="kt-codeblock__line kt-codeblock__line--hl"><span class="kt-codeblock__lineno">6</span><code class="kt-codeblock__code"><span class="kt-tok-k">when</span> (<span class="kt-tok-k">val</span> r = repo.<span class="kt-tok-f">load</span>(id)) {</code></div>
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">7</span><code class="kt-codeblock__code">  <span class="kt-tok-k">is</span> <span class="kt-tok-t">Ok</span>  -&gt; call.<span class="kt-tok-f">respond</span>(r.v)</code></div>
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">8</span><code class="kt-codeblock__code">  <span class="kt-tok-k">is</span> <span class="kt-tok-t">Err</span> -&gt; call.<span class="kt-tok-f">respond</span>(r.code)</code></div>
+      <div class="kt-codeblock__line"><span class="kt-codeblock__lineno">9</span><code class="kt-codeblock__code">}</code></div>
     </div>
   </div>
 </div>

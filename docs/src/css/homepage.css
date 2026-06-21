@@ -1,0 +1,273 @@
+/* ============================================================================
+   Homepage-only layout for the dogfood docs site. Wired via the preset's
+   `theme.customCss` option, so this file loads AFTER the tokens components.css —
+   equal-specificity selectors here win by source order. Only tokens (--*) and
+   the kit's BEM classes are used; nothing is hard-coded outside the
+   @ktdocs/tokens contract.
+
+   Hero overrides are scoped under the compound `.kt-docs-hero.home-hero`
+   (specificity 0-2-0) so they beat the shared single-class hero.css rules
+   regardless of order — no !important needed.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   HERO — blends into the page, airy, left-aligned, aligned to the section
+   column. Overrides the boxed-banner look from the shared .kt-docs-hero.
+   ---------------------------------------------------------------------------- */
+.kt-docs-hero.home-hero {
+  background: var(--surface-0); /* was --surface-1 (boxed panel) */
+  border-bottom: 0; /* drop the banner divider */
+  padding-block: var(--space-24) var(--space-16); /* generous: 96px top / 64px bottom */
+  padding-inline: 0; /* horizontal insets now come from .container */
+}
+/* Inner column aligns to the sections below via Docusaurus .container. The
+   dot-grid ::before (from hero.css) already covers inset:0 and is masked. */
+.home-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero__eyebrow {
+  margin-bottom: var(--space-4);
+}
+.home-hero__title {
+  /* One line on roomy screens; the 4.6vw term keeps it fitting the container as
+     it narrows, and it wraps only on phones (see the max-width: 600px query). */
+  font-size: clamp(28px, 4.6vw, 54px);
+  line-height: var(--type-display-line);
+  letter-spacing: var(--type-display-tracking);
+  white-space: nowrap;
+}
+.home-hero__lead {
+  font-size: 18px;
+  color: var(--fg-2);
+  line-height: 1.55;
+  margin-top: var(--space-4);
+  max-width: 60ch;
+}
+.kt-docs-hero__actions {
+  margin-top: var(--space-8);
+}
+
+/* ----------------------------------------------------------------------------
+   SECTION rhythm — no eyebrows, just breathing room.
+   ---------------------------------------------------------------------------- */
+.home-section {
+  padding-block: var(--space-16); /* 64px top + bottom per section */
+}
+.home-section + .home-section {
+  padding-top: var(--space-8); /* avoid a double gap between stacked sections */
+}
+.home-section__head {
+  max-width: 60ch;
+  margin-bottom: var(--space-8);
+}
+.home-section__head h2 {
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  letter-spacing: var(--type-h2-tracking);
+}
+.home-section__lead {
+  margin-top: var(--space-3);
+  color: var(--fg-2);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+/* ----------------------------------------------------------------------------
+   "Choose your engine" — screenshot-led preview cards (extend .kt-card).
+   ---------------------------------------------------------------------------- */
+.home-engines {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); /* 2-up desktop, 1-up small */
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+/* Card is a flex column; kill .kt-card default padding so the screenshot can go
+   edge-to-edge. .kt-card's overflow:hidden + radius clip the shot's top corners. */
+.home-engine {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition:
+    border-color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
+}
+/* Hover/keyboard treatment mirrors .kt-card--hoverable without requiring it
+   (the card has an inner link + buttons, not one whole-card <a>). */
+.home-engine:hover {
+  border-color: var(--color-interactive);
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--kt-teal-500) 26%, transparent);
+  transform: translateY(-2px);
+}
+.home-engine:focus-within {
+  border-color: var(--color-interactive);
+  box-shadow: var(--focus-ring);
+}
+
+/* Screenshot frame: fixed 16:10 box, hairline bottom border, clipped by .kt-card. */
+.home-engine__shot {
+  display: block;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-1);
+  background: var(--surface-2); /* placeholder while the image loads */
+  text-decoration: none;
+}
+.home-engine__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center; /* show the hero/topnav, not the footer */
+  display: block;
+  transition: transform var(--motion-slow) var(--motion-ease);
+}
+.home-engine__shot:hover .home-engine__img {
+  transform: scale(1.02);
+}
+/* Dual-theme swap: light by default, dark under [data-theme='dark']. */
+.home-engine__img--dark {
+  display: none;
+}
+[data-theme='dark'] .home-engine__img--light {
+  display: none;
+}
+[data-theme='dark'] .home-engine__img--dark {
+  display: block;
+}
+/* Fallback for system-dark before hydration / with no saved choice — mirrors
+   the tokens auto-dark gating (@media prefers-color-scheme + :not([data-theme='light'])). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .home-engine__img--light {
+    display: none;
+  }
+  :root:not([data-theme='light']) .home-engine__img--dark {
+    display: block;
+  }
+}
+
+.home-engine__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6) var(--space-6);
+}
+.home-engine__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.home-engine__icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--fg-on-brand);
+  border-radius: var(--radius-md);
+  background: var(--kt-gradient-linear);
+  box-shadow: var(--shadow-brand-glow);
+}
+.home-engine__name {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--type-h3-size);
+  color: var(--fg-1);
+}
+.home-engine__stack {
+  margin-left: auto; /* push to the right of the header row */
+  font-family: var(--font-label);
+  font-size: var(--type-caption-size);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.home-engine__desc {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--fg-2);
+  line-height: 1.55;
+  margin: 0;
+}
+.home-engine__desc code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 0.95em;
+  color: var(--fg-2);
+}
+
+/* Optional install command — secondary, de-emphasized. To drop code entirely,
+   remove this block and the matching <code> line in index.tsx. */
+.home-engine__cmd {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--type-code-size);
+  color: var(--fg-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.home-engine__rule {
+  margin: var(--space-2) 0 0;
+  border: 0;
+  border-top: 1px solid var(--border-1);
+  height: 0;
+}
+.home-engine__actions {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ----------------------------------------------------------------------------
+   "Explore the docs" — fixed 3-up desktop / 2-up tablet / 1-up mobile, no orphan.
+   Scoped via .home-explore so the shared .kt-card-grid auto-fit rule is untouched.
+   ---------------------------------------------------------------------------- */
+.home-explore {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+/* ----------------------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------------------- */
+@media (max-width: 996px) {
+  .home-explore {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .home-engines {
+    grid-template-columns: 1fr; /* engine cards carry a screenshot — go 1-up earlier */
+  }
+}
+@media (max-width: 640px) {
+  .home-explore {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .kt-docs-hero.home-hero {
+    padding-block: var(--space-16) var(--space-12);
+  }
+  .home-hero__title {
+    white-space: normal; /* wrap on phones to avoid horizontal overflow */
+  }
+}

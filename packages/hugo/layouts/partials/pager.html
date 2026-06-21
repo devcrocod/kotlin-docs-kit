@@ -1,0 +1,20 @@
+{{ if or .PrevInSection .NextInSection }}
+  <nav class="kt-docs-pager" aria-label="Page navigation">
+    {{ with .PrevInSection }}
+      <a class="kt-docs-pager__link kt-docs-pager__link--prev" href="{{ .RelPermalink }}">
+        <span class="kt-docs-pager__direction">← Previous</span>
+        <span class="kt-docs-pager__title">{{ .Title }}</span>
+      </a>
+    {{ else }}
+      <span></span>
+    {{ end }}
+    {{ with .NextInSection }}
+      <a class="kt-docs-pager__link kt-docs-pager__link--next" href="{{ .RelPermalink }}">
+        <span class="kt-docs-pager__direction">Next →</span>
+        <span class="kt-docs-pager__title">{{ .Title }}</span>
+      </a>
+    {{ else }}
+      <span></span>
+    {{ end }}
+  </nav>
+{{ end }}

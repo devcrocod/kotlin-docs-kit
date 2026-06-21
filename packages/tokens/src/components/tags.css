@@ -4,7 +4,7 @@
 
 .kt-tag {
   display: inline-flex; align-items: center; gap: 5px;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 11px;
   padding: 2px 7px;
   border-radius: var(--radius-sm);
@@ -12,3 +12,24 @@
   color: var(--fg-2);
   border: 1px solid var(--border-1);
 }
+
+/* Color variants — tinted soft fill, readable text. Mirror the badge palette. */
+.kt-tag--accent  { background: var(--color-accent-soft);      color: var(--kt-magenta-700); border-color: transparent; }
+.kt-tag--blue    { background: var(--color-info-soft);        color: var(--kt-blue-600);    border-color: transparent; }
+.kt-tag--green   { background: var(--color-success-soft);     color: var(--green-600);      border-color: transparent; }
+.kt-tag--red     { background: var(--color-danger-soft);      color: var(--red-600);        border-color: transparent; }
+.kt-tag--yellow  { background: var(--color-warning-soft);     color: var(--amber-600);      border-color: transparent; }
+.kt-tag--purple  { background: var(--color-primary-soft);     color: var(--kt-purple-700);  border-color: transparent; }
+.kt-tag--violet  { background: var(--color-primary-soft);     color: var(--kt-purple-700);  border-color: transparent; }
+.kt-tag--teal    { background: color-mix(in srgb, var(--kt-teal-500) 14%, transparent); color: var(--kt-teal-500); border-color: transparent; }
+.kt-tag--orange  { background: var(--color-caution-soft);     color: var(--kt-orange-600);  border-color: transparent; }
+
+[data-theme="dark"] .kt-tag--purple,
+[data-theme="dark"] .kt-tag--violet  { color: var(--kt-purple-300); }
+[data-theme="dark"] .kt-tag--accent   { color: var(--kt-magenta-300); }
+[data-theme="dark"] .kt-tag--blue     { color: var(--kt-blue-300); }
+[data-theme="dark"] .kt-tag--green    { color: var(--green-300); }
+[data-theme="dark"] .kt-tag--red      { color: var(--red-300); }
+[data-theme="dark"] .kt-tag--yellow   { color: var(--amber-300); }
+[data-theme="dark"] .kt-tag--teal     { color: var(--kt-teal-300); background: color-mix(in srgb, var(--kt-teal-500) 24%, transparent); }
+[data-theme="dark"] .kt-tag--orange   { color: var(--kt-orange-300); }

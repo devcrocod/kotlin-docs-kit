@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; width: 76px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div class="row"><span class="lab">Two</span>
+      <div class="kt-segmented" role="tablist" aria-label="View">
+        <button class="kt-segmented__segment kt-segmented__segment--active" role="tab" aria-selected="true" type="button">Preview</button>
+        <button class="kt-segmented__segment" role="tab" aria-selected="false" type="button">Code</button>
+      </div>
+    </div>
+    <div class="row"><span class="lab">Three</span>
+      <div class="kt-segmented" role="tablist" aria-label="Platform">
+        <button class="kt-segmented__segment kt-segmented__segment--active" role="tab" aria-selected="true" type="button">Kotlin</button>
+        <button class="kt-segmented__segment" role="tab" aria-selected="false" type="button">Java</button>
+        <button class="kt-segmented__segment" role="tab" aria-selected="false" type="button">Groovy</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

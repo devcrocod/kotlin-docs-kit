@@ -1,13 +1,17 @@
 /* ============================================================================
-   Cards — Mintlify-style. Soft border, generous padding, subtle hover lift.
-   Used for feature grids, "Cards" components, and tutorial selectors.
+   Cards — Kotlin-accent. Hairline border, generous padding, and an IDE-style
+   corner glow that reveals on hover. Used for feature grids, "Cards"
+   components, and tutorial selectors.
    ============================================================================ */
 
 .kt-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--surface-1);
   border: 1px solid var(--border-1);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px;
   transition: border-color var(--motion-fast) var(--motion-ease),
               box-shadow var(--motion-base) var(--motion-ease),
               transform var(--motion-base) var(--motion-ease);
@@ -17,18 +21,39 @@
   flex-direction: column;
   gap: 8px;
 }
-.kt-card--hoverable:hover {
-  border-color: var(--kt-purple-300);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+
+/* IDE-style corner glow — Kotlin violet bleeding in from the top-right,
+   revealed on hover and clipped to the card's rounded rect. */
+.kt-card--hoverable::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(420px circle at 100% 0%,
+              color-mix(in srgb, var(--color-interactive) 14%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--motion-ease);
 }
+.kt-card--hoverable:hover {
+  border-color: var(--color-interactive);
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--kt-teal-500) 26%, transparent);
+  transform: translateY(-2px);
+}
+.kt-card--hoverable:hover::after { opacity: 1; }
+.kt-card--hoverable:focus-visible {
+  outline: none;
+  border-radius: var(--radius-lg);
+  border-color: var(--color-interactive);
+  box-shadow: var(--focus-ring);
+}
+
 .kt-card__icon {
-  width: 32px; height: 32px;
+  width: 36px; height: 36px;
   border-radius: var(--radius-md);
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
+  background: var(--color-interactive-soft);
+  color: var(--color-interactive);
   display: grid; place-items: center;
-  margin-bottom: 4px;
 }
 .kt-card__title {
   font-family: var(--font-sans);
@@ -47,14 +72,16 @@
 }
 .kt-card__arrow {
   margin-top: auto;
-  font-family: var(--font-mono);
+  font-family: var(--font-label);
   font-size: 12px;
-  color: var(--color-primary);
+  color: var(--color-interactive);
   display: inline-flex; align-items: center; gap: 4px;
+  transition: transform var(--motion-base) var(--motion-ease);
 }
+.kt-card--hoverable:hover .kt-card__arrow { transform: translateX(3px); }
 
 .kt-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
 }
