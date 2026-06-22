@@ -41,7 +41,11 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        # Disable pnpm's minimumReleaseAge supply-chain cooldown (~24h by
+        # default). The kit publishes @ktdocs/docusaurus-preset fresh on each
+        # release, and this frozen install of an already-committed, vetted
+        # lockfile would otherwise be rejected for the first day after a release.
+        run: pnpm install --frozen-lockfile --config.minimumReleaseAge=0
 
       - name: Build site
         run: pnpm build
