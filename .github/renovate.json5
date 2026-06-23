@@ -13,10 +13,12 @@
   schedule: ["before 6am on monday"],
   prHourlyLimit: 4,
   prConcurrentLimit: 10,
-  // Keep the pnpm lockfile fresh even when no direct dep changed.
+  // Disabled: on this repo it only churns non-deterministic pnpm peer-dep
+  // annotations (e.g. `debug@4.4.3` toggling) with no real version change,
+  // producing a stream of empty PRs. Direct dep updates already refresh the
+  // lockfile, so maintenance adds noise without value here.
   lockFileMaintenance: {
-    enabled: true,
-    schedule: ["before 6am on monday"],
+    enabled: false,
   },
   packageRules: [
     // Internal workspace packages — not published to npm. The Docusaurus
