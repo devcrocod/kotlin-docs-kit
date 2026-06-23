@@ -24,7 +24,7 @@
     "@docusaurus/plugin-content-docs": "^3.5.0",
     "@docusaurus/tsconfig": "^3.5.0",
     "@docusaurus/types": "^3.5.0",
-    "typescript": "~5.9.0"
+    "typescript": "~6.0.0"
   },
   "browserslist": {
     "production": [
