@@ -84,13 +84,36 @@ jobs:
             exit 1
           fi
 
-      # `git subtree split` only sees committed history, so any sed-edited
-      # file has to land in a commit first. The `|| true` covers engines
-      # where the strip step was a no-op and there's nothing to commit.
-      - name: Commit stripped artifacts
+      # The standalone template needs a pnpm-workspace.yaml: since pnpm 11,
+      # build-script policy can ONLY live there (the package.json "pnpm" field
+      # is no longer read and .npmrc is auth/registry-only). Without it core-js's
+      # postinstall is "unreviewed" and `pnpm install --frozen-lockfile` fails
+      # the strictDepBuilds gate (ERR_PNPM_IGNORED_BUILDS) in the mirror's
+      # deploy.yml. Inject it ONLY here, not in templates/docusaurus/ source: a
+      # nested pnpm-workspace.yaml in the monorepo would shadow the workspace
+      # root and break `task template:docusaurus:build` (the workspace:* preset
+      # override stops applying). The committed standalone lockfile already
+      # satisfies --frozen-lockfile with this file present (build policy is a
+      # post-install gate, not a lockfile-recorded resolution setting).
+      - name: Inject standalone pnpm-workspace.yaml (docusaurus)
+        if: matrix.engine == 'docusaurus'
+        run: |
+          printf '%s\n' \
+            '# Build policy for pnpm 11 (settings live here, not package.json/.npmrc).' \
+            '# core-js ships a postinstall that is unnecessary at runtime; mark it' \
+            '# reviewed-and-disallowed so `pnpm install` does not fail the' \
+            '# strictDepBuilds gate (ERR_PNPM_IGNORED_BUILDS).' \
+            'allowBuilds:' \
+            '  core-js: false' \
+            > templates/docusaurus/pnpm-workspace.yaml
+
+      # `git subtree split` only sees committed history, so any edited/injected
+      # file has to land in a commit first. The `|| true` covers engines where
+      # the prep steps were a no-op and there's nothing to commit.
+      - name: Commit mirror-only artifacts
         run: |
           git add templates/${{ matrix.engine }}
-          git commit -m "build: strip dev-only artifacts for mirror" --no-verify || true
+          git commit -m "build: prepare mirror-only artifacts" --no-verify || true
 
       - name: Subtree split templates/${{ matrix.engine }}
         run: |
