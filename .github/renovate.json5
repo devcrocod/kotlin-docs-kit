@@ -10,58 +10,84 @@
   // Repo uses `master`, not `main`.
   baseBranches: ["master"],
   timezone: "Europe/Berlin",
-  schedule: ["before 6am on monday"],
+  // Monthly, before 6am Berlin on the 1st (cron; minute must be `*`). Gates
+  // branch creation only — green PRs still automerge promptly.
+  schedule: ["* 0-5 1 * *"],
+  // Renovate-managed automerge: the ruleset requires only `Build`, so native
+  // auto-merge would ignore a failing `Lint` — this waits for both.
+  platformAutomerge: false,
+  // `master` ruleset requires linear history — no merge commits.
+  automergeStrategy: "squash",
   prHourlyLimit: 4,
   prConcurrentLimit: 10,
-  // Disabled: on this repo it only churns non-deterministic pnpm peer-dep
-  // annotations (e.g. `debug@4.4.3` toggling) with no real version change,
-  // producing a stream of empty PRs. Direct dep updates already refresh the
-  // lockfile, so maintenance adds noise without value here.
+  // Only churned non-deterministic pnpm peer-dep annotations (no real version
+  // change) → empty PRs. Direct dep updates already refresh the lockfile.
   lockFileMaintenance: {
     enabled: false,
   },
   packageRules: [
-    // Internal workspace packages — not published to npm. The Docusaurus
-    // template pins a real semver range (^0.0.0) so end-users who copy it
-    // resolve from npm; inside the monorepo it's overridden to workspace:*.
-    // Without this, Renovate tries to look them up on npm and fails.
+    // Internal workspace packages — not on npm, don't look them up.
     {
       matchPackageNames: ["@ktdocs/**"],
       enabled: false,
     },
-    // Manages all four GitHub Actions workflows.
+    // Pin actions to digests for supply-chain safety. Must stay on its own rule:
+    // pinDigests is read when updateType is unset, so a matchUpdateTypes here
+    // would skip the rule and silently disable pinning.
     {
       matchManagers: ["github-actions"],
       groupName: "github-actions",
-      // Pin actions to digests for supply-chain safety, but show the tag.
       pinDigests: true,
     },
-    // Go modules for the Hugo themes (packages/hugo, templates/hugo).
+    // Auto-merge non-major action bumps + digest (re-)pins; majors stay manual.
+    {
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch", "digest", "pinDigest"],
+      automerge: true,
+    },
+    // Hugo theme Go modules — auto-merge non-major (covered by the render smoke).
     {
       matchManagers: ["gomod"],
       groupName: "go modules",
+      matchUpdateTypes: ["minor", "patch"],
+      automerge: true,
     },
-    // Docusaurus stack moves together.
-    {
-      matchPackageNames: ["@docusaurus/**", "/^@docusaurus//"],
-      groupName: "docusaurus",
-    },
-    // Bundle low-risk dev tooling (lint/format/types) into one PR.
+    // Dev tooling (lint/format/types), non-major, bundled and auto-merged.
     {
       matchManagers: ["npm"],
       matchDepTypes: ["devDependencies"],
       matchUpdateTypes: ["minor", "patch"],
       groupName: "dev dependencies (non-major)",
+      automerge: true,
     },
-    // Auto-merge type-only definition packages.
+    // Type-only packages — auto-merge (the typecheck job gates them).
     {
       matchPackageNames: ["@types/**"],
       automerge: true,
     },
-    // The pinned packageManager (pnpm@…) — keep it, but on its own.
+    // Pinned pnpm — auto-merge non-major (frozen install fails fast on a break).
     {
       matchDepTypes: ["packageManager"],
       groupName: "packageManager (pnpm)",
+      matchUpdateTypes: ["minor", "patch"],
+      automerge: true,
+    },
+    // Docusaurus stack + runtime libs — always MANUAL (a build can't catch
+    // render regressions). Must stay LAST: several of these are devDependencies,
+    // so this overrides the dev-deps automerge above (last match wins).
+    {
+      matchPackageNames: [
+        "@docusaurus/**",
+        "react",
+        "react-dom",
+        "prism-react-renderer",
+        "clsx",
+        "@easyops-cn/docusaurus-search-local",
+        "@signalwire/docusaurus-plugin-llms-txt",
+        "docusaurus-plugin-copy-page-button",
+      ],
+      groupName: "docusaurus",
+      automerge: false,
     },
   ],
 }
