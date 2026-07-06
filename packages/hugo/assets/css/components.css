@@ -815,6 +815,12 @@
 .kt-tabs__tab:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
 .kt-tabs__tab--active { color: var(--color-interactive); border-bottom-color: var(--color-interactive); }
 
+/* ===== accordion.css ========================================================= */
+/* ============================================================================
+   Accordion / AccordionGroup — <details>-based disclosure blocks.
+   Populated in the content-components slice.
+   ============================================================================ */
+
 /* ===== hero.css ============================================================== */
 /* ============================================================================
    Hero — landing surface (docs homepage).
@@ -871,6 +877,13 @@
   margin-top: 14px; max-width: 560px;
 }
 .kt-docs-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+/* ===== topnav.css ============================================================ */
+/* ============================================================================
+   Topnav — brand, navbar tabs, search trigger, right cluster.
+   Split out of nav.css for the Mintlify shell redesign; populated in the
+   shell slice (kt-topnav markup contract stays BEM-stable).
+   ============================================================================ */
 
 /* ===== crumbs.css ============================================================ */
 /* ============================================================================
@@ -1014,6 +1027,20 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
 .kt-toc__item--active { color: var(--color-interactive); border-left-color: var(--color-interactive); }
 .kt-toc__item--nested { padding-left: 24px; font-size: 13px; }
 
+/* ===== toc.css =============================================================== */
+/* ============================================================================
+   TOC (right rail) — "On this page" label, items, teal dot active indicator.
+   Split out of nav.css for the Mintlify shell redesign; populated in the
+   shell slice.
+   ============================================================================ */
+
+/* ===== search-ui.css ========================================================= */
+/* ============================================================================
+   Search results surface — shared theming for the engines' result panels
+   (easyops dropdown / Pagefind modal). The trigger lives in topnav.css.
+   Populated in the shell slice.
+   ============================================================================ */
+
 /* ===== pager.css ============================================================= */
 /* ============================================================================
    Pagination — prev / next links at article foot.
@@ -1043,6 +1070,12 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
   font-family: var(--font-sans); font-size: 14px; font-weight: 600;
   color: var(--fg-1);
 }
+
+/* ===== related.css =========================================================== */
+/* ============================================================================
+   Related topics — front-matter-driven link list after article content.
+   Populated in the content-components slice.
+   ============================================================================ */
 
 /* ===== params.css ============================================================ */
 /* ============================================================================
@@ -1114,6 +1147,13 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
   line-height: 1.45;
 }
 .kt-targets__icon { width: 14px; height: 14px; color: var(--color-interactive); flex-shrink: 0; }
+
+/* ===== eyebrow.css =========================================================== */
+/* ============================================================================
+   Article header — eyebrow (parent-section label) + H1 titlebar row.
+   Replaces breadcrumbs (kt-crumbs) in the Mintlify shell redesign; populated
+   in the shell slice.
+   ============================================================================ */
 
 /* ===== article.css =========================================================== */
 /* ============================================================================

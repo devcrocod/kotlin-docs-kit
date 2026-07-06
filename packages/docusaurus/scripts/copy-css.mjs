@@ -33,4 +33,9 @@ for (const file of tokenCss) {
   await cp(join(tokensDist, file), join(tokensDst, file));
 }
 await cp(join(tokensDist, 'fonts'), join(tokensDst, 'fonts'), { recursive: true });
-console.log(`copy-css: ${tokensDist} -> ${tokensDst} (${tokenCss.length} css + fonts/)`);
+// Icon map (name -> inner SVG markup) ships with the preset so the published
+// package carries the same artifact the workspace dogfood resolves.
+await cp(join(tokensDist, 'icons.json'), join(tokensDst, 'icons.json'));
+console.log(
+  `copy-css: ${tokensDist} -> ${tokensDst} (${tokenCss.length} css + fonts/ + icons.json)`,
+);

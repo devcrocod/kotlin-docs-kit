@@ -25,15 +25,21 @@ const ORDER = [
   'codeblock.css',
   'cards.css',
   'tabs.css',
+  'accordion.css',
   'hero.css',
   // Navigation
+  'topnav.css',
   'crumbs.css',
   'nav.css',
+  'toc.css',
+  'search-ui.css',
   'pager.css',
+  'related.css',
   // Reference
   'params.css',
   'targets.css',
   // Layout
+  'eyebrow.css',
   'article.css',
   'shell.css',
   'copy-page.css',

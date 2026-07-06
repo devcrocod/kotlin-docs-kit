@@ -42,6 +42,9 @@
     "./json": {
       "default": "./dist/json/tokens.json"
     },
+    "./icons.json": {
+      "default": "./dist/icons.json"
+    },
     "./fonts/*": "./dist/fonts/*",
     "./assets/*": "./dist/assets/*",
     "./package.json": "./package.json"
@@ -58,8 +61,9 @@
     "build:tokens": "node style-dictionary.config.mjs",
     "build:fonts": "node scripts/copy-fonts.mjs",
     "build:components": "node scripts/build-components.mjs",
+    "build:icons": "node scripts/build-icons.mjs",
     "build:assets": "node scripts/copy-assets.mjs",
-    "build": "pnpm run clean && pnpm run validate && pnpm run build:tokens && pnpm run build:fonts && pnpm run build:components && pnpm run build:assets",
+    "build": "pnpm run clean && pnpm run validate && pnpm run build:tokens && pnpm run build:fonts && pnpm run build:components && pnpm run build:icons && pnpm run build:assets",
     "prepack": "pnpm run build"
   },
   "devDependencies": {

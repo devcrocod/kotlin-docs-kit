@@ -1,0 +1,5 @@
+/* ============================================================================
+   Topnav — brand, navbar tabs, search trigger, right cluster.
+   Split out of nav.css for the Mintlify shell redesign; populated in the
+   shell slice (kt-topnav markup contract stays BEM-stable).
+   ============================================================================ */

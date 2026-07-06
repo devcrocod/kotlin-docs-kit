@@ -19,6 +19,7 @@ export default [
       'landing/dist/**',
       'docs/contracts/reference-prototype/**',
       'docs/static/specimen/**',
+      'packages/docusaurus/src/theme/Icon/data.generated.ts',
       'pnpm-lock.yaml',
       'uv.lock',
     ],
