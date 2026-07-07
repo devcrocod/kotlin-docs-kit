@@ -1,6 +1,6 @@
 {
   "name": "@ktdocs/docusaurus-preset",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Kotlin-styled Docusaurus 3 preset — themed components, swizzled layout, MDX globals.",
   "license": "Apache-2.0",
   "homepage": "https://github.com/devcrocod/kotlin-docs-kit/tree/master/packages/docusaurus",
