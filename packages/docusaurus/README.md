@@ -255,8 +255,9 @@ pnpm docusaurus swizzle @ktdocs/docusaurus-preset Navbar --wrap
 
 ## Migrating to 0.2.0
 
-0.2.0 is the Mintlify-inspired shell redesign. Breaking changes and new
-conventions:
+0.2.0 is the Mintlify-inspired shell redesign. See the package
+[CHANGELOG](./CHANGELOG.md) for the full release notes. Breaking changes and
+new conventions:
 
 - **Breadcrumbs are removed.** The `.kt-crumbs` DOM and CSS no longer exist;
   articles render a teal `.kt-eyebrow` (immediate parent section label) above
