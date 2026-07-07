@@ -41,6 +41,16 @@
   box-shadow: var(--focus-ring);
 }
 
+/* < 997px: the field collapses to an icon-sized control (the backend keeps
+   its magnifier background icon); text/kbd hints hide with the width. */
+@media (max-width: 996.98px) {
+  .navbar__search-input {
+    width: 32px;
+    padding-right: 0;
+  }
+  .navbar__search kbd { display: none; }
+}
+
 /* Shortcut hint chips (kbd), rendered inside the trigger by the backend. */
 .navbar__search kbd {
   font-family: var(--font-label);

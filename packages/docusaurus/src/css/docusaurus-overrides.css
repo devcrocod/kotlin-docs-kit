@@ -25,6 +25,16 @@
   padding: 0 24px;
   border-bottom: 1px solid var(--border-1);
   background: var(--ifm-navbar-background-color);
+}
+/* The translucent blur lives on a pseudo-element: a backdrop-filter on
+   .navbar itself would make it the containing block for its fixed-position
+   descendants — and the mobile drawer (.navbar-sidebar) is one, so it would
+   collapse into the 60px bar instead of covering the viewport. */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -76,6 +86,41 @@
 }
 .header-github-link:hover { color: var(--fg-1); background: var(--surface-2); }
 .header-github-link svg { width: 20px; height: 20px; display: block; }
+
+/* ---- Mobile navbar + drawer (< 997px) -------------------------------------
+ * The top bar collapses to burger / brand / search icon / theme toggle; the
+ * GitHub icon leaves the bar (it still renders inside the drawer's primary
+ * menu — Docusaurus mirrors all navbar items there, including the tabs).
+ * The native drawer is themed onto kit surfaces. */
+@media (max-width: 996.98px) {
+  .navbar__items--right .header-github-link { display: none; }
+}
+.navbar-sidebar {
+  background: var(--surface-1);
+}
+.navbar-sidebar__brand {
+  height: var(--docs-header-height);
+  border-bottom: 1px solid var(--border-1);
+  box-shadow: none;
+  padding: 0 12px 0 16px;
+}
+.navbar-sidebar__close { color: var(--fg-2); }
+.navbar-sidebar__items { padding: 12px 8px; }
+.navbar-sidebar__back {
+  background: var(--surface-2);
+  color: var(--fg-2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border-radius: var(--radius-sm);
+}
+/* Primary menu = the stacked tab block (docSidebar/doc navbar items). */
+.navbar-sidebar__item .menu__link { font-size: 14.5px; }
+/* The mirrored GitHub html item renders icon-only; give it a row box. */
+.navbar-sidebar .header-github-link {
+  width: auto;
+  padding: 8px 10px;
+  justify-content: flex-start;
+}
 
 /* ===========================================================================
  * Sidebar — re-skin .menu / .theme-doc-sidebar-* to match .kt-sidenav

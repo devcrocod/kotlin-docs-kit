@@ -75,7 +75,7 @@ your-site/
 
 ## 4. `layouts/partials/header.html` — top nav (tabs, search trigger, GitHub)
 
-The header emits `.kt-topnav` and renders, left to right: the **burger** (`.kt-topnav__icon-btn.kt-topnav__burger`, drawer trigger — visible below 997 px only; the drawer itself ships in a later slice of `nav.js`), the **brand** cluster (logo + `.kt-topnav__brand-name` + `.kt-topnav__version` from `params.version`), the **tab group or flat links**, and the **right cluster** (search trigger, optional GitHub button, tri-state theme toggle).
+The header emits `.kt-topnav` and renders, left to right: the **burger** (`.kt-topnav__icon-btn.kt-topnav__burger`, drawer trigger — visible below 997 px only; see § 7a for the drawer), the **brand** cluster (logo + `.kt-topnav__brand-name` + `.kt-topnav__version` from `params.version`), the **tab group or flat links**, and the **right cluster** (search trigger, optional GitHub button, tri-state theme toggle).
 
 **Navbar tabs** are an optional feature driven by a `[[menus.tabs]]` menu. The tab bar renders only at ≥ 2 entries; with 0–1 entries the theme falls back to the flat `menus.main` links (`.kt-topnav__links` / `.kt-topnav__link` — the 0.1.x behavior, so existing sites upgrade with no config change):
 
@@ -174,9 +174,17 @@ The label row carries the `list` UI glyph next to the mono text (0.2.0):
 Hugo's `.TableOfContents` emits bare `<nav id="TableOfContents"><ul><li><a>` without classes, so `chroma.css` (the Hugo-only delta sheet — loads last, survives the rsync propagation) maps those anchors to the `.kt-toc__item` visual via descendant selectors:
 
 ```css
-.kt-toc nav#TableOfContents ul { list-style: none; padding: 0; margin: 0; }
-.kt-toc nav#TableOfContents > ul > li > a { /* .kt-toc__item */ }
-.kt-toc nav#TableOfContents ul ul > li > a { /* .kt-toc__item--nested */ }
+.kt-toc nav#TableOfContents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.kt-toc nav#TableOfContents > ul > li > a {
+  /* .kt-toc__item */
+}
+.kt-toc nav#TableOfContents ul ul > li > a {
+  /* .kt-toc__item--nested */
+}
 ```
 
 Hugo has no scroll-spy, so the teal active dot (`.kt-toc__item--active`) only appears in engines that track the active heading (Docusaurus) — an accepted parity divergence.
@@ -196,6 +204,10 @@ Hugo has no scroll-spy, so the teal active dot (`.kt-toc__item--active`) only ap
 ```
 
 `eyebrow.html` emits `<p class="kt-eyebrow">` with the immediate parent's title (`.Parent.Title`, skipped when the parent is home); if empty, it falls back to the active tab's name (via `tab-active.html`); it renders nothing when the label would equal the page title (tab-root index pages). The 0.1.x `.kt-doc-titlebar` flex row is renamed to `.kt-article-header__titlebar` (migration notes) — the copy-page control keeps its `.kt-copy-page*` classes and simply sits in the new row.
+
+## 7a. `layouts/partials/drawer.html` — mobile drawer
+
+`baseof.html` includes `partials/drawer.html` right after the header: the `.kt-drawer` overlay panel (see `components.md § Mobile drawer`) containing the brand row, the stacked tab block (same `tab-active.html` logic and fallback as the topnav), and a second `{{ partial "sidebar.html" . }}` copy of the current tab's tree. `js/nav.js` drives it — burger toggle (`#kt-drawer-toggle`), overlay/`Esc`/close dismissal, body scroll lock, focus handling — and syncs collapse state between the drawer and desktop trees via the shared `data-nav-key`/`data-key` attributes. Desktop (≥ 997 px) hides `.kt-drawer` entirely via CSS, whatever its `hidden` state.
 
 ## 8. Admonition mapping — custom Hugo shortcode
 

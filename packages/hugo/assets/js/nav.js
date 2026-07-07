@@ -92,4 +92,40 @@
   });
 
   document.querySelectorAll('.kt-sidenav').forEach(applyStored);
+
+  // --- Mobile drawer -------------------------------------------------------
+  // Burger (#kt-drawer-toggle) opens the panel; overlay / close button
+  // ([data-drawer-close]) and Esc dismiss it. Body scroll is locked while
+  // open; focus moves to the first link and returns to the burger on close.
+  var burger = document.getElementById('kt-drawer-toggle');
+  var drawer = document.getElementById('kt-drawer');
+  if (!burger || !drawer) return;
+
+  function openDrawer() {
+    if (!drawer.hidden) return;
+    drawer.hidden = false;
+    burger.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
+    var first = drawer.querySelector('.kt-drawer__panel a, .kt-drawer__panel button');
+    if (first) first.focus();
+  }
+
+  function closeDrawer() {
+    if (drawer.hidden) return;
+    drawer.hidden = true;
+    burger.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
+    burger.focus();
+  }
+
+  burger.addEventListener('click', function () {
+    if (drawer.hidden) openDrawer();
+    else closeDrawer();
+  });
+  drawer.addEventListener('click', function (e) {
+    if (e.target.closest('[data-drawer-close]')) closeDrawer();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
 })();

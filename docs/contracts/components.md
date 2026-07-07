@@ -607,11 +607,11 @@ Article header anatomy (Mintlify pattern): a teal **eyebrow** — the immediate 
 
 ### Classes
 
-| Class                          | Kind    | Purpose                                                                                       |
-| ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
-| `.kt-article-header`           | block   | Header stack above the article body. Vertical flex, 6 px gap.                                  |
+| Class                          | Kind    | Purpose                                                                                          |
+| ------------------------------ | ------- | ------------------------------------------------------------------------------------------------ |
+| `.kt-article-header`           | block   | Header stack above the article body. Vertical flex, 6 px gap.                                    |
 | `.kt-eyebrow`                  | block   | Parent section label. `--font-label` 11 px, 600 weight, uppercase, teal (`--color-interactive`). |
-| `.kt-article-header__titlebar` | element | Flex row seating the H1 (takes the remaining width) and the copy-page control.                 |
+| `.kt-article-header__titlebar` | element | Flex row seating the H1 (takes the remaining width) and the copy-page control.                   |
 
 ### Notes
 
@@ -630,7 +630,12 @@ Sticky blurred header containing the burger (mobile drawer trigger), brand, vers
 
 ```html
 <header class="kt-topnav">
-  <button class="kt-topnav__icon-btn kt-topnav__burger" type="button" aria-label="Open navigation" aria-expanded="false">
+  <button
+    class="kt-topnav__icon-btn kt-topnav__burger"
+    type="button"
+    aria-label="Open navigation"
+    aria-expanded="false"
+  >
     <svg><!-- menu glyph --></svg>
   </button>
   <a class="kt-topnav__brand" href="/">
@@ -682,10 +687,10 @@ When no tabs are configured (or only one — the tab bar renders at ≥ 2 tabs),
 
 ### Modifiers
 
-| Modifier                   | Meaning                                                                             |
-| -------------------------- | ----------------------------------------------------------------------------------- |
+| Modifier                   | Meaning                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- |
 | `.kt-topnav__tab--active`  | Active tab. Neutral `surface-2` pill, `--fg-1` text — **no teal** (accent discipline). |
-| `.kt-topnav__link--active` | Current section indicator in the flat-links fallback. Interaction-accent text.      |
+| `.kt-topnav__link--active` | Current section indicator in the flat-links fallback. Interaction-accent text.         |
 
 ### ARIA
 
@@ -738,27 +743,27 @@ Left navigation tree (quiet Mintlify pattern). Top-level sections are group head
 
 ### Classes
 
-| Class                      | Kind    | Purpose                                                                                          |
-| -------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
-| `.kt-sidenav`              | block   | Sidebar wrapper. Vertical flex column, 20 / 16 padding. Carries `data-nav-key`.                   |
-| `.kt-sidenav__section`     | element | A top-level section. Adjacent sections are spaced by 22 px.                                       |
-| `.kt-sidenav__sec-label`   | element | Section group header: icon + mono uppercase label (`--font-label` 11 px / 600, 0.07em tracking). A link to the section root, **not** a toggle. |
-| `.kt-sidenav__sec-icon`    | element | 16 × 16 section icon (curated Lucide-derived set, stroke 1.5), `--fg-3`; lifts to `currentColor` on hover/active. |
-| `.kt-sidenav__list`        | element | Item list (`<ul>`, list-style reset, 1 px gaps).                                                  |
-| `.kt-sidenav__item`        | element | A nav link. 14 px sans / 500, `--fg-2`, hover `surface-2` + `--fg-1`.                             |
-| `.kt-sidenav__item-icon`   | element | Optional 14 × 14 leading icon inside an item, `currentColor`.                                     |
-| `.kt-sidenav__group`       | element | A nested collapsible group (level ≥ 2). Carries `data-key`.                                       |
-| `.kt-sidenav__group-row`   | element | Flex row seating the group link and its collapse toggle.                                          |
-| `.kt-sidenav__group-link`  | element | The group's own page link (an `.kt-sidenav__item` that flexes to fill the row).                   |
-| `.kt-sidenav__group-toggle`| element | 24 × 24 chevron button. Chevron rotates 90° when expanded.                                        |
+| Class                       | Kind    | Purpose                                                                                                                                        |
+| --------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.kt-sidenav`               | block   | Sidebar wrapper. Vertical flex column, 20 / 16 padding. Carries `data-nav-key`.                                                                |
+| `.kt-sidenav__section`      | element | A top-level section. Adjacent sections are spaced by 22 px.                                                                                    |
+| `.kt-sidenav__sec-label`    | element | Section group header: icon + mono uppercase label (`--font-label` 11 px / 600, 0.07em tracking). A link to the section root, **not** a toggle. |
+| `.kt-sidenav__sec-icon`     | element | 16 × 16 section icon (curated Lucide-derived set, stroke 1.5), `--fg-3`; lifts to `currentColor` on hover/active.                              |
+| `.kt-sidenav__list`         | element | Item list (`<ul>`, list-style reset, 1 px gaps).                                                                                               |
+| `.kt-sidenav__item`         | element | A nav link. 14 px sans / 500, `--fg-2`, hover `surface-2` + `--fg-1`.                                                                          |
+| `.kt-sidenav__item-icon`    | element | Optional 14 × 14 leading icon inside an item, `currentColor`.                                                                                  |
+| `.kt-sidenav__group`        | element | A nested collapsible group (level ≥ 2). Carries `data-key`.                                                                                    |
+| `.kt-sidenav__group-row`    | element | Flex row seating the group link and its collapse toggle.                                                                                       |
+| `.kt-sidenav__group-link`   | element | The group's own page link (an `.kt-sidenav__item` that flexes to fill the row).                                                                |
+| `.kt-sidenav__group-toggle` | element | 24 × 24 chevron button. Chevron rotates 90° when expanded.                                                                                     |
 
 ### Modifiers
 
-| Modifier                        | Meaning                                                                                             |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `.kt-sidenav__sec-label--active`| Current page is the section root. Interaction-accent (teal) label text.                              |
-| `.kt-sidenav__item--active`     | Current page link. **Teal text only** — the 0.1.x soft background and inset left bar were removed.   |
-| `.kt-sidenav__list--nested`     | Nested list: indented on a 1 px hairline rail (`--sidenav-rail-color`, defaults to `--border-2`).    |
+| Modifier                         | Meaning                                                                                            |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `.kt-sidenav__sec-label--active` | Current page is the section root. Interaction-accent (teal) label text.                            |
+| `.kt-sidenav__item--active`      | Current page link. **Teal text only** — the 0.1.x soft background and inset left bar were removed. |
+| `.kt-sidenav__list--nested`      | Nested list: indented on a 1 px hairline rail (`--sidenav-rail-color`, defaults to `--border-2`).  |
 
 ### ARIA
 
@@ -774,6 +779,54 @@ Left navigation tree (quiet Mintlify pattern). Top-level sections are group head
 - `.kt-sidenav__sec-sub` (0.1.x uppercase sub-label) was removed in 0.2.0; the section label itself is now the mono uppercase row.
 - Long item labels wrap (max 2 lines).
 - Specimens: [`preview/components-nav.html`](./preview/components-nav.html), [`preview/components-shell.html`](./preview/components-shell.html).
+
+---
+
+## Mobile drawer
+
+Full-height left navigation panel below 997 px, opened by the topnav burger. Contains the brand row with a close button, the tab group as a stacked block (Mintlify pattern), then the current tab's sidenav tree.
+
+### DOM
+
+```html
+<div class="kt-drawer" id="kt-drawer" hidden>
+  <div class="kt-drawer__overlay" data-drawer-close></div>
+  <div class="kt-drawer__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="kt-drawer__head">
+      <a class="kt-topnav__brand" href="/">…</a>
+      <button class="kt-topnav__icon-btn" data-drawer-close aria-label="Close navigation">…</button>
+    </div>
+    <nav class="kt-drawer__tabs" aria-label="Sections">
+      <a class="kt-drawer__tab kt-drawer__tab--active" href="/docs/" aria-current="true">Docs</a>
+      <a class="kt-drawer__tab" href="/changelog/">Changelog</a>
+    </nav>
+    <nav class="kt-sidenav">…current tab's tree…</nav>
+  </div>
+</div>
+```
+
+### Classes
+
+| Class                 | Type    | Purpose                                                                                               |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| `.kt-drawer`          | block   | Fixed full-viewport wrapper; `[hidden]` when closed; `display: none` at ≥ 997 px regardless of state. |
+| `.kt-drawer__overlay` | element | Dimmed, blurred backdrop; carries `data-drawer-close`.                                                |
+| `.kt-drawer__panel`   | element | The sliding panel: `surface-1`, hairline right border, scrollable.                                    |
+| `.kt-drawer__head`    | element | Brand + close button row (header-height, hairline bottom).                                            |
+| `.kt-drawer__tabs`    | element | Stacked tab block; omitted when no tabs are configured (the flat links render here instead).          |
+| `.kt-drawer__tab`     | element | Tab row; `--active` = `surface-2` + `--fg-1` (no teal, same as topnav tabs).                          |
+
+### ARIA
+
+- The panel is `role="dialog"` `aria-modal="true"` with an `aria-label`.
+- The topnav burger toggles `aria-expanded` and points at the drawer via `aria-controls="kt-drawer"`.
+
+### Notes
+
+- Tapping a tab **navigates to the tab root** (full navigation) — no in-place tree swap; the destination page's drawer shows that tab's tree.
+- Body scroll locks while open; `Esc`, the overlay, and the close button dismiss; focus moves to the first link on open and returns to the burger on close.
+- Engine mapping: Hugo renders `partials/drawer.html` driven by `js/nav.js`; Docusaurus uses its native `.navbar-sidebar` drawer themed to the same family (tabs appear in the primary menu automatically as navbar items).
+- Specimen: [`preview/components-nav.html`](./preview/components-nav.html) (frozen-open snapshot).
 
 ---
 
@@ -796,7 +849,7 @@ Right rail "On this page" list. Quiet items; the active item is teal text plus a
 
 ### Classes
 
-| Class                 | Kind    | Purpose                                                                                 |
+| Class                 | Kind    | Purpose                                                                                  |
 | --------------------- | ------- | ---------------------------------------------------------------------------------------- |
 | `.kt-toc`             | block   | TOC wrapper. Vertical flex column, 24 / 20 padding.                                      |
 | `.kt-toc__label`      | element | "On this page" label row: list glyph + mono uppercase text (`--font-label` 11 px / 600). |
@@ -805,9 +858,9 @@ Right rail "On this page" list. Quiet items; the active item is teal text plus a
 
 ### Modifiers
 
-| Modifier                | Meaning                                                                                              |
-| ----------------------- | ----------------------------------------------------------------------------------------------------- |
-| `.kt-toc__item--active` | Currently viewed heading. Teal text plus a 4 px teal dot in the left gutter (`::before`).             |
+| Modifier                | Meaning                                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `.kt-toc__item--active` | Currently viewed heading. Teal text plus a 4 px teal dot in the left gutter (`::before`).                           |
 | `.kt-toc__item--nested` | Indented sub-heading (h3). Larger left padding, 12.5 px font. The dot column stays aligned — only the text indents. |
 
 ### Notes

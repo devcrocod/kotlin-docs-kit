@@ -293,6 +293,8 @@ The preset styles the emitted `.navbar__link` / `.navbar__link--active` as neutr
 
 **Search** (the preset's `search` option = `@easyops-cn/docusaurus-search-local`) is a **CSS-only re-skin** in the preset's `src/css/search.css`. The backend renders `.navbar__search > .navbar__search-input` plus its own kbd hint chips (already platform-sniffed: ⌘ K on mac, ctrl K elsewhere); those stable classes are themed onto the kit trigger contract, and the results dropdown (hashed CSS-module classes) is themed via `[class*='…']` attribute selectors scoped under `.navbar__search` — an accepted risk pinned by the easyops peer range. The backend renders **no** `.DocSearch-*` DOM and reads no `--docsearch-*` vars — the previous rules targeting those were dead code and were pruned in 0.2.0.
 
+**Mobile drawer** is Docusaurus' native `.navbar-sidebar`, themed onto kit surfaces in `docusaurus-overrides.css`: the primary menu mirrors all navbar items (the tabs appear automatically as the stacked block; the mirrored GitHub html item gets a row box), the secondary menu is the doc tree with the same `.menu` re-skin as desktop, and the GitHub icon leaves the top bar below 997 px. Gotcha (fixed in 0.2.0): a `backdrop-filter` on `.navbar` itself makes it the containing block for the fixed-position `.navbar-sidebar`, collapsing the drawer into the 60 px bar — the blur lives on a `.navbar::before` pseudo instead.
+
 ## 8. Sidebar tree & section icons
 
 The preset ships an **ejected** `DocSidebarItem/Category` (ported from theme-classic, pinned by the `^3.5.0` peer range) whose functional change is icon injection: categories opt in via `customProps` in `sidebars.ts`, rendered with `KtIcon` before the label:
