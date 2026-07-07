@@ -185,8 +185,9 @@ The BEM contract is a hard boundary — see [`docs/contracts/components.md`](../
 
 ## Migrating to hugo-v0.2.0
 
-hugo-v0.2.0 is the Mintlify-inspired shell redesign. Breaking changes and new
-conventions:
+hugo-v0.2.0 is the Mintlify-inspired shell redesign. See the package
+[CHANGELOG](./CHANGELOG.md) for the full release notes. Breaking changes and
+new conventions:
 
 - **`partials/breadcrumbs.html` is deleted** (with the `.kt-crumbs` CSS);
   articles render a teal `.kt-eyebrow` (immediate parent section label) above
