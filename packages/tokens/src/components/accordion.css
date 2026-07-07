@@ -1,4 +1,63 @@
 /* ============================================================================
-   Accordion / AccordionGroup — <details>-based disclosure blocks.
-   Populated in the content-components slice.
+   Accordion / AccordionGroup — <details>-based disclosure blocks (zero JS,
+   SSR-safe, multi-open by default). Chevron sits LEFT of the summary label
+   (Mintlify pattern) and rotates 90° when open. The group stacks accordions
+   in one bordered container with hairline dividers.
    ============================================================================ */
+
+.kt-accordion {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  margin: 16px 0;
+}
+.kt-accordion__summary {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 14px;
+  font-family: var(--font-sans);
+  font-size: 14.5px; font-weight: 600;
+  color: var(--fg-1);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--radius-md);
+  transition: background var(--motion-fast) var(--motion-ease);
+}
+.kt-accordion__summary::-webkit-details-marker { display: none; }
+.kt-accordion__summary:hover { background: var(--surface-2); }
+.kt-accordion__summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kt-accordion__chevron {
+  width: 16px; height: 16px;
+  color: var(--fg-3);
+  flex-shrink: 0;
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+.kt-accordion[open] > .kt-accordion__summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.kt-accordion[open] > .kt-accordion__summary .kt-accordion__chevron { transform: rotate(90deg); }
+/* Body text aligns with the summary label (14px pad + 16px chevron + 8px gap). */
+.kt-accordion__body { padding: 2px 14px 14px 38px; }
+.kt-accordion__body > :first-child { margin-top: 0; }
+.kt-accordion__body > :last-child { margin-bottom: 0; }
+
+/* Group — the Mintlify troubleshooting look. */
+.kt-accordion-group {
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  margin: 16px 0;
+  overflow: hidden;
+}
+.kt-accordion-group > .kt-accordion { border: 0; border-radius: 0; margin: 0; }
+.kt-accordion-group > .kt-accordion + .kt-accordion { border-top: 1px solid var(--border-1); }
+
+/* Open/close animation — CSS-only, best-effort where ::details-content and
+   interpolate-size are supported; instant elsewhere. No JS polyfill. */
+@supports (interpolate-size: allow-keywords) {
+  .kt-accordion { interpolate-size: allow-keywords; }
+  .kt-accordion::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition: content-visibility var(--motion-base) allow-discrete,
+                block-size var(--motion-base) var(--motion-ease);
+  }
+  .kt-accordion[open]::details-content { block-size: auto; }
+}

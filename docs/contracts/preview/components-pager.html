@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 22px; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+  .kt-docs-pager { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div>
+      <span class="lab">Card pager — prev + next (hover = teal border + lift + arrow nudge, kt-card DNA; single column &lt;640px)</span>
+      <nav class="kt-docs-pager" aria-label="Page navigation">
+        <a class="kt-docs-pager__link kt-docs-pager__link--prev" href="#">
+          <svg class="kt-docs-pager__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg>
+          <span class="kt-docs-pager__text">
+            <span class="kt-docs-pager__direction">Previous</span>
+            <span class="kt-docs-pager__title">Installation</span>
+          </span>
+        </a>
+        <a class="kt-docs-pager__link kt-docs-pager__link--next" href="#">
+          <span class="kt-docs-pager__text">
+            <span class="kt-docs-pager__direction">Next</span>
+            <span class="kt-docs-pager__title">Project structure</span>
+          </span>
+          <svg class="kt-docs-pager__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+        </a>
+      </nav>
+    </div>
+    <div>
+      <span class="lab">Next-only — empty &lt;span&gt;&lt;/span&gt; first cell keeps the next card in the right column (Hugo contract)</span>
+      <nav class="kt-docs-pager" aria-label="Page navigation">
+        <span></span>
+        <a class="kt-docs-pager__link kt-docs-pager__link--next" href="#">
+          <span class="kt-docs-pager__text">
+            <span class="kt-docs-pager__direction">Next</span>
+            <span class="kt-docs-pager__title">Quickstart</span>
+          </span>
+          <svg class="kt-docs-pager__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+</body>
+</html>

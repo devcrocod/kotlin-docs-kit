@@ -266,6 +266,14 @@ All 12 callout kinds:
 | `deprecated`     | `.callout-deprecated`   |
 | `experimental`   | `.callout-experimental` |
 
+## 8a. Accordion, related topics & pager cards (0.2.0)
+
+**Accordion** is a pair of shortcodes. `shortcodes/accordion.html` emits the contract's `<details class="kt-accordion">` DOM — `title` becomes the summary label after the `chevron-right` icon (`kt-icon.html` partial), `open=true` maps to the native `open` attribute, and the body is `{{ .Inner | .Page.RenderString }}` so Markdown inside the accordion renders normally. `shortcodes/accordion-group.html` wraps its children in `<div class="kt-accordion-group">` and passes `{{ .Inner }}` through raw — the children are already-rendered `accordion` shortcode output.
+
+**Related topics** is `partials/related.html`, wired in `_default/single.html` between `{{ .Content }}` and the pager partial. It reads `.Params.related` — page paths under `[params]` in front matter — resolves each via `site.GetPage`, and renders `.RelPermalink` links (never the verbatim path — sub-path baseURL safety) with the resolved page's title as link text and a `file-text` icon per row. Paths that don't resolve `warnf` at build time and are skipped; with nothing resolved the partial emits no section at all.
+
+**Pager** (`partials/pager.html`) emits the card DOM from `.PrevInSection` / `.NextInSection`: each card is `.kt-docs-pager__link--prev|--next` with a `kt-icon.html` `arrow-left` / `arrow-right` (`.kt-docs-pager__arrow`) on the outer edge and the direction label + title inside `.kt-docs-pager__text`. A missing neighbour renders an empty `<span></span>` so the grid keeps the remaining card in its correct column.
+
 ## 9. Code blocks
 
 Hugo uses Chroma for syntax highlighting. Generate a Chroma stylesheet once and replace its token colors with ours:

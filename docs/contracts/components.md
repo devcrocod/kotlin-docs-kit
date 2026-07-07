@@ -2,7 +2,7 @@
 
 This document defines the **public HTML and CSS contract** that every engine theme in `kotlin-docs-kit` MUST satisfy. The kit ships tokens and a single `dist/components.css` from [`@ktdocs/tokens`](../../packages/tokens/README.md); each engine package wraps its native markup in the BEM classes specified here so that both engines (Docusaurus, Hugo) render visually identical sites.
 
-This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 22 atomic component sections, derived from the 16 component families in [SPEC §7.1](../../SPEC.md).
+This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 25 atomic component sections, derived from the component families in [SPEC §7.1](../../SPEC.md) plus the 0.2.0 additions from [SPEC §10](../../SPEC.md).
 
 ## How to read this document
 
@@ -601,6 +601,48 @@ Tabbed content switcher for "Kotlin / Java / Groovy" style choices. Visually and
 
 ---
 
+## Accordion
+
+`<details>`-based disclosure block — zero JS, SSR-safe, multi-open by default. The chevron sits **left** of the summary label (Mintlify pattern) and rotates 90° when open. Stack accordions inside `.kt-accordion-group` for the bordered container with hairline dividers (the Mintlify troubleshooting look).
+
+### DOM
+
+```html
+<details class="kt-accordion" open>
+  <summary class="kt-accordion__summary">
+    <svg class="kt-accordion__chevron"><!-- chevron-right --></svg>
+    Why is my build failing?
+  </summary>
+  <div class="kt-accordion__body">
+    <p>Check that Hugo is at least 0.128…</p>
+  </div>
+</details>
+
+<div class="kt-accordion-group">
+  <details class="kt-accordion">…</details>
+  <details class="kt-accordion">…</details>
+  <details class="kt-accordion">…</details>
+</div>
+```
+
+### Classes
+
+| Class                    | Kind    | Purpose                                                                                                          |
+| ------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| `.kt-accordion`          | block   | The `<details>` container. Hairline border, medium radius, `surface-1` background.                               |
+| `.kt-accordion__summary` | element | The `<summary>` row: chevron + label (14.5 px sans, 600). Native disclosure marker hidden.                       |
+| `.kt-accordion__chevron` | element | 16 × 16 `chevron-right` icon, `--fg-3`. Rotates 90° when the accordion is open.                                  |
+| `.kt-accordion__body`    | element | Content slot. Left padding aligns the body text with the summary label (chevron + gap).                          |
+| `.kt-accordion-group`    | block   | Bordered stack of accordions with hairline dividers. Child accordions lose their own border, radius, and margin. |
+
+### Notes
+
+- The open state is the native `open` attribute on `<details>` — no ARIA wiring and no JS. Multi-open by default: opening one accordion never closes its siblings (in a group too).
+- The open/close animation is CSS-only and best-effort: `::details-content` + `interpolate-size: allow-keywords` where supported, instant elsewhere. No JS polyfill.
+- Specimen: [`preview/components-accordion.html`](./preview/components-accordion.html).
+
+---
+
 ## Article header
 
 Article header anatomy (Mintlify pattern): a teal **eyebrow** — the immediate parent section label — above the H1 titlebar row that also seats the copy-page control. Replaces the 0.1.x breadcrumbs row: the `.kt-crumbs` DOM and CSS were removed in 0.2.0 (**breaking**); the mono aesthetic lives on in the eyebrow.
@@ -924,42 +966,97 @@ Table used in API references to document parameter names, types, and description
 
 ## Pagination
 
-Prev / next link pair at the foot of an article.
+Prev / next cards at the foot of an article. Each card carries a mono direction label, the page title, and a direction arrow on the outer edge; hover reuses the kt-card DNA (teal border, slight lift, arrow nudge).
 
 ### DOM
 
 ```html
-<nav class="kt-docs-pager">
+<nav class="kt-docs-pager" aria-label="Page navigation">
   <a class="kt-docs-pager__link kt-docs-pager__link--prev" href="/intro">
-    <span class="kt-docs-pager__direction">← Previous</span>
-    <span class="kt-docs-pager__title">Introduction</span>
+    <svg class="kt-docs-pager__arrow"><!-- arrow-left --></svg>
+    <span class="kt-docs-pager__text">
+      <span class="kt-docs-pager__direction">Previous</span>
+      <span class="kt-docs-pager__title">Introduction</span>
+    </span>
   </a>
   <a class="kt-docs-pager__link kt-docs-pager__link--next" href="/install">
-    <span class="kt-docs-pager__direction">Next →</span>
-    <span class="kt-docs-pager__title">Installation</span>
+    <span class="kt-docs-pager__text">
+      <span class="kt-docs-pager__direction">Next</span>
+      <span class="kt-docs-pager__title">Installation</span>
+    </span>
+    <svg class="kt-docs-pager__arrow"><!-- arrow-right --></svg>
   </a>
 </nav>
 ```
 
+When only one neighbour exists, the missing side renders as an empty `<span></span>` grid cell so the remaining card keeps its column (Hugo emits this literally; Docusaurus reaches the same layout through its native pager grid).
+
 ### Classes
 
-| Class                       | Kind    | Purpose                                                                        |
-| --------------------------- | ------- | ------------------------------------------------------------------------------ |
-| `.kt-docs-pager`            | block   | Pager wrapper. Two-column equal grid, 12 px gap, top border, top margin 48 px. |
-| `.kt-docs-pager__link`      | element | A single prev or next card. Border-1, medium radius, vertical flex.            |
-| `.kt-docs-pager__direction` | element | Tiny mono uppercase direction label ("Previous" / "Next").                     |
-| `.kt-docs-pager__title`     | element | Page title. 14 px sans, 600 weight.                                            |
+| Class                       | Kind    | Purpose                                                                              |
+| --------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `.kt-docs-pager`            | block   | Pager wrapper. Two-column equal grid, 12 px gap, top border, top margin 48 px.       |
+| `.kt-docs-pager__link`      | element | A single prev or next card. Border-1, medium radius, horizontal flex, 16 px padding. |
+| `.kt-docs-pager__arrow`     | element | 16 × 16 direction arrow (`arrow-left` / `arrow-right`), `--fg-3`, on the outer edge. |
+| `.kt-docs-pager__text`      | element | Vertical stack holding the direction label and the page title.                       |
+| `.kt-docs-pager__direction` | element | Tiny mono uppercase direction label — plain "Previous" / "Next", no text arrows.     |
+| `.kt-docs-pager__title`     | element | Page title. 15 px sans, 600 weight, ellipsized.                                      |
 
 ### Modifiers
 
-| Modifier                     | Meaning                                             |
-| ---------------------------- | --------------------------------------------------- |
-| `.kt-docs-pager__link--prev` | Previous link card. Left-aligned content (default). |
-| `.kt-docs-pager__link--next` | Next link card. Right-aligned content.              |
+| Modifier                     | Meaning                                                     |
+| ---------------------------- | ----------------------------------------------------------- |
+| `.kt-docs-pager__link--prev` | Previous card. Arrow before the text, left-aligned content. |
+| `.kt-docs-pager__link--next` | Next card. Arrow after the text, right-aligned content.     |
+
+### ARIA
+
+- The wrapper carries `aria-label="Page navigation"`.
 
 ### Notes
 
-- Specimen: [`preview/components-nav.html`](./preview/components-nav.html).
+- Hover DNA is shared with `.kt-card`: teal border (`--color-interactive-border`), –2 px lift, and a 3 px outward arrow nudge (the arrow tints `--color-interactive`). Do not invent a different hover.
+- The 0.1.x `←` / `→` text arrows inside `.kt-docs-pager__direction` were replaced by the `.kt-docs-pager__arrow` icons (**breaking** DOM change).
+- Below 640 px the grid collapses to a single column.
+- Specimens: [`preview/components-pager.html`](./preview/components-pager.html), [`preview/components-nav.html`](./preview/components-nav.html).
+
+---
+
+## Related topics
+
+Manual, front-matter-driven link list rendered after the article content, before the pager. Mono uppercase heading; each entry is a file-text icon + link. There is no similarity automation — authors curate the list.
+
+### DOM
+
+```html
+<section class="kt-related">
+  <h2 class="kt-related__title">Related topics</h2>
+  <ul class="kt-related__list">
+    <li class="kt-related__item">
+      <svg class="kt-related__icon"><!-- file-text --></svg>
+      <a class="kt-related__link" href="/guides/install/">Install the CLI</a>
+    </li>
+  </ul>
+</section>
+```
+
+### Classes
+
+| Class                | Kind    | Purpose                                                               |
+| -------------------- | ------- | --------------------------------------------------------------------- |
+| `.kt-related`        | block   | Section wrapper. 40 px top margin.                                    |
+| `.kt-related__title` | element | "Related topics" heading. `--font-label` 11 px / 600, uppercase.      |
+| `.kt-related__list`  | element | List-style-reset `<ul>`, vertical stack with 6 px gaps.               |
+| `.kt-related__item`  | element | Flex row seating the icon and the link.                               |
+| `.kt-related__icon`  | element | 14 × 14 `file-text` icon, `--fg-3`.                                   |
+| `.kt-related__link`  | element | 14 px sans link in `--color-link`; underline + darker shade on hover. |
+
+### Notes
+
+- Front-matter contract: Docusaurus takes `related: [doc-ids]` (doc IDs resolved against the active docs version); Hugo takes page paths under `[params]` — `params.related = ["/guides/install/"]` (resolved via `site.GetPage`, rendered with `.RelPermalink` — never verbatim, sub-path baseURL safety). The resolved page supplies the link text (its title).
+- Unresolvable entries are skipped at render, never a build failure: Hugo warns at build time (`warnf`), Docusaurus warns in dev builds only. When nothing resolves, the whole section is omitted.
+- Placement is fixed: after the content, before the pager (Docusaurus `DocItem/Footer` wrapper; Hugo `partial "related.html"` between `.Content` and the pager in `single.html`).
+- Specimen: [`preview/components-related.html`](./preview/components-related.html).
 
 ---
 
@@ -1063,19 +1160,21 @@ The class form is canonical; the kit also styles plain `<h4>` and `<p>` inside `
 
 ## Authoring syntax across engines
 
-Authoring syntax differs across engines, but every form below MUST produce the DOM defined above. This table is ported verbatim from [SPEC §7.3](../../SPEC.md). The native-first principle ([SPEC §1](../../SPEC.md)) means engines keep their idiomatic authoring forms instead of unifying around a single one.
+Authoring syntax differs across engines, but every form below MUST produce the DOM defined above. This table is ported from [SPEC §7.3](../../SPEC.md), extended with the 0.2.0 additions from [SPEC §10](../../SPEC.md). The native-first principle ([SPEC §1](../../SPEC.md)) means engines keep their idiomatic authoring forms instead of unifying around a single one.
 
-| Component            | Docusaurus                                                        | Hugo                                         |
-| -------------------- | ----------------------------------------------------------------- | -------------------------------------------- |
-| Callout (12 kinds)   | `<Callout type="tip" title="Pro tip">` (MDX, globally registered) | `{{< callout type="tip" title="Pro tip" >}}` |
-| Code block with tabs | `<Tabs>` + `<TabItem>` or Docusaurus-native code tabs             | `{{< code-tabs >}}` + `{{< code-tab >}}`     |
-| Card / CardGrid      | `<Card>` + `<CardGrid>` (MDX, global)                             | `{{< card-grid >}}` + `{{< card >}}`         |
-| Hero                 | `<Hero>` (MDX)                                                    | `{{< hero >}}`                               |
-| FeatureGrid          | `<FeatureGrid>`                                                   | `{{< feature-grid >}}`                       |
-| Badge                | `<Badge variant="experimental">`                                  | `{{< badge variant="experimental" >}}`       |
-| HTTP method          | `<Method type="get">`                                             | `{{< method type="get" >}}`                  |
-| Content tabs         | `<Tabs>` + `<TabItem>`                                            | `{{< tabs >}}` + `{{< tab >}}`               |
-| Parameter table      | `<Params>` MDX component with array prop                          | `{{< params >}}`                             |
+| Component            | Docusaurus                                                        | Hugo                                             |
+| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------ |
+| Callout (12 kinds)   | `<Callout type="tip" title="Pro tip">` (MDX, globally registered) | `{{< callout type="tip" title="Pro tip" >}}`     |
+| Code block with tabs | `<Tabs>` + `<TabItem>` or Docusaurus-native code tabs             | `{{< code-tabs >}}` + `{{< code-tab >}}`         |
+| Card / CardGrid      | `<Card>` + `<CardGrid>` (MDX, global)                             | `{{< card-grid >}}` + `{{< card >}}`             |
+| Hero                 | `<Hero>` (MDX)                                                    | `{{< hero >}}`                                   |
+| FeatureGrid          | `<FeatureGrid>`                                                   | `{{< feature-grid >}}`                           |
+| Badge                | `<Badge variant="experimental">`                                  | `{{< badge variant="experimental" >}}`           |
+| HTTP method          | `<Method type="get">`                                             | `{{< method type="get" >}}`                      |
+| Content tabs         | `<Tabs>` + `<TabItem>`                                            | `{{< tabs >}}` + `{{< tab >}}`                   |
+| Accordion            | `<Accordion title="…">` + `<AccordionGroup>` (MDX, global)        | `{{< accordion >}}` + `{{< accordion-group >}}`  |
+| Parameter table      | `<Params>` MDX component with array prop                          | `{{< params >}}`                                 |
+| Related topics       | `related: [doc-ids]` front matter                                 | `params.related = ["/page/paths/"]` front matter |
 
 ---
 

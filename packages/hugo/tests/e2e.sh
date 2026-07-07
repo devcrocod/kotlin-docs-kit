@@ -93,7 +93,7 @@ done
 
 # Pager + article header should appear on next.md (it has _index.md as a sibling).
 echo "==> Verifying pager and article header on $NEXT"
-for m in kt-docs-pager kt-article-header kt-article-header__titlebar; do
+for m in kt-docs-pager kt-docs-pager__arrow kt-article-header kt-article-header__titlebar; do
   if ! grep -q "$m" "$NEXT"; then
     echo "MISS: $m (in next/index.html)"
     fail=$((fail + 1))
@@ -106,7 +106,8 @@ done
 SETUP="$PUB_DIR/guides/setup/index.html"
 TUNING="$PUB_DIR/guides/advanced/tuning/index.html"
 echo "==> Verifying eyebrow, tabs and recursive sidebar on $SETUP"
-for m in kt-eyebrow kt-topnav__tab--active kt-sidenav__sec-icon kt-codeblock__title; do
+for m in kt-eyebrow kt-topnav__tab--active kt-sidenav__sec-icon kt-codeblock__title \
+         kt-accordion-group kt-accordion__summary kt-related kt-related__link; do
   if ! grep -q "$m" "$SETUP"; then
     echo "MISS: $m (in guides/setup/index.html)"
     fail=$((fail + 1))

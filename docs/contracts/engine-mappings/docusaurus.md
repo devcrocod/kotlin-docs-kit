@@ -324,7 +324,15 @@ The `TOC` wrapper (`src/theme/TOC`) wraps the native TOC in a `.kt-toc` host and
 
 Copy-page placement lives in `src/css/copy-page-article.css`, appended to the preset CSS chain **only when the `copyPage` option is on** (see `src/index.ts`). The plugin injects `#copy-page-button-container` into `<article>` post-hydration; the sheet pins it absolutely onto the H1 row (`<article>` is the positioning context via `docusaurus-overrides.css`), drops it onto the H1 baseline when an eyebrow is present (`article:has(> .kt-eyebrow)`), reserves 150 px beside the H1 at ≥ 997 px so hydration causes no layout shift, and returns the control to static right-aligned flow below 997 px. Button/menu skinning stays on the `.kt-copy-page*` classes passed through the plugin's `customStyles` (keep the `right: auto` menu reset — known dropdown-stretch gotcha).
 
-## 11. Done
+## 11. Accordion, Related topics & pager cards (0.2.0)
+
+**Accordion / AccordionGroup** are plain MDX components (`src/theme/components/Accordion*`), registered globally in `MDXComponents.tsx` and exported by name from the `./components` barrel (`@ktdocs/docusaurus-preset/components`). They emit the contract's `<details class="kt-accordion">` / `<div class="kt-accordion-group">` DOM directly — no swizzle, no JS: `title` renders the summary label after the `chevron-right` `KtIcon`, `defaultOpen` maps to the native `open` attribute.
+
+**Related topics** live in the `DocItem/Footer` **wrapper** — DocItem/Footer sits exactly between the content and the paginator, so the `.kt-related` section renders before the original footer (`@theme-init/DocItem/Footer`). The wrapper reads `useDoc().frontMatter.related` (an array of **doc IDs**) and resolves each entry twice: the title from `useDocsVersion().docs` (the version's docs map) and the permalink from `useActivePluginAndVersion()` global data. IDs missing from either source are skipped with a dev-only console warning — never a build failure; with no resolvable entries the section is omitted and only the original footer renders.
+
+**Pager cards** are a **CSS-only re-skin** of Infima's `.pagination-nav` in `docusaurus-overrides.css` — the native DocPaginator DOM is untouched. `.pagination-nav__sublabel` / `__label` are themed onto the direction-label / title anatomy, and the `arrow-left` / `arrow-right` chevrons are masked `::before` / `::after` pseudos (SVG `mask-image` data URIs) replacing Infima's `«` / `»` label pseudos (`content: none`). The `DocPaginator` wrapper hosts it all in a `.kt-docs-pager` div for contract addressability, but that host is `display: contents` — `.kt-docs-pager` is itself a 2-column grid in `components.css`, and nesting it around `.pagination-nav`'s own grid would quarter the cards; `.pagination-nav` carries the rhythm (top border, 48 px margin) instead.
+
+## 12. Done
 
 Build & serve:
 

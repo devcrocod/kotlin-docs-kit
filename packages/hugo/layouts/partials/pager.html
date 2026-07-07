@@ -2,16 +2,22 @@
   <nav class="kt-docs-pager" aria-label="Page navigation">
     {{ with .PrevInSection }}
       <a class="kt-docs-pager__link kt-docs-pager__link--prev" href="{{ .RelPermalink }}">
-        <span class="kt-docs-pager__direction">← Previous</span>
-        <span class="kt-docs-pager__title">{{ .Title }}</span>
+        {{ partial "kt-icon.html" (dict "name" "arrow-left" "class" "kt-docs-pager__arrow" "size" 16) }}
+        <span class="kt-docs-pager__text">
+          <span class="kt-docs-pager__direction">Previous</span>
+          <span class="kt-docs-pager__title">{{ .Title }}</span>
+        </span>
       </a>
     {{ else }}
       <span></span>
     {{ end }}
     {{ with .NextInSection }}
       <a class="kt-docs-pager__link kt-docs-pager__link--next" href="{{ .RelPermalink }}">
-        <span class="kt-docs-pager__direction">Next →</span>
-        <span class="kt-docs-pager__title">{{ .Title }}</span>
+        <span class="kt-docs-pager__text">
+          <span class="kt-docs-pager__direction">Next</span>
+          <span class="kt-docs-pager__title">{{ .Title }}</span>
+        </span>
+        {{ partial "kt-icon.html" (dict "name" "arrow-right" "class" "kt-docs-pager__arrow" "size" 16) }}
       </a>
     {{ else }}
       <span></span>

@@ -6,7 +6,7 @@ Part of [kotlin-docs-kit](https://github.com/devcrocod/kotlin-docs-kit). Bundles
 Kotlin-styled design tokens (fonts, palette, component CSS) into a working Docusaurus site,
 registers the seven custom admonition keywords
 (`success`, `caution`, `important`, `quote`, `example`, `deprecated`, `experimental`) and
-makes the 12-component kit MDX surface available globally.
+makes the 13-component kit MDX surface available globally.
 
 ## Install
 
@@ -114,19 +114,21 @@ kit's CSS re-skins to match `.kt-callout--<kind>`.
 
 These are registered globally — no import required in any `.md` / `.mdx`:
 
-| Component       | Description                                                                      |
-| --------------- | -------------------------------------------------------------------------------- | ---- | ---- | ----- | --------- |
-| `<Callout>`     | 12-kind callout matching the admonition look. `type`, `title`.                   |
-| `<Card>`        | Surface card. `href` (turns into anchor), `icon`, `title`, `arrow`, `hoverable`. |
-| `<CardGrid>`    | Auto-fit `kt-card-grid` wrapper.                                                 |
-| `<Hero>`        | Docs landing surface. `title`, `gradient`, `tagline`, `actions`.                 |
-| `<FeatureGrid>` | Fixed-column variant of `CardGrid`. `cols={2                                     | 3    | 4}`. |
-| `<Badge>`       | 6 variants: `purple`, `pink`, `success`, `warning`, `danger`, `info`. `dot`.     |
-| `<Method>`      | HTTP method label. `type="get                                                    | post | put  | patch | delete"`. |
-| `<Tag>`         | Square monospace label.                                                          |
-| `<Params>`      | Parameter table. `items={[{name, type?, required?, description?}]}`.             |
-| `<State>`       | Empty / loading state. `icon`, `title`, `children`.                              |
-| `<CodeTabs>`    | Premium multi-file code block. `items={[{label, language, code}]}`.              |
+| Component          | Description                                                                      |
+| ------------------ | -------------------------------------------------------------------------------- | ---- | ---- | ----- | --------- |
+| `<Callout>`        | 12-kind callout matching the admonition look. `type`, `title`.                   |
+| `<Accordion>`      | `<details>` disclosure block, chevron left. `title`, `defaultOpen`.              |
+| `<AccordionGroup>` | Bordered stack of accordions with hairline dividers.                             |
+| `<Card>`           | Surface card. `href` (turns into anchor), `icon`, `title`, `arrow`, `hoverable`. |
+| `<CardGrid>`       | Auto-fit `kt-card-grid` wrapper.                                                 |
+| `<Hero>`           | Docs landing surface. `title`, `gradient`, `tagline`, `actions`.                 |
+| `<FeatureGrid>`    | Fixed-column variant of `CardGrid`. `cols={2                                     | 3    | 4}`. |
+| `<Badge>`          | 6 variants: `purple`, `pink`, `success`, `warning`, `danger`, `info`. `dot`.     |
+| `<Method>`         | HTTP method label. `type="get                                                    | post | put  | patch | delete"`. |
+| `<Tag>`            | Square monospace label.                                                          |
+| `<Params>`         | Parameter table. `items={[{name, type?, required?, description?}]}`.             |
+| `<State>`          | Empty / loading state. `icon`, `title`, `children`.                              |
+| `<CodeTabs>`       | Premium multi-file code block. `items={[{label, language, code}]}`.              |
 
 For Docusaurus' built-in `<Tabs>` / `<TabItem>` (content tabs), keep using them — the kit
 re-skins their DOM via CSS so they match `.kt-tabs` visually.
@@ -190,6 +192,25 @@ Available icon names: `rocket`, `book-open`, `map`, `layers`, `palette`,
 
 Nested categories stay collapsible and multi-open — keep
 `themeConfig.docs.sidebar.autoCollapseCategories` at its default (`false`).
+
+## Related topics
+
+Add a manual "Related topics" list after any article's content (before the
+prev/next pager) via the `related` front-matter key — a list of **doc IDs**
+from the active docs version:
+
+```md
+---
+title: Install the CLI
+related:
+  - getting-started/quickstart
+  - reference/tokens
+---
+```
+
+Titles and links resolve automatically from the docs metadata. Unresolvable
+IDs are skipped (console warning in dev builds only) — never a build failure;
+with nothing resolved the section doesn't render.
 
 ## Named imports (no MDX)
 

@@ -75,7 +75,8 @@ packages/hugo/
 │   │   ├── eyebrow.html          ← .kt-eyebrow (parent-section label)
 │   │   ├── kt-icon.html          ← icon dispatcher (over the generated map)
 │   │   ├── kt-icons.generated.html ← built by @ktdocs/tokens (committed)
-│   │   ├── pager.html            ← .kt-docs-pager
+│   │   ├── pager.html            ← .kt-docs-pager prev/next cards
+│   │   ├── related.html          ← .kt-related (params.related front matter)
 │   │   └── footer.html
 │   └── shortcodes/               ← the authoring surface (see below)
 ├── i18n/                         ← reserved for future translations
@@ -86,22 +87,24 @@ packages/hugo/
 
 ## Shortcode catalog
 
-All 14 shortcodes emit the BEM DOM specified in [`docs/contracts/components.md`](../../docs/contracts/components.md). The table below lists representative usage; full DOM is in the contract.
+All 16 shortcodes emit the BEM DOM specified in [`docs/contracts/components.md`](../../docs/contracts/components.md). The table below lists representative usage; full DOM is in the contract.
 
-| Shortcode                | Example                                                                                                               | Emits                                                 |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| `callout`                | `{{</* callout type="tip" title="Pro tip" */>}}body{{</* /callout */>}}`                                              | `.kt-callout kt-callout--tip` + icon + body           |
-| `code-tabs` / `code-tab` | `{{</* code-tabs */>}}{{</* code-tab lang="kotlin" title="Main.kt" */>}}…{{</* /code-tab */>}}{{</* /code-tabs */>}}` | `.kt-codeblock` premium block with tabs               |
-| `card`                   | `{{</* card title="Quickstart" href="/start" */>}}…{{</* /card */>}}`                                                 | `.kt-card` (link card when `href` set)                |
-| `card-grid`              | `{{</* card-grid */>}}…cards…{{</* /card-grid */>}}`                                                                  | `.kt-card-grid` auto-fit wrapper                      |
-| `hero`                   | `{{</* hero title="Kotlin docs" gradient="docs" */>}}actions{{</* /hero */>}}`                                        | `.kt-docs-hero` + `.kt-docs-hero__grad-text`          |
-| `feature-grid`           | `{{</* feature-grid */>}}…cards…{{</* /feature-grid */>}}`                                                            | alias of `.kt-card-grid`                              |
-| `badge`                  | `{{</* badge variant="success" */>}}stable{{</* /badge */>}}`                                                         | `.kt-badge kt-badge--success`                         |
-| `method`                 | `{{</* method type="get" */>}}`                                                                                       | `.kt-method kt-method--get` (GET)                     |
-| `tag`                    | `{{</* tag */>}}prerelease{{</* /tag */>}}`                                                                           | `.kt-tag`                                             |
-| `tabs` / `tab`           | `{{</* tabs */>}}{{</* tab title="Kotlin" */>}}…{{</* /tab */>}}{{</* /tabs */>}}`                                    | `.kt-tabs` content switcher (distinct from code tabs) |
-| `params`                 | `{{</* params */>}}timeout\|number · ms\|Request timeout.{{</* /params */>}}`                                         | `.kt-params` table; rows are `name\|type\|desc`       |
-| `state`                  | `{{</* state kind="empty" title="No results" */>}}body{{</* /state */>}}`                                             | `.kt-state` empty/loading placeholder                 |
+| Shortcode                | Example                                                                                                               | Emits                                                                |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `callout`                | `{{</* callout type="tip" title="Pro tip" */>}}body{{</* /callout */>}}`                                              | `.kt-callout kt-callout--tip` + icon + body                          |
+| `code-tabs` / `code-tab` | `{{</* code-tabs */>}}{{</* code-tab lang="kotlin" title="Main.kt" */>}}…{{</* /code-tab */>}}{{</* /code-tabs */>}}` | `.kt-codeblock` premium block with tabs                              |
+| `card`                   | `{{</* card title="Quickstart" href="/start" */>}}…{{</* /card */>}}`                                                 | `.kt-card` (link card when `href` set)                               |
+| `card-grid`              | `{{</* card-grid */>}}…cards…{{</* /card-grid */>}}`                                                                  | `.kt-card-grid` auto-fit wrapper                                     |
+| `hero`                   | `{{</* hero title="Kotlin docs" gradient="docs" */>}}actions{{</* /hero */>}}`                                        | `.kt-docs-hero` + `.kt-docs-hero__grad-text`                         |
+| `feature-grid`           | `{{</* feature-grid */>}}…cards…{{</* /feature-grid */>}}`                                                            | alias of `.kt-card-grid`                                             |
+| `badge`                  | `{{</* badge variant="success" */>}}stable{{</* /badge */>}}`                                                         | `.kt-badge kt-badge--success`                                        |
+| `method`                 | `{{</* method type="get" */>}}`                                                                                       | `.kt-method kt-method--get` (GET)                                    |
+| `tag`                    | `{{</* tag */>}}prerelease{{</* /tag */>}}`                                                                           | `.kt-tag`                                                            |
+| `tabs` / `tab`           | `{{</* tabs */>}}{{</* tab title="Kotlin" */>}}…{{</* /tab */>}}{{</* /tabs */>}}`                                    | `.kt-tabs` content switcher (distinct from code tabs)                |
+| `accordion`              | `{{</* accordion title="Why is my build failing?" */>}}body{{</* /accordion */>}}`                                    | `.kt-accordion` `<details>` disclosure; `open=true` renders expanded |
+| `accordion-group`        | `{{</* accordion-group */>}}…accordions…{{</* /accordion-group */>}}`                                                 | `.kt-accordion-group` bordered stack with hairline dividers          |
+| `params`                 | `{{</* params */>}}timeout\|number · ms\|Request timeout.{{</* /params */>}}`                                         | `.kt-params` table; rows are `name\|type\|desc`                      |
+| `state`                  | `{{</* state kind="empty" title="No results" */>}}body{{</* /state */>}}`                                             | `.kt-state` empty/loading placeholder                                |
 
 The `code-tabs` shortcode wraps Hugo's `transform.Highlight` (Chroma) — pass `lang` and `title` to each `code-tab`. Single-file premium code blocks can be rendered with one `code-tab` inside a `code-tabs`.
 
@@ -143,6 +146,22 @@ renders and each tab owns its own sidebar tree:
   chain is pre-expanded server-side, so the tree works without JavaScript.
 - Set `params.github = "https://github.com/you/repo"` to render the GitHub
   icon button in the topnav's right cluster.
+
+## Related topics
+
+Add a manual "Related topics" list after any article's content (before the
+pager) via front matter. The page paths **must** live under `[params]` — a
+top-level `related` key collides with Hugo's native related-content config
+and draws a deprecation warning:
+
+```toml
+[params]
+  related = ["/getting-started/install/", "/reference/tokens/"]
+```
+
+Entries resolve via `site.GetPage`; the resolved page's title becomes the
+link text. Unresolvable paths warn at build time and are skipped — with
+nothing resolved the section is omitted entirely.
 
 ## Theme toggle
 

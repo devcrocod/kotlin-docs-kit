@@ -1,0 +1,9 @@
+{{- /* <details>-based disclosure block (zero JS, multi-open by default).
+       {{< accordion title="Why is my build failing?" >}}markdown…{{< /accordion >}}
+       Add open=true to render expanded. Stack inside accordion-group for the
+       bordered hairline-divided container. */ -}}
+{{- $title := .Get "title" | default "Details" -}}
+<details class="kt-accordion"{{ if .Get "open" }} open{{ end }}>
+  <summary class="kt-accordion__summary">{{ partial "kt-icon.html" (dict "name" "chevron-right" "class" "kt-accordion__chevron" "size" 16) }}{{ $title }}</summary>
+  <div class="kt-accordion__body">{{ .Inner | .Page.RenderString }}</div>
+</details>
