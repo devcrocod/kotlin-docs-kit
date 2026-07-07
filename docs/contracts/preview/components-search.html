@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<link rel="stylesheet" href="../tokens.css"/>
+<link rel="stylesheet" href="../components.css"/>
+<link rel="stylesheet" href="_card.css"/>
+<style>
+  .group { display: flex; flex-direction: column; gap: 22px; }
+  .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 8px; }
+  /* Stand-ins for Pagefind's runtime layout CSS (pagefind-ui.css loads only in
+     the live modal). The kit contract is the re-tone in search-ui.css: surface-1
+     panel, hairline result dividers, teal <mark> highlight, mono hint. */
+  .pagefind-ui__search-input { width: 100%; box-sizing: border-box; border: 1px solid var(--border-1); border-radius: var(--radius-md); padding: 10px 12px; font: 500 14px var(--font-sans); color: var(--fg-1); }
+  .pagefind-ui__results { list-style: none; margin: 12px 0 0; padding: 0; }
+  .pagefind-ui__result { padding: 12px 2px; }
+  .pagefind-ui__result-link { font: 600 14px var(--font-sans); text-decoration: none; }
+  .pagefind-ui__result-excerpt { margin: 4px 0 0; font: 400 13px/1.55 var(--font-sans); }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="group">
+    <div>
+      <span class="lab">Trigger — desktop field (&gt;= 997px; below, it collapses to a 32px icon button — same classes, media query only)</span>
+      <div class="kt-docs-search" role="button" tabindex="0" aria-label="Search" aria-keyshortcuts="Meta+K Control+K">
+        <svg class="kt-docs-search__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
+        <span class="kt-docs-search__text">Search…</span>
+        <span class="kt-docs-search__kbd">⌘K</span>
+      </div>
+    </div>
+    <div>
+      <span class="lab">Results surface — .kt-search-modal__dialog (the fixed .kt-search-modal wrapper + __backdrop are omitted in this static preview)</span>
+      <div class="kt-search-modal__dialog" role="dialog" aria-modal="true" aria-label="Search" style="margin: 0;">
+        <div class="kt-search-modal__ui">
+          <input class="pagefind-ui__search-input" type="text" value="routing" aria-label="Search"/>
+          <ol class="pagefind-ui__results">
+            <li class="pagefind-ui__result">
+              <a class="pagefind-ui__result-link" href="#">Nested layouts</a>
+              <p class="pagefind-ui__result-excerpt">Compose <mark>routing</mark> trees by nesting layouts — each level owns its own params and error boundary.</p>
+            </li>
+            <li class="pagefind-ui__result">
+              <a class="pagefind-ui__result-link" href="#">Path parameters</a>
+              <p class="pagefind-ui__result-excerpt">Declare dynamic segments in the <mark>routing</mark> table and read them from the call context.</p>
+            </li>
+            <li class="pagefind-ui__result">
+              <a class="pagefind-ui__result-link" href="#">Quickstart</a>
+              <p class="pagefind-ui__result-excerpt">Add a <mark>routing</mark> module and return JSON from your first handler.</p>
+            </li>
+          </ol>
+        </div>
+        <div class="kt-search-modal__hint"><kbd>Esc</kbd> to close · <kbd>↑</kbd><kbd>↓</kbd> to navigate</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

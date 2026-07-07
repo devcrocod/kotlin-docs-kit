@@ -1,6 +1,9 @@
 {{ if .TableOfContents }}
   <nav class="kt-toc" aria-label="On this page">
-    <div class="kt-toc__label">On this page</div>
+    <div class="kt-toc__label">
+      {{- partial "kt-icon.html" (dict "name" "list" "class" "kt-toc__label-icon" "size" 14) -}}
+      <span>On this page</span>
+    </div>
     {{ .TableOfContents }}
   </nav>
 {{ end }}

@@ -1,21 +1,53 @@
-<nav class="kt-sidenav" aria-label="Section navigation">
-  {{ $current := .RelPermalink }}
-  {{ $sections := .Site.Sections }}
+{{- /* Sidenav tree. With menus.tabs configured (>= 2 entries) the tree shows
+       only the active tab's section set: the entry's params.sections list, or
+       the pageRef section alone. Without tabs (or with no active tab) it shows
+       all top-level sections — the 0.1.x behavior and the upgrade path.
+       data-nav-key scopes the sessionStorage collapse state per tab tree
+       (js/nav.js); RelPermalink keys stay stable under sub-path baseURLs. */ -}}
+{{- $page := . -}}
+{{- $current := .RelPermalink -}}
+{{- $tabs := slice -}}
+{{- with site.Menus.tabs }}{{ $tabs = . }}{{ end -}}
+{{- $activeTab := "" -}}
+{{- if ge (len $tabs) 2 -}}
+  {{- range $tabs -}}
+    {{- if and (not $activeTab) (partial "tab-active.html" (dict "page" $page "entry" .)) -}}
+      {{- $activeTab = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $sections := slice -}}
+{{- $navKey := "_root" -}}
+{{- with $activeTab -}}
+  {{- with .Page }}{{ $navKey = .RelPermalink }}{{ end -}}
+  {{- with .Params.sections -}}
+    {{- range . -}}
+      {{- with site.GetPage (printf "/%s" .) }}{{ $sections = $sections | append . }}{{ end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with .Page }}{{ $sections = slice . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $sections }}{{ $sections = .Site.Sections }}{{ end -}}
+<nav class="kt-sidenav" aria-label="Section navigation" data-nav-key="{{ $navKey }}">
   {{ if $sections }}
     {{ range $sections }}
       <div class="kt-sidenav__section">
-        <a class="kt-sidenav__sec-label{{ if eq $current .RelPermalink }} kt-sidenav__sec-label--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
-        {{ range .Pages }}
-          <a class="kt-sidenav__item{{ if eq $current .RelPermalink }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
-        {{ end }}
+        <a class="kt-sidenav__sec-label{{ if eq $current .RelPermalink }} kt-sidenav__sec-label--active{{ end }}" href="{{ .RelPermalink }}">
+          {{- with .Params.icon }}{{ partial "kt-icon.html" (dict "name" . "class" "kt-sidenav__sec-icon" "size" 16) }}{{ end -}}
+          <span>{{ .Title }}</span>
+        </a>
+        {{ partial "sidebar-tree.html" (dict "node" . "page" $page "nested" false "open" true) }}
       </div>
     {{ end }}
   {{ else }}
     <div class="kt-sidenav__section">
       <div class="kt-sidenav__sec-label">{{ .Site.Title }}</div>
-      {{ range .Site.RegularPages }}
-        <a class="kt-sidenav__item{{ if eq $current .RelPermalink }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
+      <ul class="kt-sidenav__list">
+        {{ range .Site.RegularPages }}
+          <li><a class="kt-sidenav__item{{ if eq $current .RelPermalink }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+        {{ end }}
+      </ul>
     </div>
   {{ end }}
 </nav>

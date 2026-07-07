@@ -1,13 +1,16 @@
 {{ define "main" }}
-  {{ partial "breadcrumbs.html" . }}
   {{/* Section landing pages author their own card grids in content; the home
-       page leads with the hero. So we only emit the front-matter title (the
-       single page H1) on non-home pages and let .Content carry the rest. */}}
+       page leads with the hero. So we only emit the article header (eyebrow +
+       front-matter title + copy-page) on non-home pages and let .Content
+       carry the rest. */}}
   {{ if not .IsHome }}
-    <div class="kt-doc-titlebar">
-      <h1>{{ .Title }}</h1>
-      {{ partial "copy-page.html" . }}
-    </div>
+    <header class="kt-article-header">
+      {{ partial "eyebrow.html" . }}
+      <div class="kt-article-header__titlebar">
+        <h1>{{ .Title }}</h1>
+        {{ partial "copy-page.html" . }}
+      </div>
+    </header>
   {{ end }}
   {{ .Content }}
   {{ partial "pager.html" . }}

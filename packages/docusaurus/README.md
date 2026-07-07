@@ -148,6 +148,49 @@ fun main() {
 `bash`, `shell`, `sh`, `zsh`, `console`, and `terminal` language identifiers automatically
 get the `.kt-codeblock--terminal` look (deep-purple-black surface).
 
+## Navbar tabs & sidebar icons
+
+The kit's shell follows the Mintlify pattern: top-level **tabs** in the
+navbar, each owning its own sidebar tree. No preset option is needed — use
+Docusaurus' native `docSidebar` navbar items with one named sidebar per tab
+(the kit styles them as neutral pills):
+
+```ts
+// sidebars.ts — one named sidebar per tab
+const sidebars = { docs: [...], reference: [...] };
+
+// docusaurus.config.ts
+navbar: {
+  items: [
+    { type: 'docSidebar', sidebarId: 'docs', label: 'Docs', position: 'left' },
+    { type: 'docSidebar', sidebarId: 'reference', label: 'Reference', position: 'left' },
+    // Single-page tab (no sidebar) — e.g. a changelog:
+    { type: 'doc', docId: 'changelog', label: 'Changelog', position: 'left' },
+  ],
+}
+```
+
+Top-level sidebar categories act as section group headers — give them
+`collapsible: false` and an icon from the kit's curated set via
+`customProps`:
+
+```ts
+{
+  type: 'category',
+  label: 'Getting started',
+  collapsible: false,
+  customProps: { icon: 'rocket' },
+  items: [...],
+}
+```
+
+Available icon names: `rocket`, `book-open`, `map`, `layers`, `palette`,
+`code`, `terminal`, `settings`, `wrench`, `puzzle`, `flag`, `file-text`,
+`history`, `users`, `shield`, `sparkles`. Unknown names render no icon.
+
+Nested categories stay collapsible and multi-open — keep
+`themeConfig.docs.sidebar.autoCollapseCategories` at its default (`false`).
+
 ## Named imports (no MDX)
 
 For TSX / JSX files outside MDX, import components by name:

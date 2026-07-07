@@ -16,7 +16,8 @@ const KIT_ADMONITION_KEYWORDS = [
   'experimental',
 ];
 
-function resolveKitCss(extra: Options['theme']): string[] {
+function resolveKitCss(opts: Options): string[] {
+  const extra = opts.theme;
   const userCss = extra?.customCss
     ? Array.isArray(extra.customCss)
       ? extra.customCss
@@ -31,6 +32,9 @@ function resolveKitCss(extra: Options['theme']): string[] {
     path.join(__dirname, 'tokens', 'components.css'),
     path.join(__dirname, 'css', 'custom.css'),
     path.join(__dirname, 'css', 'docusaurus-overrides.css'),
+    // Copy-page article placement (H1-row pinning) only makes sense when the
+    // plugin is on — keep the sheet out of the chain otherwise.
+    ...(opts.copyPage ? [path.join(__dirname, 'css', 'copy-page-article.css')] : []),
     path.join(__dirname, 'css', 'search.css'),
     ...userCss,
   ];
@@ -63,7 +67,7 @@ export default function preset(context: LoadContext, opts: Options = {}): Preset
     pages: opts.pages,
     sitemap: opts.sitemap,
     svgr: opts.svgr,
-    theme: { customCss: resolveKitCss(opts.theme) },
+    theme: { customCss: resolveKitCss(opts) },
     googleAnalytics: opts.googleAnalytics,
     gtag: opts.gtag,
     googleTagManager: opts.googleTagManager,

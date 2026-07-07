@@ -275,7 +275,54 @@ Use plain MDX with our `.card-grid` + `.k-card`:
 </div>
 ```
 
-## 7. Done
+## 7. Navbar tabs & search (0.2.0)
+
+**Tabs need no preset option** — they are native navbar items; each `docSidebar` item owns a sidebar tree (split `sidebars.ts` accordingly), and a single-page tab is a plain `doc` link:
+
+```js
+navbar: {
+  items: [
+    { type: 'docSidebar', sidebarId: 'docs', label: 'Docs', position: 'left' },
+    { type: 'docSidebar', sidebarId: 'reference', label: 'Reference', position: 'left' },
+    { type: 'doc', docId: 'changelog', label: 'Changelog', position: 'left' },
+  ],
+},
+```
+
+The preset styles the emitted `.navbar__link` / `.navbar__link--active` as neutral `surface-2` pills in `docusaurus-overrides.css` — the Mintlify pattern, **no teal**: the interaction accent stays reserved for the nav tree / TOC / links. Mind Infima specificity for active states (known gotcha: var-level overrides were needed for nav-active theming). The GitHub icon button stays a `type: 'html'` navbar item wrapping an inline `fill="currentColor"` SVG (`.header-github-link` — a CSS-mask `::before` did not render).
+
+**Search** (the preset's `search` option = `@easyops-cn/docusaurus-search-local`) is a **CSS-only re-skin** in the preset's `src/css/search.css`. The backend renders `.navbar__search > .navbar__search-input` plus its own kbd hint chips (already platform-sniffed: ⌘ K on mac, ctrl K elsewhere); those stable classes are themed onto the kit trigger contract, and the results dropdown (hashed CSS-module classes) is themed via `[class*='…']` attribute selectors scoped under `.navbar__search` — an accepted risk pinned by the easyops peer range. The backend renders **no** `.DocSearch-*` DOM and reads no `--docsearch-*` vars — the previous rules targeting those were dead code and were pruned in 0.2.0.
+
+## 8. Sidebar tree & section icons
+
+The preset ships an **ejected** `DocSidebarItem/Category` (ported from theme-classic, pinned by the `^3.5.0` peer range) whose functional change is icon injection: categories opt in via `customProps` in `sidebars.ts`, rendered with `KtIcon` before the label:
+
+```js
+{
+  type: 'category',
+  label: 'Getting started',
+  customProps: { icon: 'rocket' },
+  items: [
+    /* … */
+  ],
+}
+```
+
+`KtIcon` (`src/theme/Icon`) renders an inline SVG (24 × 24 viewBox, stroke 1.5, `currentColor`) from `src/theme/Icon/data.generated.ts` — generated from `@ktdocs/tokens` `dist/icons.json`, the same source of truth as the Hugo theme's `kt-icons.generated.html`. Unknown names render nothing (console warning in dev builds). Fallback if the ejected Category ever proves brittle across Docusaurus minors: `className`-based icons via CSS `mask-image` data URIs (note the earlier CSS-mask navbar failure before choosing it).
+
+The tree's visual mapping stays CSS over `.menu__*` (`docusaurus-overrides.css`): level-1 categories render as mono uppercase group headers with carets hidden (use `collapsible: false` — group headers are not toggles), nested lists get the hairline indent rail, the active item is **teal text only** (the 0.1.x soft background is removed), and an active nested item paints its 2 px rail segment teal. Collapse is native and multi-open — keep `autoCollapseCategories: false`.
+
+## 9. TOC
+
+The `TOC` wrapper (`src/theme/TOC`) wraps the native TOC in a `.kt-toc` host and prepends the real label row — `list` glyph (`KtIcon`) + "On this page" (`.kt-toc__label` / `.kt-toc__label-icon`). The **host itself is the sticky box** (`docusaurus-overrides.css`): label and list stick together, and the inner `.theme-doc-toc-desktop` sticky is neutralized with `position: static` — this replaces the old `.kt-toc { display: contents }` fix. Items are themed on `.table-of-contents__link`: quiet 13 px links, ellipsized; the active item (Docusaurus's own scroll-spy sets `--active`) gets teal text plus the 4 px teal gutter dot.
+
+## 10. Article header — eyebrow + copy page
+
+`DocBreadcrumbs` is no longer a thin wrapper: it is a **full custom component** rendering the eyebrow (`<p class="kt-eyebrow theme-doc-breadcrumbs">`) instead of a breadcrumb trail. Label derivation: `useSidebarBreadcrumbs()` (the entry before the current page = its immediate parent) → the owning navbar tab (matching `useDocsSidebar().name` against `type: 'docSidebar'` navbar items) → hidden; also hidden when the label equals `useDoc().metadata.title`. All three hooks come from `@docusaurus/plugin-content-docs/client` — an unstable API surface pinned by the `^3.5.0` peer range. The `theme-doc-breadcrumbs` class is deliberately kept on the element: the copy-page plugin anchors its article-mode injection "after breadcrumbs" when that class is a direct child of `<article>`.
+
+Copy-page placement lives in `src/css/copy-page-article.css`, appended to the preset CSS chain **only when the `copyPage` option is on** (see `src/index.ts`). The plugin injects `#copy-page-button-container` into `<article>` post-hydration; the sheet pins it absolutely onto the H1 row (`<article>` is the positioning context via `docusaurus-overrides.css`), drops it onto the H1 baseline when an eyebrow is present (`article:has(> .kt-eyebrow)`), reserves 150 px beside the H1 at ≥ 997 px so hydration causes no layout shift, and returns the control to static right-aligned flow below 997 px. Button/menu skinning stays on the `.kt-copy-page*` classes passed through the plugin's `customStyles` (keep the `right: auto` menu reset — known dropdown-stretch gotcha).
+
+## 11. Done
 
 Build & serve:
 
@@ -283,4 +330,4 @@ Build & serve:
 npm run start
 ```
 
-Check: navbar shows the Kotlin wordmark, sidebar items have purple-soft backgrounds when active, admonitions look like our six callouts, and code blocks render in JetBrains Mono with Kotlin-keyword purple highlighting.
+Check: navbar shows the Kotlin wordmark with neutral tab pills, the sidebar tree shows mono section headers with icons and a teal-text active item, the article opens with a teal eyebrow above the H1 + Copy page row, admonitions look like our callouts, and code blocks render in JetBrains Mono with the kit code palette.

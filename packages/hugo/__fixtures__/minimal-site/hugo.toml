@@ -9,6 +9,8 @@ title = "kt-test"
 [params]
   version = "0.0.0"
   author = "kotlin-docs-kit"
+  # Exercises the topnav GitHub icon button (config-driven, optional).
+  github = "https://github.com/devcrocod/kotlin-docs-kit"
 
 # Enables the theme's AI-friendly endpoints. Hugo merges [outputFormats] from the
 # theme module but NOT [outputs], so the consuming site must opt in here (see
@@ -33,7 +35,22 @@ title = "kt-test"
   [markup.goldmark.renderer]
     unsafe = true
 
-[[menu.main]]
+[[menus.main]]
   name = "Docs"
   url = "/"
   weight = 1
+
+# Navbar tabs — the tab bar renders at >= 2 entries and each tab owns its own
+# sidebar tree ([menus.tabs.params] sections, else the pageRef section alone).
+# menus.main above stays as the no-tabs fallback contract.
+[[menus.tabs]]
+  name = "Docs"
+  pageRef = "/guides"
+  weight = 1
+  [menus.tabs.params]
+    sections = ["guides"]
+
+[[menus.tabs]]
+  name = "Changelog"
+  pageRef = "/changelog"
+  weight = 2

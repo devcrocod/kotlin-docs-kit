@@ -53,7 +53,10 @@ packages/hugo/
 │   │   ├── chroma.css            ← hand-written kt-tok ↔ Chroma mapping
 │   │   └── fonts.css             ← rsynced, URLs rewritten to /fonts/
 │   └── js/
-│       └── theme.js              ← toggle + tab interactivity
+│       ├── theme.js              ← toggle + tab interactivity
+│       ├── nav.js                ← sidenav collapse + sessionStorage memory
+│       ├── search.js             ← Pagefind modal + ⌘K binding
+│       └── copy-page.js          ← copy-page dropdown
 ├── static/
 │   ├── fonts/       # woff2 served at /fonts/*.woff2
 │   └── img/         # Kotlin SVG icons + logos, served at /img/*
@@ -64,10 +67,14 @@ packages/hugo/
 │   │   └── list.html
 │   ├── partials/
 │   │   ├── head.html
-│   │   ├── header.html           ← .kt-topnav
-│   │   ├── sidebar.html          ← .kt-sidenav
+│   │   ├── header.html           ← .kt-topnav (tabs / flat links + search + GitHub)
+│   │   ├── tab-active.html       ← menus.tabs active-state helper
+│   │   ├── sidebar.html          ← .kt-sidenav (per-tab section set)
+│   │   ├── sidebar-tree.html     ← recursive collapsible tree
 │   │   ├── toc.html              ← .kt-toc
-│   │   ├── breadcrumbs.html      ← .kt-crumbs
+│   │   ├── eyebrow.html          ← .kt-eyebrow (parent-section label)
+│   │   ├── kt-icon.html          ← icon dispatcher (over the generated map)
+│   │   ├── kt-icons.generated.html ← built by @ktdocs/tokens (committed)
 │   │   ├── pager.html            ← .kt-docs-pager
 │   │   └── footer.html
 │   └── shortcodes/               ← the authoring surface (see below)
@@ -99,6 +106,43 @@ All 14 shortcodes emit the BEM DOM specified in [`docs/contracts/components.md`]
 The `code-tabs` shortcode wraps Hugo's `transform.Highlight` (Chroma) — pass `lang` and `title` to each `code-tab`. Single-file premium code blocks can be rendered with one `code-tab` inside a `code-tabs`.
 
 For inline syntax tokens authored by hand the eight `.kt-tok-*` classes from the contract are available: `<span class="kt-tok-k">fun</span>` etc.
+
+## Navbar tabs & sidebar
+
+Tabs are optional. With no `menus.tabs` (or a single entry) the topnav renders
+the flat `menus.main` links and the sidebar shows **all** top-level sections —
+the 0.1.x behavior. With **two or more** `menus.tabs` entries the tab bar
+renders and each tab owns its own sidebar tree:
+
+```toml
+[[menus.tabs]]
+  name = "Docs"
+  pageRef = "/getting-started"
+  weight = 1
+  [menus.tabs.params]
+    # Optional: a tab may own several top-level sections. Without this the
+    # tab owns only its pageRef section.
+    sections = ["getting-started", "guides", "reference", "examples"]
+
+[[menus.tabs]]
+  name = "Changelog"
+  pageRef = "/changelog"
+  weight = 2
+```
+
+- A tab is **active** when the current page lives inside its `pageRef` section
+  or any of its `params.sections`.
+- Section headers can carry an icon from the kit's curated set — set
+  `params.icon` in the section's `_index.md` front matter
+  (`icon: rocket`, `book-open`, `map`, `layers`, `palette`, `code`,
+  `terminal`, `settings`, `wrench`, `puzzle`, `flag`, `file-text`, `history`,
+  `users`, `shield`, `sparkles`). Unknown names warn at build time and render
+  no icon.
+- Nested sub-sections render as collapsible groups (multi-open); the open set
+  is remembered per tab in `sessionStorage` (`js/nav.js`). The active ancestor
+  chain is pre-expanded server-side, so the tree works without JavaScript.
+- Set `params.github = "https://github.com/you/repo"` to render the GitHub
+  icon button in the topnav's right cluster.
 
 ## Theme toggle
 

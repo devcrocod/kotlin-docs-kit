@@ -1,0 +1,36 @@
+{{- /* Recursive sidenav tree. Context: dict
+         "node"   section (or regular page — renders nothing),
+         "page"   the current page,
+         "nested" whether this list is a nested (railed) level,
+         "open"   whether the list renders expanded (server-side pre-expand of
+                  the active ancestor chain — no FOUC, works without JS).
+       .Pages interleaves child sections and regular pages weight-ordered.
+       Nested sections render as collapsible groups; js/nav.js toggles them
+       and persists the open set in sessionStorage keyed by data-key
+       (RelPermalink — stable under sub-path baseURLs). */ -}}
+{{- $node := .node -}}
+{{- $page := .page -}}
+{{- $nested := .nested -}}
+{{- $open := .open -}}
+{{- with $node.Pages -}}
+<ul class="kt-sidenav__list{{ if $nested }} kt-sidenav__list--nested{{ end }}"{{ if not $open }} hidden{{ end }}>
+  {{- range . -}}
+    {{- if .IsSection -}}
+      {{- $expanded := or (eq $page .) ($page.IsDescendant .) -}}
+      <li>
+        <div class="kt-sidenav__group" data-key="{{ .RelPermalink }}">
+          <div class="kt-sidenav__group-row">
+            <a class="kt-sidenav__item kt-sidenav__group-link{{ if eq $page . }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <button class="kt-sidenav__group-toggle" type="button" aria-expanded="{{ $expanded }}" aria-label="Toggle {{ .Title }}">
+              {{- partial "kt-icon.html" (dict "name" "chevron-right" "size" 14) -}}
+            </button>
+          </div>
+          {{ partial "sidebar-tree.html" (dict "node" . "page" $page "nested" true "open" $expanded) }}
+        </div>
+      </li>
+    {{- else -}}
+      <li><a class="kt-sidenav__item{{ if eq $page . }} kt-sidenav__item--active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end -}}
+  {{- end -}}
+</ul>
+{{- end -}}

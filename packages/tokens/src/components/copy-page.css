@@ -3,16 +3,9 @@
    menu to copy/view the page as Markdown or open it in ChatGPT / Claude.
    Shared across engines: the Docusaurus copy-page plugin is themed with these
    same .kt-copy-page* class names, and Hugo emits them from copy-page.html.
-   .kt-doc-titlebar is the flex row that seats the <h1> and the button.
+   The flex row seating the <h1> and the button is .kt-article-header__titlebar
+   (eyebrow.css; replaces the 0.1.x .kt-doc-titlebar).
    ============================================================================ */
-
-.kt-doc-titlebar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-.kt-doc-titlebar > h1 { margin: 0; }
 
 .kt-copy-page { position: relative; flex-shrink: 0; }
 .kt-copy-page__btn {

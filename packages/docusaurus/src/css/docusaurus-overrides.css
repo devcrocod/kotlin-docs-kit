@@ -36,31 +36,28 @@
   color: var(--fg-1);
 }
 .navbar__logo { height: 30px; width: 30px; }
-.navbar__items { gap: 4px; }
+.navbar__items { gap: 2px; }
+/* Navbar tabs (docSidebar / doc items) — Mintlify pattern: neutral pills, no
+   teal. The interaction accent stays reserved for the nav tree / TOC / links. */
 .navbar__link {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 500;
   color: var(--fg-2);
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  border-radius: var(--radius-md);
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color var(--motion-fast) var(--motion-ease),
               background var(--motion-fast) var(--motion-ease);
 }
 .navbar__link:hover  { color: var(--fg-1); background: var(--surface-2); }
 .navbar__link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.navbar__link--active { color: var(--color-interactive); }
+.navbar__link--active,
+.navbar__link--active:hover { color: var(--fg-1); background: var(--surface-2); }
 .navbar__items--right > :not(:last-child) { margin-right: 4px; }
-
-/* Search slot inside navbar */
-.navbar__search,
-.navbar .navbar__search-input {
-  font-family: var(--font-sans);
-  border-radius: var(--radius-md);
-  background: var(--surface-2);
-  border: 1px solid var(--border-1);
-  color: var(--fg-2);
-}
 
 /* GitHub icon-only link. The navbar item (docusaurus.config.ts, type:'html')
    renders an <a class="header-github-link"> wrapping an inline <svg
@@ -104,18 +101,56 @@
 }
 .menu__link:hover { color: var(--fg-1); background: var(--surface-2); }
 .menu__link:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Active item — Mintlify minimalism: teal text only, no filled background. */
 .menu__link--active,
 .menu__link--active:hover {
   color: var(--color-interactive);
-  background: var(--color-interactive-soft);
-  font-weight: 600;
-  box-shadow: inset 2px 0 0 0 var(--color-interactive);
+  background: transparent;
+  font-weight: 500;
 }
+.menu__link--active:hover { background: var(--surface-2); }
 .menu__list-item-collapsible:hover { background: transparent; }
+.menu__list-item-collapsible--active { background: transparent; }
+/* Collapse chevron — Infima paints the caret via a background SVG; the kit
+   tints it by masking the shape (chevron-down, stroke 1.5) over a flat
+   currentColor-ish fill. Infima's own rotate transforms keep working. */
 .menu__caret::before, .menu__link--sublist-caret::after {
   background: var(--fg-3);
-  opacity: 0.6;
+  opacity: 0.8;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") 50% 50% / 16px 16px no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") 50% 50% / 16px 16px no-repeat;
 }
+.menu__caret:hover { background: var(--surface-2); }
+
+/* Navigation chrome is quiet: the tokens' global content-link underline
+   (element defaults) must not reach nav surfaces. Content links keep it. */
+.navbar__brand,
+.navbar__link,
+.menu__link,
+.table-of-contents__link,
+.pagination-nav__link,
+.kt-copy-page__item {
+  text-decoration: none;
+}
+/* Ejected Category link internals (kt-sidenav__cat-*): icon slot + 2-line
+   label clamp (ports the upstream CSS module it replaced). */
+.kt-sidenav__cat-link { overflow: hidden; }
+.kt-sidenav__cat-label {
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.menu__link .kt-sidenav__sec-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  color: var(--fg-3);
+  flex-shrink: 0;
+}
+.menu__link--sublist-caret::after { margin-left: var(--ifm-menu-link-padding-vertical); }
 
 /* ---- Nav tree redesign ---------------------------------------------------
  * Top-level categories become mono eyebrow dividers (uppercase, quiet), with
@@ -130,19 +165,51 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--fg-3);
+  color: var(--fg-1);
 }
-.theme-doc-sidebar-item-category-level-1:not(:first-child) { margin-top: 18px; }
+.theme-doc-sidebar-item-category-level-1:not(:first-child) { margin-top: 22px; }
 .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link:hover {
   background: transparent;
-  color: var(--fg-2);
+  color: var(--color-interactive);
+}
+/* Group headers are not toggles: hide the caret on level-1 categories (use
+   collapsible: false in sidebars.ts; this also quiets sites that keep them
+   collapsible). Their child list keeps no rail — rails start at level 2. */
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__caret,
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link--sublist-caret::after {
+  display: none;
 }
 
-/* Indent guide for nested items (level 2+). */
+/* Indent rail for nested items (level 2+). */
 .menu__list .menu__list {
   margin-left: 11px;
   padding-left: 8px;
-  border-left: 1px solid var(--border-1);
+  border-left: 1px solid var(--border-2);
+}
+/* Level-1 category child lists are the section body — no indent, no rail. */
+.theme-doc-sidebar-item-category-level-1 > .menu__list {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: none;
+}
+/* Active nested item: its 2px segment of the rail turns teal, spanning the
+   item's full box (wrapped labels included). Offset = list padding (8px) +
+   rail width (1px). */
+.menu__list .menu__list .menu__link--active { position: relative; }
+.menu__list .menu__list .menu__link--active::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--color-interactive);
+}
+/* …but not for items sitting directly in a rail-less section body. */
+.theme-doc-sidebar-item-category-level-1 > .menu__list > li > .menu__link--active::before,
+.theme-doc-sidebar-item-category-level-1 > .menu__list > li > .menu__list-item-collapsible > .menu__link--active::before {
+  content: none;
 }
 
 /* Nested sub-category labels (e.g. Docusaurus / Hugo / Components). */
@@ -158,90 +225,74 @@
  * TOC — re-skin .table-of-contents to match .kt-toc
  * ========================================================================= */
 
-/* The TOC swizzle wraps Docusaurus's TOC in a `.kt-toc` host. The design-system
-   `.kt-toc` (nav.css) is `display:flex` with its own padding — so the wrapper
-   becomes a short (content-height) box, and the `position:sticky` on the inner
-   `.theme-doc-toc-desktop` can only stick *within that short box*, i.e. it
-   scrolls away almost immediately. Make the wrapper layout-transparent (same
-   trick as `.kt-topnav`) so the sticky column is a direct child of Infima's
-   tall `.col` and sticks against the viewport. Also drops the doubled padding
-   (kt-toc padding + .table-of-contents padding). */
-.kt-toc { display: contents; }
+/* The TOC swizzle wraps Docusaurus's TOC in a `.kt-toc` host and prepends the
+   real "☰ On this page" label element (toc.css styles it). The HOST is the
+   sticky box — label and list stick together — so the inner
+   `.theme-doc-toc-desktop` sticky is neutralized (a sticky inside a
+   content-height flex wrapper would scroll away — the old display:contents
+   gotcha, now solved by making the wrapper itself sticky and full-height). */
+.kt-toc {
+  position: sticky;
+  top: var(--docs-header-height);
+  max-height: calc(100vh - var(--docs-header-height));
+  overflow-y: auto;
+}
+.kt-toc .theme-doc-toc-desktop {
+  position: static;
+  max-height: none;
+  overflow: visible;
+}
 
 .table-of-contents {
   font-family: var(--font-sans);
   font-size: 13px;
   border-left: none;
-  padding: 20px 20px 24px;
+  padding: 0;
+  margin: 0;
 }
 .table-of-contents__left-border { border-left: none; }
 
-/* "On this page" eyebrow above the desktop TOC (Mintlify-style). Scoped to the
-   desktop column so it never shows on the mobile floating TOC. `.table-of-contents`
-   only renders when the page has headings, so the label never appears empty. */
-.theme-doc-toc-desktop .table-of-contents::before {
-  content: 'On this page';
-  display: block;
-  font-family: var(--font-label);
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--fg-3);
-  padding-left: 10px;
-  margin-bottom: 10px;
-}
+/* Items — quiet, ellipsized; active = teal text + 4px teal dot in the left
+   gutter (replaces the old border-left indicator). The dot column stays
+   aligned for nested (h3) items; only the text indents. */
 .table-of-contents__link {
-  color: var(--fg-2);
-  padding: 4px 0 4px 10px;
-  border-left: 2px solid transparent;
-  transition: color var(--motion-fast) var(--motion-ease),
-              border-color var(--motion-fast) var(--motion-ease);
+  position: relative;
+  display: block;
+  color: var(--fg-3);
+  padding: 4px 0 4px 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--motion-fast) var(--motion-ease);
 }
 .table-of-contents__link:hover { color: var(--fg-1); }
 .table-of-contents__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
-.table-of-contents__link--active {
-  color: var(--color-interactive);
-  border-left-color: var(--color-interactive);
-  font-weight: 500;
+.table-of-contents__link--active { color: var(--color-interactive); }
+.table-of-contents__link--active::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-interactive);
 }
 .table-of-contents ul ul .table-of-contents__link {
   font-size: 12.5px;
-  padding-left: 20px;
+  padding-left: 28px;
 }
 
 /* Mobile floating TOC */
 .theme-doc-toc-mobile { font-size: 13px; }
 
 /* ===========================================================================
- * Breadcrumbs — .breadcrumbs__item → .kt-crumbs
+ * Eyebrow — the DocBreadcrumbs component renders `.kt-eyebrow` (eyebrow.css)
+ * as a direct child of <article>, replacing the 0.1.x breadcrumbs row.
  * ========================================================================= */
 
-.breadcrumbs {
-  font-family: var(--font-label); /* IBM Plex Mono — path/route aesthetic */
-  font-size: 12.5px;
-  letter-spacing: -0.01em;
-  color: var(--fg-3);
-}
-.breadcrumbs__item + .breadcrumbs__item::before {
-  content: '/';
-  margin: 0 8px;
-  color: var(--fg-3);
-  opacity: 0.6;
-  background: none;
-}
-.breadcrumbs__link {
-  color: var(--fg-2);
-  padding: 0;
-  background: none;
-  transition: color var(--motion-fast) var(--motion-ease);
-}
-.breadcrumbs__link:hover { color: var(--color-link-hover); text-decoration: underline; }
-.breadcrumbs__item--active .breadcrumbs__link {
-  background: none;
-  color: var(--fg-1);
-  font-weight: 500;
-}
+article > .kt-eyebrow { margin: 0 0 6px; }
 
 /* ===========================================================================
  * Pagination — .pagination-nav → .kt-docs-pager
@@ -409,15 +460,13 @@ article hr { border-color: var(--border-1); }
   padding: 36px 48px 80px;
 }
 
-/* Right column — TOC */
-.theme-doc-toc-desktop {
+/* Right column — TOC. The .kt-toc host (TOC wrapper) is the sticky box —
+   sticky/max-height/overflow live in the TOC section above; the column
+   sizing lives here with the other shell columns. */
+.kt-toc {
   width: var(--docs-toc-width);
   flex: 0 0 var(--docs-toc-width);
-  position: sticky;
-  top: var(--docs-header-height);
   align-self: flex-start;
-  max-height: calc(100vh - var(--docs-header-height));
-  overflow-y: auto;
 }
 
 /* Article column — apply the reading measure inside the main slot.
@@ -441,17 +490,17 @@ article hr { border-color: var(--border-1); }
 
 /* Breakpoint — collapse TOC below 1024 (matches contract) */
 @media (max-width: 1023.98px) {
-  .theme-doc-toc-desktop { display: none; }
+  .kt-toc { display: none; }
   [class^='docMainContainer_'],
   [class*=' docMainContainer_'] {
     padding: 32px 40px 64px;
   }
 }
 
-/* Breakpoint — collapse sidebar below 720 (matches contract). Docusaurus
- * already turns the sidebar into a drawer below its `--ifm-mobile-sidebar`
- * threshold; we just tighten the main padding to match the kit's contract. */
-@media (max-width: 719.98px) {
+/* Breakpoint — below 997px (the unified mobile boundary) Docusaurus swaps the
+ * sidebar for its drawer natively; tighten the main padding to the mobile
+ * contract at the same boundary. */
+@media (max-width: 996.98px) {
   [class^='docMainContainer_'],
   [class*=' docMainContainer_'] {
     padding: 24px 20px 60px;
@@ -565,18 +614,10 @@ article hr { border-color: var(--border-1); }
   color: var(--fg-1);
 }
 
-/* Placement: the DocBreadcrumbs swizzle wraps the crumbs in `.kt-crumbs`, so the
-   plugin's "insert after breadcrumbs" heuristic misses and it prepends the
-   button as <article>'s first child (above the crumbs). Pull it onto the crumb
-   row, right-aligned. <article> is the positioning context (see docItemCol rule).
-   No positioning is set inline by the plugin (we pass no positioning in
-   customStyles), so these win cleanly. */
-#copy-page-button-container[data-fallback] {
-  position: absolute;
-  top: 2px;
-  right: 0;
-  z-index: 5;
-}
+/* Placement lives in copy-page-article.css (loaded only when the copyPage
+   preset option is on): the container is pinned onto the H1 row absolutely,
+   with an eyebrow-aware top offset and a static right-aligned fallback below
+   997px. <article> stays the positioning context (see docItemCol rule). */
 
 /* ===========================================================================
  * Kit MDX component adjustments — Docusaurus-side CSS for a couple of kit

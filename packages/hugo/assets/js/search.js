@@ -12,6 +12,13 @@
   var trigger = document.querySelector('.kt-docs-search');
   if (!trigger) return;
 
+  // Platform-appropriate shortcut label; the static ⌘K in header.html is the
+  // SSR / no-JS fallback.
+  var kbd = trigger.querySelector('.kt-docs-search__kbd');
+  var platform =
+    (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  if (kbd && !/mac|iphone|ipad|ipod/i.test(platform)) kbd.textContent = 'Ctrl K';
+
   // Paths injected by header.html via Hugo's relURL, so they resolve under
   // both a root and a sub-path baseURL (e.g. /kotlin-docs-hugo-template/).
   var base = trigger.getAttribute('data-pagefind-base') || '/pagefind/';

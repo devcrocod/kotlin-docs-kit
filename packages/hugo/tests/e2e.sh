@@ -47,7 +47,11 @@ MARKERS=(
   "kt-topnav"
   "kt-topnav__brand"
   "kt-topnav__version"
+  "kt-topnav__tabs"
+  "kt-docs-search"
+  "aria-label=\"GitHub repository\""
   "kt-sidenav"
+  "kt-sidenav__sec-label"
   "kt-callout"
   "kt-callout--tip"
   "kt-callout__icon"
@@ -87,14 +91,42 @@ for m in "${MARKERS[@]}"; do
   fi
 done
 
-# Pager should appear on next.md (it has _index.md as a sibling).
-echo "==> Verifying pager and breadcrumbs on $NEXT"
-for m in kt-docs-pager kt-crumbs; do
+# Pager + article header should appear on next.md (it has _index.md as a sibling).
+echo "==> Verifying pager and article header on $NEXT"
+for m in kt-docs-pager kt-article-header kt-article-header__titlebar; do
   if ! grep -q "$m" "$NEXT"; then
     echo "MISS: $m (in next/index.html)"
     fail=$((fail + 1))
   fi
 done
+
+# Shell redesign markers: eyebrow + active tab + tab-scoped sidebar on a page
+# inside the Docs tab; recursive tree (nested group, rail list, active nested
+# item, pre-expanded ancestor chain) on the deeply nested page.
+SETUP="$PUB_DIR/guides/setup/index.html"
+TUNING="$PUB_DIR/guides/advanced/tuning/index.html"
+echo "==> Verifying eyebrow, tabs and recursive sidebar on $SETUP"
+for m in kt-eyebrow kt-topnav__tab--active kt-sidenav__sec-icon; do
+  if ! grep -q "$m" "$SETUP"; then
+    echo "MISS: $m (in guides/setup/index.html)"
+    fail=$((fail + 1))
+  fi
+done
+# --minify may strip attribute quotes, so match both forms.
+if ! grep -Eq 'data-nav-key="?/guides/"?' "$SETUP"; then
+  echo "MISS: tab-scoped sidebar nav key (in guides/setup/index.html)"
+  fail=$((fail + 1))
+fi
+for m in kt-sidenav__group kt-sidenav__group-toggle kt-sidenav__list--nested; do
+  if ! grep -q "$m" "$TUNING"; then
+    echo "MISS: $m (in guides/advanced/tuning/index.html)"
+    fail=$((fail + 1))
+  fi
+done
+if ! grep -Eq 'aria-expanded="?true"?' "$TUNING"; then
+  echo "MISS: pre-expanded active ancestor chain (in guides/advanced/tuning/index.html)"
+  fail=$((fail + 1))
+fi
 
 # Asset files that should exist in public/.
 echo "==> Verifying published assets"

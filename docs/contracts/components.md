@@ -227,8 +227,9 @@ Text inputs, textareas, selects, and the signature documentation search field wi
 ### Notes
 
 - The focus ring on `.kt-input`, `.kt-textarea`, and `.kt-select` is a 3 px outer glow built with `color-mix(in srgb, var(--color-primary) 22%, transparent)`.
-- `.kt-docs-search` is a presentational trigger — engines wire the click handler to their native search modal (Material `instant`, Algolia DocSearch, Hugo search plugin).
-- Specimen: [`preview/components-topnav.html`](./preview/components-topnav.html), [`preview/components-shell.html`](./preview/components-shell.html).
+- `.kt-docs-search` is a presentational trigger — engines wire the click handler to their native results surface (`@easyops-cn/docusaurus-search-local` dropdown on Docusaurus, the Pagefind `.kt-search-modal` on Hugo).
+- Below 997 px the trigger collapses to a 32 × 32 icon button (same classes; media query only) — the placeholder text and kbd chip are hidden.
+- Specimen: [`preview/components-topnav.html`](./preview/components-topnav.html), [`preview/components-search.html`](./preview/components-search.html).
 
 ---
 
@@ -588,58 +589,79 @@ Tabbed content switcher for "Kotlin / Java / Groovy" style choices. Visually and
 
 ---
 
-## Breadcrumbs
+## Article header
 
-Trail of ancestors leading to the current page, rendered with a separator and a non-link current node.
+Article header anatomy (Mintlify pattern): a teal **eyebrow** — the immediate parent section label — above the H1 titlebar row that also seats the copy-page control. Replaces the 0.1.x breadcrumbs row: the `.kt-crumbs` DOM and CSS were removed in 0.2.0 (**breaking**); the mono aesthetic lives on in the eyebrow.
 
 ### DOM
 
 ```html
-<nav class="kt-crumbs">
-  <a href="/">Docs</a>
-  <span class="kt-crumbs__sep">/</span>
-  <a href="/guides">Guides</a>
-  <span class="kt-crumbs__sep">/</span>
-  <span class="kt-crumbs__current">Quickstart</span>
-</nav>
+<header class="kt-article-header">
+  <p class="kt-eyebrow">Guides</p>
+  <div class="kt-article-header__titlebar">
+    <h1>Install the CLI</h1>
+    <div class="kt-copy-page"><!-- copy-page control --></div>
+  </div>
+</header>
 ```
 
 ### Classes
 
-| Class                 | Kind    | Purpose                                                               |
-| --------------------- | ------- | --------------------------------------------------------------------- |
-| `.kt-crumbs`          | block   | Breadcrumb row. Flex, 8 px gap, 13 px sans, tertiary foreground.      |
-| `.kt-crumbs__sep`     | element | Visual separator (default `/`). Tertiary foreground with 0.6 opacity. |
-| `.kt-crumbs__current` | element | The current page node (non-link). Primary foreground, 500 weight.     |
+| Class                          | Kind    | Purpose                                                                                       |
+| ------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
+| `.kt-article-header`           | block   | Header stack above the article body. Vertical flex, 6 px gap.                                  |
+| `.kt-eyebrow`                  | block   | Parent section label. `--font-label` 11 px, 600 weight, uppercase, teal (`--color-interactive`). |
+| `.kt-article-header__titlebar` | element | Flex row seating the H1 (takes the remaining width) and the copy-page control.                 |
+
+### Notes
+
+- Eyebrow content fallback chain: immediate parent category/section label → owning tab label → hidden. Also hidden when it would equal the page title (tab-root index pages).
+- Below 997 px the titlebar wraps: the copy-page control drops under the H1, right-aligned.
+- `.kt-article-header__titlebar` replaces the 0.1.x Hugo-only `.kt-doc-titlebar` (class rename, migration notes).
+- Specimens: [`preview/components-eyebrow.html`](./preview/components-eyebrow.html), [`preview/components-shell.html`](./preview/components-shell.html).
 
 ---
 
 ## Topnav
 
-Sticky blurred header containing brand, version chip, primary links, search trigger, and icon buttons (theme toggle, GitHub link).
+Sticky blurred header containing the burger (mobile drawer trigger), brand, version chip, navbar tabs (or the flat-links fallback), search trigger, and icon buttons (GitHub link, theme toggle).
 
 ### DOM
 
 ```html
 <header class="kt-topnav">
+  <button class="kt-topnav__icon-btn kt-topnav__burger" type="button" aria-label="Open navigation" aria-expanded="false">
+    <svg><!-- menu glyph --></svg>
+  </button>
   <a class="kt-topnav__brand" href="/">
     <img src="/assets/kotlin-icon-color.svg" width="28" height="28" alt="" />
     <span class="kt-topnav__brand-name">Project</span>
     <span class="kt-topnav__version">v2.0</span>
   </a>
-  <nav class="kt-topnav__links">
-    <a class="kt-topnav__link kt-topnav__link--active" href="/docs">Docs</a>
-    <a class="kt-topnav__link" href="/api">API</a>
+  <nav class="kt-topnav__tabs" aria-label="Sections">
+    <a class="kt-topnav__tab kt-topnav__tab--active" href="/docs" aria-current="true">Docs</a>
+    <a class="kt-topnav__tab" href="/reference">Reference</a>
+    <a class="kt-topnav__tab" href="/changelog">Changelog</a>
   </nav>
   <div class="kt-topnav__right">
-    <div class="kt-docs-search">
+    <div class="kt-docs-search" role="button" tabindex="0" aria-label="Search">
       <svg class="kt-docs-search__icon"><!-- magnifier --></svg>
       <span class="kt-docs-search__text">Search…</span>
       <span class="kt-docs-search__kbd">⌘K</span>
     </div>
+    <a class="kt-topnav__icon-btn" href="…" aria-label="GitHub repository"><!-- GitHub mark --></a>
     <button class="kt-topnav__icon-btn"><!-- theme toggle --></button>
   </div>
 </header>
+```
+
+When no tabs are configured (or only one — the tab bar renders at ≥ 2 tabs), `.kt-topnav__tabs` is replaced by the 0.1.x flat links row:
+
+```html
+<nav class="kt-topnav__links">
+  <a class="kt-topnav__link kt-topnav__link--active" href="/docs">Docs</a>
+  <a class="kt-topnav__link" href="/api">API</a>
+</nav>
 ```
 
 ### Classes
@@ -648,80 +670,125 @@ Sticky blurred header containing brand, version chip, primary links, search trig
 | ------------------------ | ------- | -------------------------------------------------------------------------------------------- |
 | `.kt-topnav`             | block   | Header bar. Sticky, blurred translucent surface, bottom border, `--docs-header-height` tall. |
 | `.kt-topnav__brand`      | element | Brand cluster (logo + name + version).                                                       |
-| `.kt-topnav__brand-name` | element | Product or project name. 16 px sans, 600 weight.                                             |
-| `.kt-topnav__version`    | element | Version chip. 11 px monospace inside a small surface-2 box.                                  |
-| `.kt-topnav__links`      | element | Primary nav link row.                                                                        |
-| `.kt-topnav__link`       | element | A single nav link.                                                                           |
+| `.kt-topnav__brand-name` | element | Product or project name. 17 px sans, 600 weight.                                             |
+| `.kt-topnav__version`    | element | Version chip. 11 px `--font-label` inside a small surface-2 box.                             |
+| `.kt-topnav__tabs`       | element | Navbar tab group — each tab owns a sidebar tree. Never wraps.                                |
+| `.kt-topnav__tab`        | element | A single tab. 14.5 px sans, 500 weight; ellipsizes at 160 px max-width.                      |
+| `.kt-topnav__links`      | element | Flat nav link row — the fallback when no tabs are configured.                                |
+| `.kt-topnav__link`       | element | A single flat nav link.                                                                      |
 | `.kt-topnav__right`      | element | Right-aligned cluster holding search and icon buttons.                                       |
-| `.kt-topnav__icon-btn`   | element | 32 × 32 icon button (theme toggle, external links).                                          |
+| `.kt-topnav__icon-btn`   | element | 32 × 32 icon button (theme toggle, GitHub link, burger).                                     |
+| `.kt-topnav__burger`     | element | Mobile drawer trigger. Hidden at ≥ 997 px; shown as an icon button below.                    |
 
 ### Modifiers
 
-| Modifier                   | Meaning                                         |
-| -------------------------- | ----------------------------------------------- |
-| `.kt-topnav__link--active` | Current section indicator. Primary text colour. |
+| Modifier                   | Meaning                                                                             |
+| -------------------------- | ----------------------------------------------------------------------------------- |
+| `.kt-topnav__tab--active`  | Active tab. Neutral `surface-2` pill, `--fg-1` text — **no teal** (accent discipline). |
+| `.kt-topnav__link--active` | Current section indicator in the flat-links fallback. Interaction-accent text.      |
+
+### ARIA
+
+- The tab group carries `aria-label="Sections"`; the active tab carries `aria-current="true"`.
+- The burger carries `aria-label`, `aria-expanded`, and (when the drawer is in the DOM) `aria-controls`.
+- The search trigger is a `role="button"` with `tabindex="0"` and `aria-label="Search"`.
 
 ### Notes
 
+- Tab hover shows the same `surface-2` pill as the active state; the interaction accent (teal) stays reserved for the nav tree / TOC / links.
+- The tab bar renders only with ≥ 2 tabs configured; with 0–1 tabs, engines fall back to the flat `.kt-topnav__links` row (upgrade path for 0.1.0 sites).
 - The header background uses `color-mix(in srgb, var(--surface-1) 86%, transparent)` with `backdrop-filter: blur(14px)` for the signature translucent effect.
+- Below 997 px the topnav collapses to burger + brand + search icon + theme toggle (tabs, links, and version chip are hidden; the search field becomes an icon button).
 - Specimen: [`preview/components-topnav.html`](./preview/components-topnav.html).
 
 ---
 
 ## Sidenav
 
-Left navigation column. Sections with bold labels, optional uppercase sub-labels, and items with an active highlight.
+Left navigation tree (quiet Mintlify pattern). Top-level sections are group headers — icon + mono uppercase label, non-collapsible; nested groups collapse and indent on a hairline rail; the active item is teal text only, with no filled background.
 
 ### DOM
 
 ```html
-<nav class="kt-sidenav">
+<nav class="kt-sidenav" aria-label="Section navigation" data-nav-key="/docs/">
   <div class="kt-sidenav__section">
-    <div class="kt-sidenav__sec-label">Getting Started</div>
-    <a class="kt-sidenav__item kt-sidenav__item--active" href="/install">
-      <svg class="kt-sidenav__item-icon"><!-- icon --></svg>Installation
+    <a class="kt-sidenav__sec-label" href="/docs/">
+      <svg class="kt-sidenav__sec-icon"><!-- section icon --></svg>
+      <span>Getting started</span>
     </a>
-    <a class="kt-sidenav__item" href="/quickstart">Quickstart</a>
-  </div>
-  <div class="kt-sidenav__section">
-    <div class="kt-sidenav__sec-sub">Reference</div>
-    <a class="kt-sidenav__item" href="/tokens">Tokens</a>
+    <ul class="kt-sidenav__list">
+      <li><a class="kt-sidenav__item kt-sidenav__item--active" href="/install">Installation</a></li>
+      <li>
+        <div class="kt-sidenav__group" data-key="/docs/guides/">
+          <div class="kt-sidenav__group-row">
+            <a class="kt-sidenav__item kt-sidenav__group-link" href="/docs/guides/">Guides</a>
+            <button class="kt-sidenav__group-toggle" type="button" aria-expanded="false" aria-label="Toggle Guides">
+              <svg><!-- chevron-right glyph --></svg>
+            </button>
+          </div>
+          <ul class="kt-sidenav__list kt-sidenav__list--nested" hidden>
+            <li><a class="kt-sidenav__item" href="/docs/guides/routing">Routing</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
   </div>
 </nav>
 ```
 
 ### Classes
 
-| Class                    | Kind    | Purpose                                                          |
-| ------------------------ | ------- | ---------------------------------------------------------------- |
-| `.kt-sidenav`            | block   | Sidebar wrapper. Vertical flex column, 20 / 16 padding.          |
-| `.kt-sidenav__section`   | element | A grouping of items. Adjacent sections are spaced by 18 px.      |
-| `.kt-sidenav__sec-label` | element | Bold section label. 12 px sans, 600 weight.                      |
-| `.kt-sidenav__sec-sub`   | element | Uppercase sub-label. 11 px sans with wide tracking.              |
-| `.kt-sidenav__item`      | element | A nav link. 13.5 px sans, secondary foreground, hover surface-2. |
-| `.kt-sidenav__item-icon` | element | Optional 14 × 14 leading icon, `currentColor`.                   |
+| Class                      | Kind    | Purpose                                                                                          |
+| -------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| `.kt-sidenav`              | block   | Sidebar wrapper. Vertical flex column, 20 / 16 padding. Carries `data-nav-key`.                   |
+| `.kt-sidenav__section`     | element | A top-level section. Adjacent sections are spaced by 22 px.                                       |
+| `.kt-sidenav__sec-label`   | element | Section group header: icon + mono uppercase label (`--font-label` 11 px / 600, 0.07em tracking). A link to the section root, **not** a toggle. |
+| `.kt-sidenav__sec-icon`    | element | 16 × 16 section icon (curated Lucide-derived set, stroke 1.5), `--fg-3`; lifts to `currentColor` on hover/active. |
+| `.kt-sidenav__list`        | element | Item list (`<ul>`, list-style reset, 1 px gaps).                                                  |
+| `.kt-sidenav__item`        | element | A nav link. 14 px sans / 500, `--fg-2`, hover `surface-2` + `--fg-1`.                             |
+| `.kt-sidenav__item-icon`   | element | Optional 14 × 14 leading icon inside an item, `currentColor`.                                     |
+| `.kt-sidenav__group`       | element | A nested collapsible group (level ≥ 2). Carries `data-key`.                                       |
+| `.kt-sidenav__group-row`   | element | Flex row seating the group link and its collapse toggle.                                          |
+| `.kt-sidenav__group-link`  | element | The group's own page link (an `.kt-sidenav__item` that flexes to fill the row).                   |
+| `.kt-sidenav__group-toggle`| element | 24 × 24 chevron button. Chevron rotates 90° when expanded.                                        |
 
 ### Modifiers
 
-| Modifier                    | Meaning                                                               |
-| --------------------------- | --------------------------------------------------------------------- |
-| `.kt-sidenav__item--active` | Current page link. Primary-soft background, primary text, 500 weight. |
+| Modifier                        | Meaning                                                                                             |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `.kt-sidenav__sec-label--active`| Current page is the section root. Interaction-accent (teal) label text.                              |
+| `.kt-sidenav__item--active`     | Current page link. **Teal text only** — the 0.1.x soft background and inset left bar were removed.   |
+| `.kt-sidenav__list--nested`     | Nested list: indented on a 1 px hairline rail (`--sidenav-rail-color`, defaults to `--border-2`).    |
+
+### ARIA
+
+- The wrapper carries `aria-label="Section navigation"`.
+- Each `.kt-sidenav__group-toggle` carries `aria-expanded="true|false"` and an `aria-label` naming the group; the collapsed nested list carries the `hidden` attribute.
 
 ### Notes
 
-- Specimen: [`preview/components-shell.html`](./preview/components-shell.html).
+- Active item inside a nested list additionally paints its 2 px segment of the rail teal (`::before` spanning the item's full box, wrapped labels included).
+- Collapse is **multi-open**: opening a group never closes siblings. Engines pre-expand the active ancestor chain server-side (no FOUC, works without JS).
+- Persistence contract: the open-group set is stored per tree in `sessionStorage["kt.sidenav.<navKey>"]`, where `navKey` = `data-nav-key` on `.kt-sidenav` (the active tab's root path, or `_root` without tabs) and each group is identified by its `data-key` (a stable path such as `RelPermalink` — safe under sub-path deployments).
+- Section headers are group headers at every width (desktop and drawer) — collapse applies to nested groups only.
+- `.kt-sidenav__sec-sub` (0.1.x uppercase sub-label) was removed in 0.2.0; the section label itself is now the mono uppercase row.
+- Long item labels wrap (max 2 lines).
+- Specimens: [`preview/components-nav.html`](./preview/components-nav.html), [`preview/components-shell.html`](./preview/components-shell.html).
 
 ---
 
 ## TOC
 
-Right rail "On this page" rail with active border and indented sub-entries.
+Right rail "On this page" list. Quiet items; the active item is teal text plus a 4 px teal dot in the left gutter (replaces the 0.1.x left-border indicator).
 
 ### DOM
 
 ```html
-<nav class="kt-toc">
-  <div class="kt-toc__label">On this page</div>
+<nav class="kt-toc" aria-label="On this page">
+  <div class="kt-toc__label">
+    <svg class="kt-toc__label-icon"><!-- list glyph --></svg>
+    <span>On this page</span>
+  </div>
   <a class="kt-toc__item kt-toc__item--active" href="#install">Installation</a>
   <a class="kt-toc__item kt-toc__item--nested" href="#install-macos">macOS</a>
 </nav>
@@ -729,18 +796,19 @@ Right rail "On this page" rail with active border and indented sub-entries.
 
 ### Classes
 
-| Class            | Kind    | Purpose                                                           |
-| ---------------- | ------- | ----------------------------------------------------------------- |
-| `.kt-toc`        | block   | TOC wrapper. Vertical flex column, 24 / 20 padding.               |
-| `.kt-toc__label` | element | Section label "On this page". 12 px sans, 600 weight.             |
-| `.kt-toc__item`  | element | A heading link. 13 px sans, 2 px left border for the active rail. |
+| Class                 | Kind    | Purpose                                                                                 |
+| --------------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `.kt-toc`             | block   | TOC wrapper. Vertical flex column, 24 / 20 padding.                                      |
+| `.kt-toc__label`      | element | "On this page" label row: list glyph + mono uppercase text (`--font-label` 11 px / 600). |
+| `.kt-toc__label-icon` | element | 14 × 14 list glyph, `--fg-3`.                                                            |
+| `.kt-toc__item`       | element | A heading link. 13 px sans, `--fg-3`, ellipsized (no wrap), hover `--fg-1`.              |
 
 ### Modifiers
 
-| Modifier                | Meaning                                                           |
-| ----------------------- | ----------------------------------------------------------------- |
-| `.kt-toc__item--active` | Currently viewed heading. Primary text and primary left border.   |
-| `.kt-toc__item--nested` | Indented sub-heading. Larger left padding, slightly smaller font. |
+| Modifier                | Meaning                                                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------------------------- |
+| `.kt-toc__item--active` | Currently viewed heading. Teal text plus a 4 px teal dot in the left gutter (`::before`).             |
+| `.kt-toc__item--nested` | Indented sub-heading (h3). Larger left padding, 12.5 px font. The dot column stays aligned — only the text indents. |
 
 ### Notes
 
@@ -841,7 +909,7 @@ Canonical three-column documentation layout: sidebar, main, TOC. The shell handl
   <aside class="kt-docs-shell__side"><!-- sidenav --></aside>
   <main class="kt-docs-shell__main">
     <article class="kt-docs-article">
-      <!-- breadcrumbs, h1, content, pager -->
+      <!-- article header (eyebrow + h1 + copy page), content, pager -->
     </article>
   </main>
   <aside class="kt-docs-shell__toc"><!-- toc --></aside>
@@ -951,6 +1019,6 @@ Authoring syntax differs across engines, but every form below MUST produce the D
 - [`claude-ds-rename.md`](./claude-ds-rename.md) — Mapping from the original flat Claude DS class names to the BEM names used here.
 - [`engine-mappings/docusaurus.md`](./engine-mappings/docusaurus.md) — Internal spec for how `@ktdocs/docusaurus-preset` swizzles theme components and remaps Infima variables.
 - [`engine-mappings/hugo.md`](./engine-mappings/hugo.md) — Internal spec for how the Hugo module wires shortcodes and Chroma classes.
-- [`preview/`](./preview/) — Frozen HTML specimens (24 cards) covering brand, colors, typography, spacing, and components. Used as the visual reference for self-docs and regression checks.
+- [`preview/`](./preview/) — Frozen HTML specimens covering brand, colors, typography, spacing, and components. Used as the visual reference for self-docs and regression checks.
 - [`../../packages/tokens/README.md`](../../packages/tokens/README.md) — CSS custom properties consumed by these components (`--kt-*`, `--surface-*`, `--fg-*`, `--type-*`, `--space-*`, `--docs-*`, `--code-*`).
 - [`../../SPEC.md`](../../SPEC.md) — Architecture specification. §6 covers the token system; §7 covers the components and authoring contract; §10 covers customization layers.

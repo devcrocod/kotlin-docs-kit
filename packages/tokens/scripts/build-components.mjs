@@ -29,7 +29,6 @@ const ORDER = [
   'hero.css',
   // Navigation
   'topnav.css',
-  'crumbs.css',
   'nav.css',
   'toc.css',
   'search-ui.css',

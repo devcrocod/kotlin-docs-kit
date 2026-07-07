@@ -7,10 +7,15 @@ Hugo is template-driven (Go templates) rather than configuration-driven, so we w
 ```
 your-site/
 ├── assets/
-│   └── css/
-│       ├── colors_and_type.css
-│       ├── tokens.css
-│       └── components.css
+│   ├── css/
+│   │   ├── colors_and_type.css
+│   │   ├── tokens.css
+│   │   └── components.css
+│   └── js/
+│       ├── theme.js
+│       ├── nav.js          # sidenav collapse + sessionStorage persistence (0.2.0)
+│       ├── search.js
+│       └── copy-page.js
 ├── static/
 │   └── img/
 │       ├── kotlin-icon-color.svg
@@ -24,8 +29,11 @@ your-site/
     └── partials/
         ├── head.html
         ├── header.html
+        ├── tab-active.html    # boolean helper: is a menus.tabs entry active for this page
         ├── sidebar.html
+        ├── sidebar-tree.html  # recursive tree body (0.2.0)
         ├── toc.html
+        ├── eyebrow.html       # replaces breadcrumbs.html (deleted in 0.2.0)
         ├── footer.html
         └── callout.html
 ```
@@ -65,72 +73,131 @@ your-site/
 </html>
 ```
 
-## 4. `layouts/partials/header.html` — top nav
+## 4. `layouts/partials/header.html` — top nav (tabs, search trigger, GitHub)
 
-```go-html-template
-<header class="topnav">
-  <a class="brand" href="{{ "/" | relURL }}">
-    <img src="/img/kotlin-icon-color.svg" width="28" height="28" alt="">
-    <span class="brand-name">{{ .Site.Title }}</span>
-    <span class="nav-version">v{{ .Site.Params.version }}</span>
-  </a>
-  <nav class="navlinks">
-    {{ range .Site.Menus.main }}
-      <a class="navlink {{ if $.IsMenuCurrent "main" . }}is-active{{ end }}" href="{{ .URL }}">{{ .Name }}</a>
-    {{ end }}
-  </nav>
-  <div class="nav-right">
-    <div class="docs-search" style="width: 280px;">
-      <svg class="ds-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <span class="ds-text">Search…</span>
-      <span class="ds-kbd">⌘K</span>
-    </div>
-    <button class="icon-btn" id="theme-toggle">🌗</button>
-  </div>
-</header>
+The header emits `.kt-topnav` and renders, left to right: the **burger** (`.kt-topnav__icon-btn.kt-topnav__burger`, drawer trigger — visible below 997 px only; the drawer itself ships in a later slice of `nav.js`), the **brand** cluster (logo + `.kt-topnav__brand-name` + `.kt-topnav__version` from `params.version`), the **tab group or flat links**, and the **right cluster** (search trigger, optional GitHub button, tri-state theme toggle).
+
+**Navbar tabs** are an optional feature driven by a `[[menus.tabs]]` menu. The tab bar renders only at ≥ 2 entries; with 0–1 entries the theme falls back to the flat `menus.main` links (`.kt-topnav__links` / `.kt-topnav__link` — the 0.1.x behavior, so existing sites upgrade with no config change):
+
+```toml
+[[menus.tabs]]
+  name = "Docs"
+  pageRef = "/guides"
+  weight = 1
+  [menus.tabs.params]
+    sections = ["getting-started", "guides"]
+
+[[menus.tabs]]
+  name = "Changelog"
+  pageRef = "/changelog"
+  weight = 2
 ```
 
-## 5. `layouts/partials/sidebar.html` — section list
+- A tab owns the top-level content sections listed in `params.sections`; an entry without `params.sections` owns only its `pageRef` section.
+- Active detection lives in `partials/tab-active.html` (a boolean `return` partial, context `dict "page" PAGE "entry" ENTRY`): Hugo's `IsMenuCurrent`, then `pageRef` equality / `.IsDescendant`, then `params.sections` containment — so any page inside a tab's section set marks that tab active.
+- Markup: `<nav class="kt-topnav__tabs" aria-label="Sections">` with one `<a class="kt-topnav__tab">` per entry; the active tab adds `kt-topnav__tab--active` and `aria-current="true"`.
+
+**Search trigger:** the header renders `.kt-docs-search` (magnifier + `Search…` + `⌘K` chip) with `role="button"`, `tabindex="0"`, and the `data-pagefind-base` / `data-site-base` attributes consumed by `assets/js/search.js`, which opens the Pagefind modal (`.kt-search-modal`, themed by `search-ui.css`). Below 997 px the same element collapses to an icon button (CSS only).
+
+**GitHub button** (new in 0.2.0, config-driven): set `params.github` to the repository URL to render an icon-only `.kt-topnav__icon-btn` link in the right cluster (inline SVG, `fill="currentColor"` — not a CSS mask, so it paints reliably in both color modes):
+
+```toml
+[params]
+  github = "https://github.com/you/your-repo"
+```
+
+## 5. `layouts/partials/sidebar.html` + `sidebar-tree.html` — recursive tree
+
+`sidebar.html` picks the **section set**: with tabs configured (≥ 2 entries) it renders only the active tab's sections (`params.sections`, else the `pageRef` section alone); without tabs it renders all top-level sections (0.1.x behavior, the upgrade path). It emits:
 
 ```go-html-template
-<nav class="sidenav">
-  {{ range .Site.Sections }}
-    <div class="sidenav-section">
-      <div class="sec-label">{{ .Title }}</div>
-      {{ range .Pages }}
-        <a class="sidenav-item {{ if eq $.RelPermalink .RelPermalink }}is-active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
+<nav class="kt-sidenav" aria-label="Section navigation" data-nav-key="{{ $navKey }}">
+  {{ range $sections }}
+    <div class="kt-sidenav__section">
+      <a class="kt-sidenav__sec-label{{ if eq $current .RelPermalink }} kt-sidenav__sec-label--active{{ end }}" href="{{ .RelPermalink }}">
+        {{ with .Params.icon }}{{ partial "kt-icon.html" (dict "name" . "class" "kt-sidenav__sec-icon" "size" 16) }}{{ end }}
+        <span>{{ .Title }}</span>
+      </a>
+      {{ partial "sidebar-tree.html" (dict "node" . "page" $page "nested" false "open" true) }}
     </div>
   {{ end }}
 </nav>
 ```
 
-## 6. `layouts/partials/toc.html` — on-this-page
+- `data-nav-key` scopes collapse persistence per tab tree: the active tab root's `RelPermalink` (stable under sub-path baseURLs), or `_root` without tabs.
+- **Section icons** are opt-in front matter on the section's `_index.md` — rendered through the `kt-icon.html` dispatcher over the generated icon map (unknown names warn at build time and render nothing):
+
+```toml
+# content/guides/_index.md
+[params]
+  icon = "book-open"
+```
+
+`sidebar-tree.html` is the recursive body: it walks `.Pages` (child sections + regular pages, weight-ordered). Regular pages render as `<li><a class="kt-sidenav__item">` (active = `kt-sidenav__item--active`, teal text only); child sections render as collapsible groups:
 
 ```go-html-template
-<nav class="toc">
-  <div class="toc-label">On this page</div>
-  {{ .TableOfContents }}
-</nav>
+<div class="kt-sidenav__group" data-key="{{ .RelPermalink }}">
+  <div class="kt-sidenav__group-row">
+    <a class="kt-sidenav__item kt-sidenav__group-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <button class="kt-sidenav__group-toggle" type="button" aria-expanded="{{ $expanded }}" aria-label="Toggle {{ .Title }}">
+      {{ partial "kt-icon.html" (dict "name" "chevron-right" "size" 14) }}
+    </button>
+  </div>
+  {{/* recurse: nested=true → ul.kt-sidenav__list--nested, hidden unless expanded */}}
+</div>
 ```
 
-Re-style Hugo's `.TableOfContents` `<ul>` to match `.toc-item`:
+The active ancestor chain is pre-expanded server-side (`eq $page .` / `$page.IsDescendant .`), so the tree renders correctly without JS and with no FOUC.
+
+**`assets/js/nav.js`** (new module, loaded from `baseof.html`) adds collapse toggling and persistence:
+
+- Click on `.kt-sidenav__group-toggle` flips `aria-expanded` on the button and `hidden` on the sibling nested list; every tree sharing the same `data-nav-key` is kept in sync.
+- The open-group set is persisted per tree in `sessionStorage["kt.sidenav.<navKey>"]` (a JSON array of `data-key` values) because every Hugo navigation is a full page load. Stored state is applied as a **union** with the server-expanded chain, so the active path never collapses on load.
+- The mobile drawer is part of the same module and arrives in the next slice.
+
+## 6. `layouts/partials/toc.html` — on-this-page
+
+The label row carries the `list` UI glyph next to the mono text (0.2.0):
+
+```go-html-template
+{{ if .TableOfContents }}
+  <nav class="kt-toc" aria-label="On this page">
+    <div class="kt-toc__label">
+      {{ partial "kt-icon.html" (dict "name" "list" "class" "kt-toc__label-icon" "size" 14) }}
+      <span>On this page</span>
+    </div>
+    {{ .TableOfContents }}
+  </nav>
+{{ end }}
+```
+
+Hugo's `.TableOfContents` emits bare `<nav id="TableOfContents"><ul><li><a>` without classes, so `chroma.css` (the Hugo-only delta sheet — loads last, survives the rsync propagation) maps those anchors to the `.kt-toc__item` visual via descendant selectors:
 
 ```css
-.toc nav#TableOfContents ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.toc nav#TableOfContents > ul > li > a {
-  /* .toc-item */
-}
-.toc nav#TableOfContents ul ul > li > a {
-  /* .toc-item.is-nested */
-}
+.kt-toc nav#TableOfContents ul { list-style: none; padding: 0; margin: 0; }
+.kt-toc nav#TableOfContents > ul > li > a { /* .kt-toc__item */ }
+.kt-toc nav#TableOfContents ul ul > li > a { /* .kt-toc__item--nested */ }
 ```
 
-## 7. Admonition mapping — custom Hugo shortcode
+Hugo has no scroll-spy, so the teal active dot (`.kt-toc__item--active`) only appears in engines that track the active heading (Docusaurus) — an accepted parity divergence.
+
+## 7. `layouts/partials/eyebrow.html` — article header (replaces breadcrumbs.html)
+
+`partials/breadcrumbs.html` was **deleted** in 0.2.0 (with the `.kt-crumbs` CSS). `_default/single.html` now renders the article-header anatomy:
+
+```go-html-template
+<header class="kt-article-header">
+  {{ partial "eyebrow.html" . }}
+  <div class="kt-article-header__titlebar">
+    <h1>{{ .Title }}</h1>
+    {{ partial "copy-page.html" . }}
+  </div>
+</header>
+```
+
+`eyebrow.html` emits `<p class="kt-eyebrow">` with the immediate parent's title (`.Parent.Title`, skipped when the parent is home); if empty, it falls back to the active tab's name (via `tab-active.html`); it renders nothing when the label would equal the page title (tab-root index pages). The 0.1.x `.kt-doc-titlebar` flex row is renamed to `.kt-article-header__titlebar` (migration notes) — the copy-page control keeps its `.kt-copy-page*` classes and simply sits in the new row.
+
+## 8. Admonition mapping — custom Hugo shortcode
 
 Hugo doesn't have built-in admonitions, but `layouts/shortcodes/callout.html` plugs the gap. Add this file:
 
@@ -187,7 +254,7 @@ All 12 callout kinds:
 | `deprecated`     | `.callout-deprecated`   |
 | `experimental`   | `.callout-experimental` |
 
-## 8. Code blocks
+## 9. Code blocks
 
 Hugo uses Chroma for syntax highlighting. Generate a Chroma stylesheet once and replace its token colors with ours:
 
@@ -249,7 +316,7 @@ Wrap Chroma's `<pre class="chroma">` in our `.codeblock`:
 
 For multi-file tabs, write a `tabs` shortcode that emits `.codeblock-tabs` and `.codeblock-tab` markup.
 
-## 9. Theme toggle
+## 10. Theme toggle
 
 Add to `static/js/theme.js` and include in `head.html`:
 
@@ -264,7 +331,7 @@ document.getElementById('theme-toggle')?.addEventListener('click', () => {
 });
 ```
 
-## 10. Done
+## 11. Done
 
 Build:
 
@@ -272,4 +339,4 @@ Build:
 hugo server -D
 ```
 
-Check: header has Kotlin wordmark + version pill, sidebar uses purple-soft active background, `{{</* callout */>}}` shortcodes render the six callout colors, Chroma uses JetBrains Mono with Kotlin-purple keywords.
+Check: header has Kotlin wordmark + version pill (and the tab pills when `menus.tabs` has ≥ 2 entries), the sidebar tree shows mono section headers with icons and a teal-text active item, the article opens with a teal eyebrow above the H1 + Copy page row, `{{</* callout */>}}` shortcodes render the callout colors, Chroma uses JetBrains Mono with the kit code palette.

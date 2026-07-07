@@ -194,9 +194,8 @@
 
 /* ===== inputs.css ============================================================ */
 /* ============================================================================
-   Inputs — quiet, used mostly for search.
-   Includes the signature .kt-docs-search field (Mintlify-style with magnifier
-   and trailing ⌘K hint).
+   Inputs — quiet form fields. The .kt-docs-search trigger lives in topnav.css;
+   the search results surface lives in search-ui.css.
    ============================================================================ */
 
 .kt-input,
@@ -239,84 +238,6 @@
   color: var(--fg-3); pointer-events: none;
   width: 16px; height: 16px;
 }
-
-.kt-docs-search {
-  display: flex; align-items: center; gap: 8px;
-  padding: 7px 8px 7px 12px;
-  background: var(--surface-1);
-  border: 1px solid var(--border-1);
-  border-radius: var(--radius-md);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--fg-3);
-  cursor: pointer;
-  transition: border-color var(--motion-fast) var(--motion-ease);
-  width: 100%;
-}
-.kt-docs-search:hover { border-color: var(--border-2); }
-.kt-docs-search:focus-visible { outline: none; border-color: var(--color-interactive-border); box-shadow: var(--focus-ring); }
-.kt-docs-search__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
-.kt-docs-search__text { flex: 1; text-align: left; }
-.kt-docs-search__kbd {
-  font-family: var(--font-label); font-size: 11px;
-  background: var(--surface-2);
-  border: 1px solid var(--border-1);
-  border-radius: 4px;
-  padding: 1px 5px;
-  color: var(--fg-2);
-}
-
-/* ---------- Search modal (Pagefind-backed; wired in assets/js/search.js) ----------
-   The topnav .kt-docs-search box opens this overlay; PagefindUI renders the
-   input + results inside .kt-search-modal__ui, themed onto kt tokens below. */
-.kt-search-modal {
-  position: fixed; inset: 0; z-index: var(--z-modal);
-  display: flex; align-items: flex-start; justify-content: center;
-}
-.kt-search-modal[hidden] { display: none; }
-.kt-search-modal__backdrop {
-  position: absolute; inset: 0;
-  background: color-mix(in srgb, var(--surface-0) 68%, transparent);
-  backdrop-filter: blur(3px);
-}
-.kt-search-modal__dialog {
-  position: relative; margin: 12vh 16px 16px;
-  width: min(620px, 100%);
-  background: var(--surface-1);
-  border: 1px solid var(--border-1);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-}
-.kt-search-modal__ui { padding: 14px 14px 4px; }
-.kt-search-modal__empty { padding: 8px 6px 18px; color: var(--fg-2); font-size: 14px; line-height: 1.55; }
-.kt-search-modal__hint {
-  display: flex; gap: 8px; align-items: center;
-  padding: 9px 16px;
-  border-top: 1px solid var(--border-1);
-  font: 400 11.5px/1 var(--font-label);
-  color: var(--fg-3);
-}
-.kt-search-modal__hint kbd {
-  font: inherit; background: var(--surface-2);
-  border: 1px solid var(--border-1); border-radius: 4px; padding: 2px 5px;
-}
-/* PagefindUI default styles, retoned to the kit palette. */
-.kt-search-modal__ui .pagefind-ui {
-  --pagefind-ui-primary: var(--color-interactive);
-  --pagefind-ui-text: var(--fg-1);
-  --pagefind-ui-background: var(--surface-1);
-  --pagefind-ui-border: var(--border-1);
-  --pagefind-ui-tag: var(--surface-2);
-  --pagefind-ui-border-width: 1px;
-  --pagefind-ui-border-radius: var(--radius-md);
-  --pagefind-ui-font: var(--font-sans);
-}
-.kt-search-modal__ui .pagefind-ui__search-input { font-weight: 500; background: var(--surface-2); }
-.kt-search-modal__ui .pagefind-ui__result { border-top: 1px solid var(--border-1); }
-.kt-search-modal__ui .pagefind-ui__result-link { color: var(--fg-1); }
-.kt-search-modal__ui .pagefind-ui__result-excerpt { color: var(--fg-2); }
-.kt-search-modal__ui mark { background: var(--color-interactive-soft); color: inherit; border-radius: 2px; }
 
 /* ===== badges.css ============================================================ */
 /* ============================================================================
@@ -880,30 +801,11 @@
 
 /* ===== topnav.css ============================================================ */
 /* ============================================================================
-   Topnav — brand, navbar tabs, search trigger, right cluster.
-   Split out of nav.css for the Mintlify shell redesign; populated in the
-   shell slice (kt-topnav markup contract stays BEM-stable).
+   Topnav — brand, navbar tabs, flat links (no-tabs fallback), search trigger,
+   right cluster. Tabs follow the Mintlify pattern: neutral pills, no teal —
+   the interaction accent is reserved for the nav tree / TOC / links.
    ============================================================================ */
 
-/* ===== crumbs.css ============================================================ */
-/* ============================================================================
-   Breadcrumbs.
-   ============================================================================ */
-
-.kt-crumbs { display: flex; align-items: center; gap: 8px; font-family: var(--font-sans); font-size: 13px; color: var(--fg-3); }
-.kt-crumbs a { color: var(--fg-2); text-decoration: none; }
-.kt-crumbs a:hover { color: var(--color-link); }
-.kt-crumbs__sep { color: var(--fg-3); opacity: 0.6; }
-.kt-crumbs__current { color: var(--fg-1); font-weight: 500; }
-
-/* ===== nav.css =============================================================== */
-/* ============================================================================
-   Navigation — topnav, sidenav, TOC.
-   Three related components share this file because engine themes typically
-   wire them in the same swizzle / partial layer.
-   ============================================================================ */
-
-/* ---------- Topnav ---------- */
 .kt-topnav {
   display: flex; align-items: center; gap: 18px;
   padding: 0 28px;
@@ -930,6 +832,23 @@
   padding: 1px 6px;
   border-radius: var(--radius-sm);
 }
+
+/* ---------- Tabs (each owns a sidebar tree; rendered at >= 2 tabs) ---------- */
+.kt-topnav__tabs { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.kt-topnav__tab {
+  display: inline-block;
+  padding: 7px 10px;
+  font-family: var(--font-sans); font-size: 14.5px; font-weight: 500;
+  color: var(--fg-2); text-decoration: none;
+  border-radius: var(--radius-md);
+  max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-topnav__tab:hover { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__tab--active { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ---------- Flat links (fallback when no tabs are configured) ---------- */
 .kt-topnav__links { display: flex; gap: 2px; }
 .kt-topnav__link {
   padding: 6px 12px;
@@ -940,6 +859,8 @@
 }
 .kt-topnav__link:hover { background: var(--surface-2); color: var(--fg-1); }
 .kt-topnav__link--active { color: var(--color-interactive); }
+
+/* ---------- Right cluster ---------- */
 .kt-topnav__right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .kt-topnav__icon-btn {
   width: 32px; height: 32px;
@@ -950,96 +871,247 @@
   transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
 }
 .kt-topnav__icon-btn:hover { background: var(--surface-2); color: var(--fg-1); }
-.kt-topnav__link:focus-visible, .kt-topnav__icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kt-topnav__link:focus-visible, .kt-topnav__tab:focus-visible, .kt-topnav__icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 /* Tri-state theme toggle: data-theme-mode (set by theme.js) reveals one icon. */
 .kt-theme-icon { display: none; }
 .kt-topnav__icon-btn[data-theme-mode="auto"] .kt-theme-icon--auto,
 .kt-topnav__icon-btn[data-theme-mode="light"] .kt-theme-icon--light,
 .kt-topnav__icon-btn[data-theme-mode="dark"] .kt-theme-icon--dark { display: block; }
 
-/* ---------- Sidenav ---------- */
+/* Burger (mobile drawer trigger); shown only below the shell breakpoint. */
+.kt-topnav__burger { display: none; }
+
+/* ---------- Search trigger (input-lookalike with magnifier + kbd hint) ---------- */
+.kt-docs-search {
+  display: flex; align-items: center; gap: 8px;
+  width: 220px;
+  padding: 7px 8px 7px 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-3);
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--motion-ease);
+}
+.kt-docs-search:hover { border-color: var(--border-2); }
+.kt-docs-search:focus-visible { outline: none; border-color: var(--color-interactive-border); box-shadow: var(--focus-ring); }
+.kt-docs-search__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
+.kt-docs-search__text { flex: 1; text-align: left; }
+.kt-docs-search__kbd {
+  font-family: var(--font-label); font-size: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--fg-2);
+}
+
+/* ---------- Mobile (< 997px): burger + brand + search icon + theme toggle ---------- */
+@media (max-width: 996.98px) {
+  .kt-topnav { padding: 0 16px; gap: 12px; }
+  .kt-topnav__tabs, .kt-topnav__links, .kt-topnav__version { display: none; }
+  .kt-topnav__burger { display: grid; }
+  .kt-docs-search {
+    width: 32px; height: 32px;
+    padding: 0; gap: 0;
+    justify-content: center;
+    background: transparent; border: 0;
+    color: var(--fg-2);
+    border-radius: var(--radius-sm);
+  }
+  .kt-docs-search:hover { background: var(--surface-2); color: var(--fg-1); }
+  .kt-docs-search__icon { width: 16px; height: 16px; color: currentColor; }
+  .kt-docs-search__text, .kt-docs-search__kbd { display: none; }
+}
+
+/* ===== nav.css =============================================================== */
+/* ============================================================================
+   Sidenav — quiet Mintlify-style tree. Top-level sections are group headers
+   (icon + mono uppercase label, non-collapsible); nested groups collapse and
+   indent on a hairline rail; the active item is teal text only (no filled
+   background), plus a teal rail segment when nested.
+   ============================================================================ */
+
 .kt-sidenav { display: flex; flex-direction: column; padding: 20px 16px; gap: 1px; }
 .kt-sidenav__section { display: flex; flex-direction: column; gap: 1px; }
-.kt-sidenav__section + .kt-sidenav__section { margin-top: 18px; }
+.kt-sidenav__section + .kt-sidenav__section { margin-top: 22px; }
+
+/* Section header row: 16px icon + mono uppercase label. A group header, not
+   a toggle — collapse applies to nested groups only. */
 .kt-sidenav__sec-label {
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
   color: var(--fg-1);
-  padding: 4px 10px 6px;
-  letter-spacing: -0.005em;
+  padding: 4px 10px 8px;
   text-decoration: none;
-  border-radius: var(--radius-sm);
   transition: color var(--motion-fast) var(--motion-ease);
 }
 a.kt-sidenav__sec-label:hover { color: var(--color-interactive); }
-a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
 .kt-sidenav__sec-label--active { color: var(--color-interactive); }
-.kt-sidenav__sec-sub {
-  font-family: var(--font-sans);
-  font-size: 11px; font-weight: 500;
-  color: var(--fg-3);
-  padding: 10px 10px 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
+.kt-sidenav__sec-icon { width: 16px; height: 16px; color: var(--fg-3); flex-shrink: 0; }
+.kt-sidenav__sec-label--active .kt-sidenav__sec-icon,
+a.kt-sidenav__sec-label:hover .kt-sidenav__sec-icon { color: currentColor; }
+
+/* Items */
 .kt-sidenav__item {
   display: flex; align-items: center; gap: 9px;
   padding: 6px 10px;
-  font-family: var(--font-sans); font-size: 14.5px;
+  font-family: var(--font-sans); font-size: 14px; font-weight: 500;
   color: var(--fg-2);
   border-radius: var(--radius-sm);
   text-decoration: none;
   transition: background var(--motion-fast) var(--motion-ease),
               color var(--motion-fast) var(--motion-ease);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 .kt-sidenav__item:hover { background: var(--surface-2); color: var(--fg-1); }
 .kt-sidenav__item:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.kt-sidenav__item--active {
-  background: var(--color-interactive-soft);
-  color: var(--color-interactive);
-  font-weight: 500;
-}
+.kt-sidenav__item--active { color: var(--color-interactive); }
+.kt-sidenav__item--active:hover { color: var(--color-interactive); }
 .kt-sidenav__item-icon { width: 14px; height: 14px; color: currentColor; opacity: 0.8; flex-shrink: 0; }
 
-/* ---------- TOC (right rail) ---------- */
+/* Lists */
+.kt-sidenav__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.kt-sidenav__list[hidden] { display: none; }
+.kt-sidenav__list > li { display: flex; flex-direction: column; }
+
+/* Nested groups (level >= 2): collapsible, children on a hairline rail. */
+.kt-sidenav__group { display: flex; flex-direction: column; }
+.kt-sidenav__group-row { display: flex; align-items: center; gap: 2px; }
+.kt-sidenav__group-row > .kt-sidenav__item { flex: 1; min-width: 0; }
+.kt-sidenav__group-toggle {
+  width: 24px; height: 24px; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: transparent; border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--fg-3); cursor: pointer;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-sidenav__group-toggle:hover { background: var(--surface-2); color: var(--fg-1); }
+.kt-sidenav__group-toggle:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.kt-sidenav__group-toggle svg { transition: transform var(--motion-fast) var(--motion-ease); }
+.kt-sidenav__group-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
+
+.kt-sidenav__list--nested {
+  --sidenav-rail-color: var(--border-2);
+  margin-left: 15px;
+  padding-left: 10px;
+  border-left: 1px solid var(--sidenav-rail-color);
+}
+.kt-sidenav__list--nested .kt-sidenav__item { position: relative; }
+/* Active nested item: its segment of the rail turns teal for the full item box
+   (top/bottom 0 so wrapped two-line labels keep a continuous segment). */
+.kt-sidenav__list--nested .kt-sidenav__item--active::before {
+  content: "";
+  position: absolute; left: -11px; top: 0; bottom: 0;
+  width: 2px; border-radius: 1px;
+  background: var(--color-interactive);
+}
+
+/* ===== toc.css =============================================================== */
+/* ============================================================================
+   TOC (right rail) — mono "On this page" label with list glyph; quiet items;
+   the active item is teal text plus a 4px teal dot in the left gutter
+   (replaces the old border-left indicator).
+   ============================================================================ */
+
 .kt-toc { display: flex; flex-direction: column; padding: 24px 20px; gap: 1px; }
 .kt-toc__label {
-  font-family: var(--font-sans);
-  font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
   color: var(--fg-1);
   padding-bottom: 10px;
 }
+.kt-toc__label-icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
 .kt-toc__item {
+  position: relative;
   display: block;
-  padding: 4px 0 4px 12px;
+  padding: 4px 0 4px 16px;
   font-family: var(--font-sans);
-  font-size: 13.5px;
-  color: var(--fg-2);
+  font-size: 13px;
+  color: var(--fg-3);
   text-decoration: none;
-  border-left: 2px solid var(--border-1);
-  transition: color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--motion-fast) var(--motion-ease);
   line-height: 1.5;
 }
 .kt-toc__item:hover { color: var(--fg-1); }
 .kt-toc__item:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
-.kt-toc__item--active { color: var(--color-interactive); border-left-color: var(--color-interactive); }
-.kt-toc__item--nested { padding-left: 24px; font-size: 13px; }
-
-/* ===== toc.css =============================================================== */
-/* ============================================================================
-   TOC (right rail) — "On this page" label, items, teal dot active indicator.
-   Split out of nav.css for the Mintlify shell redesign; populated in the
-   shell slice.
-   ============================================================================ */
+.kt-toc__item--active { color: var(--color-interactive); }
+/* The dot column stays aligned for nested items: the dot always sits in the
+   same left gutter; only the text indents. */
+.kt-toc__item--active::before {
+  content: "";
+  position: absolute; left: 2px; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--color-interactive);
+}
+.kt-toc__item--nested { padding-left: 28px; font-size: 12.5px; }
 
 /* ===== search-ui.css ========================================================= */
 /* ============================================================================
-   Search results surface — shared theming for the engines' result panels
-   (easyops dropdown / Pagefind modal). The trigger lives in topnav.css.
-   Populated in the shell slice.
+   Search results surface — shared visual family for the engines' result
+   panels: surface-1 panel, hairline borders, teal match highlight, mono meta.
+   The trigger lives in topnav.css. The Pagefind modal below is opened by the
+   Hugo theme (assets/js/search.js); the Docusaurus easyops dropdown is themed
+   in the preset's css/search.css onto the same family.
    ============================================================================ */
+
+.kt-search-modal {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: flex-start; justify-content: center;
+}
+.kt-search-modal[hidden] { display: none; }
+.kt-search-modal__backdrop {
+  position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--surface-0) 68%, transparent);
+  backdrop-filter: blur(3px);
+}
+.kt-search-modal__dialog {
+  position: relative; margin: 12vh 16px 16px;
+  width: min(620px, 100%);
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.kt-search-modal__ui { padding: 14px 14px 4px; }
+.kt-search-modal__empty { padding: 8px 6px 18px; color: var(--fg-2); font-size: 14px; line-height: 1.55; }
+.kt-search-modal__hint {
+  display: flex; gap: 8px; align-items: center;
+  padding: 9px 16px;
+  border-top: 1px solid var(--border-1);
+  font: 400 11.5px/1 var(--font-label);
+  color: var(--fg-3);
+}
+.kt-search-modal__hint kbd {
+  font: inherit; background: var(--surface-2);
+  border: 1px solid var(--border-1); border-radius: 4px; padding: 2px 5px;
+}
+/* PagefindUI default styles, retoned to the kit palette. */
+.kt-search-modal__ui .pagefind-ui {
+  --pagefind-ui-primary: var(--color-interactive);
+  --pagefind-ui-text: var(--fg-1);
+  --pagefind-ui-background: var(--surface-1);
+  --pagefind-ui-border: var(--border-1);
+  --pagefind-ui-tag: var(--surface-2);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: var(--radius-md);
+  --pagefind-ui-font: var(--font-sans);
+}
+.kt-search-modal__ui .pagefind-ui__search-input { font-weight: 500; background: var(--surface-2); }
+.kt-search-modal__ui .pagefind-ui__result { border-top: 1px solid var(--border-1); }
+.kt-search-modal__ui .pagefind-ui__result-link { color: var(--fg-1); }
+.kt-search-modal__ui .pagefind-ui__result-excerpt { color: var(--fg-2); }
+.kt-search-modal__ui mark { background: var(--color-interactive-soft); color: inherit; border-radius: 2px; }
 
 /* ===== pager.css ============================================================= */
 /* ============================================================================
@@ -1150,10 +1222,30 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
 
 /* ===== eyebrow.css =========================================================== */
 /* ============================================================================
-   Article header — eyebrow (parent-section label) + H1 titlebar row.
-   Replaces breadcrumbs (kt-crumbs) in the Mintlify shell redesign; populated
-   in the shell slice.
+   Article header — teal eyebrow (immediate parent section label) above the
+   H1 titlebar row that also seats the copy-page control. Replaces the
+   breadcrumbs row (kt-crumbs) from 0.1.x.
    ============================================================================ */
+
+.kt-article-header { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.kt-eyebrow {
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--color-interactive);
+}
+.kt-article-header__titlebar {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px;
+}
+.kt-article-header__titlebar > h1 { margin: 0; min-width: 0; }
+
+@media (max-width: 996.98px) {
+  /* The copy-page control wraps under the H1, right-aligned. */
+  .kt-article-header__titlebar { flex-wrap: wrap; }
+  .kt-article-header__titlebar > h1 { flex: 1 1 100%; }
+  .kt-article-header__titlebar .kt-copy-page { margin-left: auto; }
+}
 
 /* ===== article.css =========================================================== */
 /* ============================================================================
@@ -1184,7 +1276,8 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
    Docs shell — full-width 3-column layout (Mintlify model): sidebar pinned
    flush-left, the reading column centered in the middle track (see
    .kt-docs-article { margin-inline: auto }), TOC flush-right.
-   Breakpoints: 1024 (drop TOC), 720 (drop sidebar).
+   Breakpoints: 1024 (drop TOC), 996.98 (drop sidebar — the unified mobile
+   boundary shared with Docusaurus; the drawer takes over below it).
    ============================================================================ */
 
 .kt-docs-shell {
@@ -1225,7 +1318,7 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
   .kt-docs-shell { grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr); }
   .kt-docs-shell__toc { display: none; }
 }
-@media (max-width: 720px) {
+@media (max-width: 996.98px) {
   .kt-docs-shell { grid-template-columns: 1fr; }
   .kt-docs-shell__side { display: none; }
   .kt-docs-shell__main { padding: 24px 20px 60px; }
@@ -1238,16 +1331,9 @@ a.kt-sidenav__sec-label:focus-visible { outline: none; box-shadow: var(--focus-r
    menu to copy/view the page as Markdown or open it in ChatGPT / Claude.
    Shared across engines: the Docusaurus copy-page plugin is themed with these
    same .kt-copy-page* class names, and Hugo emits them from copy-page.html.
-   .kt-doc-titlebar is the flex row that seats the <h1> and the button.
+   The flex row seating the <h1> and the button is .kt-article-header__titlebar
+   (eyebrow.css; replaces the 0.1.x .kt-doc-titlebar).
    ============================================================================ */
-
-.kt-doc-titlebar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-.kt-doc-titlebar > h1 { margin: 0; }
 
 .kt-copy-page { position: relative; flex-shrink: 0; }
 .kt-copy-page__btn {

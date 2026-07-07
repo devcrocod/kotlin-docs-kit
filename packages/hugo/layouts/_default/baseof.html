@@ -18,6 +18,8 @@
     {{ partial "footer.html" . }}
     {{ $theme := resources.Get "js/theme.js" | resources.Minify | resources.Fingerprint }}
     <script defer src="{{ $theme.RelPermalink }}" integrity="{{ $theme.Data.Integrity }}"></script>
+    {{ $nav := resources.Get "js/nav.js" | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $nav.RelPermalink }}" integrity="{{ $nav.Data.Integrity }}"></script>
     {{ $copyPage := resources.Get "js/copy-page.js" | resources.Minify | resources.Fingerprint }}
     <script defer src="{{ $copyPage.RelPermalink }}" integrity="{{ $copyPage.Data.Integrity }}"></script>
     {{ $search := resources.Get "js/search.js" | resources.Minify | resources.Fingerprint }}
