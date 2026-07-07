@@ -22,9 +22,7 @@ presets: [
   [
     '@ktdocs/docusaurus-preset',
     {
-      docs: {
-        /* same as preset-classic */
-      },
+      docs: {/* same as preset-classic */},
       theme: { customCss: './src/css/brand.css' },
     },
   ],
