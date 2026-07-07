@@ -2,6 +2,8 @@
 title: Getting started
 description: Install the kotlin-docs-hugo theme module and run the starter locally.
 weight: 10
+params:
+  icon: rocket
 ---
 
 This starter is a working Hugo site using the

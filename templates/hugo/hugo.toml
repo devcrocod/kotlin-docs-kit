@@ -21,6 +21,8 @@ enableRobotsTXT = true
   # Rendered into the topnav version pill by partials/header.html.
   version = "1.0.0"
   description = "Standard-scope starter built on kotlin-docs-hugo (Kotlin-styled Hugo theme module)."
+  # Icon-only GitHub button in the topnav's right cluster (optional).
+  github = "https://github.com/devcrocod/kotlin-docs-hugo-template"
 
 # AI-friendly endpoints. The LLMS / LLMSFULL / MD output formats are provided by
 # the theme module; Hugo doesn't merge [outputs] from modules, so it lives here.
@@ -53,28 +55,18 @@ enableRobotsTXT = true
     startLevel = 2
     endLevel = 4
 
-# Primary nav row — surfaced by the .kt-topnav partial.
-[[menu.main]]
+# Navbar tabs — each tab owns its own sidebar tree. The Docs tab groups the
+# four existing top-level sections via params.sections (no URL changes);
+# Changelog is a single-section tab. The tab bar renders at >= 2 entries;
+# sites without [[menus.tabs]] fall back to flat [[menus.main]] links.
+[[menus.tabs]]
   name = "Docs"
-  url = "/"
+  pageRef = "/getting-started"
   weight = 10
+  [menus.tabs.params]
+    sections = ["getting-started", "guides", "reference", "examples"]
 
-[[menu.main]]
-  name = "Getting started"
-  url = "/getting-started/"
+[[menus.tabs]]
+  name = "Changelog"
+  pageRef = "/changelog"
   weight = 20
-
-[[menu.main]]
-  name = "Guides"
-  url = "/guides/"
-  weight = 30
-
-[[menu.main]]
-  name = "Reference"
-  url = "/reference/"
-  weight = 40
-
-[[menu.main]]
-  name = "Examples"
-  url = "/examples/"
-  weight = 50
