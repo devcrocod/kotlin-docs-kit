@@ -2,7 +2,8 @@
    Docs shell — full-width 3-column layout (Mintlify model): sidebar pinned
    flush-left, the reading column centered in the middle track (see
    .kt-docs-article { margin-inline: auto }), TOC flush-right.
-   Breakpoints: 1024 (drop TOC), 720 (drop sidebar).
+   Breakpoints: 1024 (drop TOC), 996.98 (drop sidebar — the unified mobile
+   boundary shared with Docusaurus; the drawer takes over below it).
    ============================================================================ */
 
 .kt-docs-shell {
@@ -43,7 +44,7 @@
   .kt-docs-shell { grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr); }
   .kt-docs-shell__toc { display: none; }
 }
-@media (max-width: 720px) {
+@media (max-width: 996.98px) {
   .kt-docs-shell { grid-template-columns: 1fr; }
   .kt-docs-shell__side { display: none; }
   .kt-docs-shell__main { padding: 24px 20px 60px; }

@@ -51,6 +51,10 @@ tasks:
       - rm -f packages/hugo/assets/css/colors_and_type.css.bak
       - rsync -a --delete packages/tokens/dist/fonts/ packages/hugo/static/fonts/
       - rsync -a packages/tokens/dist/assets/ packages/hugo/static/img/
+      # Generated icon partial (kt-icon.html dispatches over it). Committed to
+      # the theme because it ships from git tags via the Go module proxy; the
+      # CSS-only rsync filter above can never deliver an .html file.
+      - rsync -a packages/tokens/dist/kt-icons.generated.html packages/hugo/layouts/partials/
 
   template:docusaurus:build:
     desc: Build Docusaurus template (also serves as live demo)
@@ -113,3 +117,5 @@ tasks:
       - task: tokens:build
       - task: templates:build
       - task: docs:build
+      # Committed generated artifacts must match their sources (icons pipeline).
+      - git diff --exit-code -- packages/hugo/layouts/partials/kt-icons.generated.html packages/docusaurus/src/theme/Icon/data.generated.ts

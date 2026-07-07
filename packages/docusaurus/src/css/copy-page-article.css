@@ -1,0 +1,41 @@
+/*
+ * @ktdocs/docusaurus-preset — copy-page article placement.
+ *
+ * Loaded only when the `copyPage` preset option is on (see index.ts). The
+ * plugin injects `#copy-page-button-container` into <article> (after the
+ * eyebrow when `.theme-doc-breadcrumbs` is its direct child, else as first
+ * child, `data-fallback`). Either way the button is pinned onto the H1 row
+ * with plain CSS — the plugin sets no inline positioning, so these rules win
+ * without !important. <article> is the positioning context (position:
+ * relative in docusaurus-overrides.css).
+ */
+
+#copy-page-button-container {
+  position: absolute;
+  top: var(--kt-copy-page-top, 2px);
+  right: 0;
+  z-index: 5;
+}
+
+/* With an eyebrow above the H1, drop the button down onto the H1 row. */
+article:has(> .kt-eyebrow) {
+  --kt-copy-page-top: 30px;
+}
+
+/* Reserve space beside the H1 so hydration causes no overlap/layout shift. */
+@media (min-width: 997px) {
+  article .markdown > header > h1 {
+    padding-right: 150px;
+  }
+}
+
+/* < 997px: the control leaves the H1 row and sits right-aligned in flow
+   (between eyebrow and H1 — the plugin's DOM slot), per the mobile contract. */
+@media (max-width: 996.98px) {
+  #copy-page-button-container {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 8px;
+  }
+}

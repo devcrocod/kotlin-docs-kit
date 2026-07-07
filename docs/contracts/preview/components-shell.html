@@ -9,59 +9,78 @@
 <style>
   body { background: var(--surface-0); }
   .card { padding: 0; }
-  .wrap { display: grid; grid-template-columns: 260px 1fr 220px; min-height: 320px; background: var(--surface-1); border: 1px solid var(--border-1); border-radius: 10px; overflow: hidden; margin: 16px; }
+  .wrap { display: grid; grid-template-columns: 280px 1fr 240px; min-height: 360px; background: var(--surface-1); border: 1px solid var(--border-1); border-radius: 10px; overflow: hidden; margin: 16px; }
   .side { border-right: 1px solid var(--border-1); }
   .mid  { padding: 28px 32px; background: var(--surface-0); }
   .right { border-left: 1px solid var(--border-1); }
-  .ico { width: 14px; height: 14px; }
 </style>
 </head>
 <body>
 <div class="card">
   <div class="wrap">
-    <nav class="kt-sidenav side">
-      <div class="kt-docs-search" style="margin-bottom: 16px;">
-        <svg class="kt-docs-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <span class="kt-docs-search__text">Search…</span>
-        <span class="kt-docs-search__kbd">⌘K</span>
+    <nav class="kt-sidenav side" aria-label="Section navigation" data-nav-key="/docs/">
+      <div class="kt-sidenav__section">
+        <a class="kt-sidenav__sec-label" href="#">
+          <svg class="kt-sidenav__sec-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>
+          <span>Getting started</span>
+        </a>
+        <ul class="kt-sidenav__list">
+          <li><a class="kt-sidenav__item" href="#">Introduction</a></li>
+          <li><a class="kt-sidenav__item" href="#">Installation</a></li>
+          <li><a class="kt-sidenav__item kt-sidenav__item--active" href="#">Quickstart</a></li>
+          <li><a class="kt-sidenav__item" href="#">Project structure</a></li>
+        </ul>
       </div>
       <div class="kt-sidenav__section">
-        <div class="kt-sidenav__sec-label">Getting started</div>
-        <a class="kt-sidenav__item">Introduction</a>
-        <a class="kt-sidenav__item">Installation</a>
-        <a class="kt-sidenav__item kt-sidenav__item--active">Quickstart</a>
-        <a class="kt-sidenav__item">Project structure</a>
+        <a class="kt-sidenav__sec-label" href="#">
+          <svg class="kt-sidenav__sec-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></svg>
+          <span>Concepts</span>
+        </a>
+        <ul class="kt-sidenav__list">
+          <li><a class="kt-sidenav__item" href="#">Routing</a></li>
+          <li><a class="kt-sidenav__item" href="#">Data fetching</a></li>
+          <li><a class="kt-sidenav__item" href="#">Plugins</a></li>
+          <li><a class="kt-sidenav__item" href="#">Authentication</a></li>
+        </ul>
       </div>
       <div class="kt-sidenav__section">
-        <div class="kt-sidenav__sec-label">Concepts</div>
-        <a class="kt-sidenav__item">Routing</a>
-        <a class="kt-sidenav__item">Data fetching</a>
-        <a class="kt-sidenav__item">Plugins</a>
-        <a class="kt-sidenav__item">Authentication</a>
-      </div>
-      <div class="kt-sidenav__section">
-        <div class="kt-sidenav__sec-sub">Reference</div>
-        <a class="kt-sidenav__item">CLI</a>
-        <a class="kt-sidenav__item">Configuration</a>
+        <a class="kt-sidenav__sec-label" href="#">
+          <svg class="kt-sidenav__sec-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19h8" /><path d="m4 17 6-6-6-6" /></svg>
+          <span>Reference</span>
+        </a>
+        <ul class="kt-sidenav__list">
+          <li><a class="kt-sidenav__item" href="#">CLI</a></li>
+          <li><a class="kt-sidenav__item" href="#">Configuration</a></li>
+        </ul>
       </div>
     </nav>
     <div class="mid">
-      <nav class="kt-crumbs" style="margin-bottom: 14px;">
-        <a href="#">Docs</a><span class="kt-crumbs__sep">/</span>
-        <a href="#">Getting started</a><span class="kt-crumbs__sep">/</span>
-        <span class="kt-crumbs__current">Quickstart</span>
-      </nav>
-      <h1 class="t-h1" style="margin-bottom: 8px;">Quickstart</h1>
-      <p class="t-body" style="color: var(--fg-2); max-width: 56ch;">Build a working Kotlin server in five minutes. By the end you'll have a route that returns JSON.</p>
+      <header class="kt-article-header">
+        <p class="kt-eyebrow">Getting started</p>
+        <div class="kt-article-header__titlebar">
+          <h1 class="t-h1">Quickstart</h1>
+          <div class="kt-copy-page">
+            <button class="kt-copy-page__btn" type="button" aria-haspopup="true" aria-expanded="false">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
+              <span>Copy page</span>
+              <svg class="kt-copy-page__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+      <p class="t-body" style="margin-top: 12px; color: var(--fg-2); max-width: 56ch;">Build a working Kotlin server in five minutes. By the end you'll have a route that returns JSON.</p>
     </div>
-    <nav class="kt-toc right">
-      <div class="kt-toc__label">On this page</div>
-      <a class="kt-toc__item">Create a project</a>
-      <a class="kt-toc__item kt-toc__item--active">Add a route</a>
-      <a class="kt-toc__item kt-toc__item--nested">Path params</a>
-      <a class="kt-toc__item kt-toc__item--nested">Query strings</a>
-      <a class="kt-toc__item">Run locally</a>
-      <a class="kt-toc__item">What's next</a>
+    <nav class="kt-toc right" aria-label="On this page">
+      <div class="kt-toc__label">
+        <svg class="kt-toc__label-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" /></svg>
+        <span>On this page</span>
+      </div>
+      <a class="kt-toc__item" href="#">Create a project</a>
+      <a class="kt-toc__item kt-toc__item--active" href="#">Add a route</a>
+      <a class="kt-toc__item kt-toc__item--nested" href="#">Path params</a>
+      <a class="kt-toc__item kt-toc__item--nested" href="#">Query strings</a>
+      <a class="kt-toc__item" href="#">Run locally</a>
+      <a class="kt-toc__item" href="#">What's next</a>
     </nav>
   </div>
 </div>

@@ -13,6 +13,8 @@ import Params from './components/Params';
 import Targets from './components/Targets';
 import State from './components/State';
 import CodeTabs from './components/CodeTabs';
+import Accordion from './components/Accordion';
+import AccordionGroup from './components/AccordionGroup';
 import Specimen from './components/Specimen';
 import Pill from './components/Pill';
 import Toggle from './components/Toggle';
@@ -34,6 +36,8 @@ export default {
   Targets,
   State,
   CodeTabs,
+  Accordion,
+  AccordionGroup,
   Specimen,
   Pill,
   Toggle,

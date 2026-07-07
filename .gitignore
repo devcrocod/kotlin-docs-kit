@@ -71,3 +71,6 @@ yarn-debug.log*
 # Agents
 .claude/
 .junie/
+
+# go-task cache
+.task/

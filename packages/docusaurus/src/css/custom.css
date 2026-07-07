@@ -47,14 +47,17 @@
   --ifm-navbar-background-color:     color-mix(in srgb, var(--surface-1) 86%, transparent);
   --ifm-navbar-height:               var(--docs-header-height);
   --ifm-navbar-shadow:               none;
-  --ifm-navbar-link-color:           var(--fg-1);
-  --ifm-navbar-link-hover-color:     var(--color-interactive);
+  --ifm-navbar-link-color:           var(--fg-2);
+  --ifm-navbar-link-hover-color:     var(--fg-1);
   --ifm-toc-border-color:            var(--border-1);
-  --ifm-toc-link-color:              var(--fg-2);
+  --ifm-toc-link-color:              var(--fg-3);
   --ifm-toc-link-color-active:       var(--color-interactive);
   --ifm-menu-color:                  var(--fg-2);
   --ifm-menu-color-active:           var(--color-interactive);
-  --ifm-menu-color-background-active: var(--color-interactive-soft);
+  /* Mintlify minimalism: the active nav item is teal TEXT only. Must be unset
+     at the var level — Infima's .menu__link--active:not(.menu__link--sublist)
+     outranks any single-class override (the known specificity gotcha). */
+  --ifm-menu-color-background-active: transparent;
   --ifm-menu-color-background-hover: var(--surface-2);
 
   /* Keep Infima's sidebar reservation in sync with the kit token: Infima sizes

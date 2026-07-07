@@ -38,7 +38,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "typecheck": "tsc --noEmit",
-    "build": "pnpm run clean && tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
+    "build": "pnpm run clean && node scripts/generate-icons.mjs && tsc -p tsconfig.build.json && node scripts/copy-css.mjs",
     "prepack": "pnpm run build"
   },
   "peerDependencies": {
@@ -73,6 +73,7 @@
   "devDependencies": {
     "@docusaurus/core": "^3.5.0",
     "@docusaurus/module-type-aliases": "^3.5.0",
+    "@docusaurus/plugin-content-docs": "^3.5.0",
     "@docusaurus/preset-classic": "^3.5.0",
     "@docusaurus/theme-classic": "^3.5.0",
     "@docusaurus/theme-common": "^3.5.0",

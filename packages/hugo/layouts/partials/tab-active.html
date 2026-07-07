@@ -1,0 +1,19 @@
+{{- /* Returns whether a menus.tabs entry is active for the given page.
+       Context: dict "page" PAGE "entry" MENU-ENTRY.
+       A tab is active when the page is (or descends from) the entry's pageRef
+       target, when Hugo's own menu matching says so, or when the page's root
+       section is listed in the entry's params.sections. */ -}}
+{{- $p := .page -}}
+{{- $e := .entry -}}
+{{- $active := $p.IsMenuCurrent "tabs" $e -}}
+{{- if not $active -}}
+  {{- with $e.Page -}}
+    {{- if or (eq $p .) ($p.IsDescendant .) -}}{{- $active = true -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $active -}}
+  {{- with $e.Params.sections -}}
+    {{- if in . $p.Section -}}{{- $active = true -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $active -}}

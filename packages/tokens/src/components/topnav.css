@@ -1,0 +1,125 @@
+/* ============================================================================
+   Topnav — brand, navbar tabs, flat links (no-tabs fallback), search trigger,
+   right cluster. Tabs follow the Mintlify pattern: neutral pills, no teal —
+   the interaction accent is reserved for the nav tree / TOC / links.
+   ============================================================================ */
+
+.kt-topnav {
+  display: flex; align-items: center; gap: 18px;
+  padding: 0 28px;
+  background: color-mix(in srgb, var(--surface-1) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-1);
+  height: var(--docs-header-height);
+  position: sticky; top: 0; z-index: 100;
+}
+.kt-topnav__brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.kt-topnav__brand-name {
+  font-family: var(--font-sans); font-weight: 600; font-size: 17px;
+  letter-spacing: -0.01em; color: var(--fg-1);
+}
+.kt-topnav__version {
+  font-family: var(--font-label); font-size: 11px;
+  color: var(--fg-2);
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Tabs (each owns a sidebar tree; rendered at >= 2 tabs) ---------- */
+.kt-topnav__tabs { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.kt-topnav__tab {
+  display: inline-block;
+  padding: 7px 10px;
+  font-family: var(--font-sans); font-size: 14.5px; font-weight: 500;
+  color: var(--fg-2); text-decoration: none;
+  border-radius: var(--radius-md);
+  max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-topnav__tab:hover { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__tab--active { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ---------- Flat links (fallback when no tabs are configured) ---------- */
+.kt-topnav__links { display: flex; gap: 2px; }
+.kt-topnav__link {
+  padding: 6px 12px;
+  font-family: var(--font-sans); font-size: 16px; font-weight: 500;
+  color: var(--fg-2); text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-topnav__link:hover { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__link--active { color: var(--color-interactive); }
+
+/* ---------- Right cluster ---------- */
+.kt-topnav__right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.kt-topnav__icon-btn {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  color: var(--fg-2);
+  background: transparent; border: 0; cursor: pointer;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.kt-topnav__icon-btn:hover { background: var(--surface-2); color: var(--fg-1); }
+.kt-topnav__link:focus-visible, .kt-topnav__tab:focus-visible, .kt-topnav__icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Tri-state theme toggle: data-theme-mode (set by theme.js) reveals one icon. */
+.kt-theme-icon { display: none; }
+.kt-topnav__icon-btn[data-theme-mode="auto"] .kt-theme-icon--auto,
+.kt-topnav__icon-btn[data-theme-mode="light"] .kt-theme-icon--light,
+.kt-topnav__icon-btn[data-theme-mode="dark"] .kt-theme-icon--dark { display: block; }
+
+/* Burger (mobile drawer trigger); shown only below the shell breakpoint. */
+.kt-topnav__burger { display: none; }
+
+/* ---------- Search trigger (input-lookalike with magnifier + kbd hint) ---------- */
+.kt-docs-search {
+  display: flex; align-items: center; gap: 8px;
+  width: 220px;
+  padding: 7px 8px 7px 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-3);
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--motion-ease);
+}
+.kt-docs-search:hover { border-color: var(--border-2); }
+.kt-docs-search:focus-visible { outline: none; border-color: var(--color-interactive-border); box-shadow: var(--focus-ring); }
+.kt-docs-search__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
+.kt-docs-search__text { flex: 1; text-align: left; }
+.kt-docs-search__kbd {
+  font-family: var(--font-label); font-size: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--fg-2);
+}
+
+/* ---------- Mobile (< 997px): burger + brand + search icon + theme toggle ---------- */
+@media (max-width: 996.98px) {
+  .kt-topnav { padding: 0 16px; gap: 12px; }
+  .kt-topnav__tabs, .kt-topnav__links, .kt-topnav__version { display: none; }
+  .kt-topnav__burger { display: grid; }
+  .kt-docs-search {
+    width: 32px; height: 32px;
+    padding: 0; gap: 0;
+    justify-content: center;
+    background: transparent; border: 0;
+    color: var(--fg-2);
+    border-radius: var(--radius-sm);
+  }
+  .kt-docs-search:hover { background: var(--surface-2); color: var(--fg-1); }
+  .kt-docs-search__icon { width: 16px; height: 16px; color: currentColor; }
+  .kt-docs-search__text, .kt-docs-search__kbd { display: none; }
+}

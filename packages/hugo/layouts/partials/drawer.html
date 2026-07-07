@@ -1,0 +1,41 @@
+{{- /* Mobile navigation drawer (< 997px; desktop hides it via nav.css).
+       Opened by the topnav burger (#kt-drawer-toggle), driven by js/nav.js:
+       overlay/Esc/close-button dismiss, body scroll lock, focus handling.
+       Contains the tab group as a stacked block (navigating to a tab root is
+       a full page load — the destination renders that tab's tree), then the
+       current tab's sidebar tree (same partial as the desktop column; nav.js
+       syncs collapse state across the two copies via data-nav-key). */ -}}
+<div class="kt-drawer" id="kt-drawer" hidden>
+  <div class="kt-drawer__overlay" data-drawer-close></div>
+  <div class="kt-drawer__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="kt-drawer__head">
+      <a class="kt-topnav__brand" href="{{ site.Home.RelPermalink }}">
+        <img src="{{ "img/kotlin-icon-color.svg" | relURL }}" width="24" height="24" alt="">
+        <span class="kt-topnav__brand-name">{{ .Site.Title }}</span>
+      </a>
+      <button class="kt-topnav__icon-btn" type="button" data-drawer-close aria-label="Close navigation">
+        {{ partial "kt-icon.html" (dict "name" "x" "size" 18) }}
+      </button>
+    </div>
+    {{ $tabs := slice }}
+    {{ with site.Menus.tabs }}{{ $tabs = . }}{{ end }}
+    {{ if ge (len $tabs) 2 }}
+      <nav class="kt-drawer__tabs" aria-label="Sections">
+        {{ range $tabs }}
+          {{ $active := partial "tab-active.html" (dict "page" $ "entry" .) }}
+          {{ $href := "" }}{{ with .Page }}{{ $href = .RelPermalink }}{{ else }}{{ $href = .URL | relURL }}{{ end }}
+          <a class="kt-drawer__tab{{ if $active }} kt-drawer__tab--active{{ end }}" href="{{ $href }}"{{ if $active }} aria-current="true"{{ end }}>{{ .Name }}</a>
+        {{ end }}
+      </nav>
+    {{ else }}
+      {{ with site.Menus.main }}
+        <nav class="kt-drawer__tabs" aria-label="Site">
+          {{ range . }}
+            <a class="kt-drawer__tab{{ if $.IsMenuCurrent "main" . }} kt-drawer__tab--active{{ end }}" href="{{ .URL | relURL }}">{{ .Name }}</a>
+          {{ end }}
+        </nav>
+      {{ end }}
+    {{ end }}
+    {{ partial "sidebar.html" . }}
+  </div>
+</div>

@@ -1,11 +1,28 @@
 ---
 title: Customization
 sidebar_position: 3
+related:
+  - customization/layers
+  - customization/css-overrides
+  - customization/swizzling
 ---
 
 # Docusaurus · Customization
 
 The kit follows a [layered model](../../customization/layers.mdx) — start with the cheapest layer that fits.
+
+<AccordionGroup>
+<Accordion title="Which layer should I start with?">
+
+Config first (`docusaurus.config.ts`), then CSS variable overrides, then token overrides, and only then swizzling — each layer survives kit upgrades better than the next.
+
+</Accordion>
+<Accordion title="My override does not apply — why?">
+
+Your `theme.customCss` loads **after** the kit's CSS, so plain selectors win on source order. If a rule still loses, it is usually an Infima variable (override the `--ifm-*` variable instead of the class) — see the layers guide.
+
+</Accordion>
+</AccordionGroup>
 
 ## Layer 1 — Docusaurus config
 

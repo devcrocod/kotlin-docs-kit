@@ -28,6 +28,12 @@ export { default as TabItem } from './TabItem';
 export { default as CodeTabs } from './CodeTabs';
 export type { CodeTabsProps, CodeTabItem } from './CodeTabs';
 
+export { default as Accordion } from './Accordion';
+export type { AccordionProps } from './Accordion';
+
+export { default as AccordionGroup } from './AccordionGroup';
+export type { AccordionGroupProps } from './AccordionGroup';
+
 export { default as Params } from './Params';
 export type { ParamsProps, ParamItem } from './Params';
 

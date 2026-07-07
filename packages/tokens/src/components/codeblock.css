@@ -1,8 +1,11 @@
 /* ============================================================================
-   Code block — the premium, cross-engine code component.
+   Code block — the premium, cross-engine code component. One thin frame; the
+   unified header strip (title/lang or tabs left, actions right) is distinct
+   within it via a subtle overlay over the code surface + hairline bottom.
    Sub-elements:
-     __header     — file tabs row + language tag + copy buttons
-     __tabs       — multi-file tab list
+     __header     — unified strip: title/lang or tabs left, actions right
+     __title      — filename label for a single titled block (not a button)
+     __tabs       — multi-file tab list (the tab row IS the header)
      __tab        — single tab (modifier --active)
      __actions    — copy / wrap / fullscreen buttons
      __action-btn — individual action button
@@ -10,8 +13,8 @@
      __line       — single line (modifier --hl for highlighted)
      __lineno     — gutter number
      __code       — code text within a line
-     __file-icon  — file-type icon on a tab
-     __lang       — language label (when no tabs)
+     __file-icon  — file-type icon on a tab / title
+     __lang       — language label (when no title and no tabs)
    Modifiers:
      --terminal   — terminal variant (dark, prompt-styled)
    Syntax tokens: .kt-tok-{k,s,n,c,f,t,p,a}
@@ -20,7 +23,7 @@
 .kt-codeblock {
   background: var(--code-bg);
   border: 1px solid var(--border-1);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
   font-family: var(--font-mono);
   font-size: var(--type-code-size);
@@ -31,11 +34,23 @@
 
 .kt-codeblock__header {
   display: flex; align-items: center;
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--fg-1) 4%, var(--code-bg));
   border-bottom: 1px solid var(--border-1);
   padding: 0 4px 0 0;
   min-height: 36px;
 }
+
+/* Single titled block: the filename is a quiet label, not a fake tab. */
+.kt-codeblock__title {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 14px;
+  min-height: 36px;
+  font-family: var(--font-label);
+  font-size: 12px;
+  color: var(--fg-2);
+}
+.kt-codeblock__title .kt-codeblock__file-icon,
+.kt-codeblock__title svg { width: 13px; height: 13px; color: var(--fg-3); flex-shrink: 0; }
 .kt-codeblock__tabs {
   display: flex;
   align-items: stretch;
@@ -53,7 +68,6 @@
   color: var(--fg-2);
   background: transparent;
   border: 0;
-  border-right: 1px solid var(--border-1);
   cursor: pointer;
   white-space: nowrap;
   position: relative;

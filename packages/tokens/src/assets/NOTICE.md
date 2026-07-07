@@ -19,4 +19,4 @@ The `.woff2` files are bundled in `fonts/` alongside the corresponding `@font-fa
 
 ## Icons
 
-If [Lucide](https://lucide.dev/) icons are inlined into components (callouts, hero, etc.), they are licensed under ISC (© 2022 Lucide Contributors).
+The kit icon set (`packages/tokens/src/icons/*.svg`, built into `dist/icons.json` and the generated Hugo partial) is derived from [Lucide](https://lucide.dev/), licensed under ISC (© 2022 Lucide Contributors), with the stroke width normalized to 1.5. Any additional Lucide icons inlined directly into components share the same license.

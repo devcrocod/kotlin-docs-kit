@@ -1,0 +1,22 @@
+{{- /* Article eyebrow — the immediate parent section label above the H1
+       (replaces breadcrumbs). Fallback chain: parent title → active tab name
+       → hidden. Hidden when it would equal the page title (tab-root index
+       pages) or when the parent is the home page and no tab matches. */ -}}
+{{- $label := "" -}}
+{{- with .Parent -}}
+  {{- if not .IsHome -}}{{- $label = .Title -}}{{- end -}}
+{{- end -}}
+{{- if not $label -}}
+  {{- $tabs := slice -}}
+  {{- with site.Menus.tabs }}{{ $tabs = . }}{{ end -}}
+  {{- if ge (len $tabs) 2 -}}
+    {{- range $tabs -}}
+      {{- if and (not $label) (partial "tab-active.html" (dict "page" $ "entry" .)) -}}
+        {{- $label = .Name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and $label (ne $label .Title) -}}
+<p class="kt-eyebrow">{{ $label }}</p>
+{{- end -}}

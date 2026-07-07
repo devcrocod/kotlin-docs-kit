@@ -1,9 +1,12 @@
 {{ define "main" }}
-  {{ partial "breadcrumbs.html" . }}
-  <div class="kt-doc-titlebar">
-    <h1>{{ .Title }}</h1>
-    {{ partial "copy-page.html" . }}
-  </div>
+  <header class="kt-article-header">
+    {{ partial "eyebrow.html" . }}
+    <div class="kt-article-header__titlebar">
+      <h1>{{ .Title }}</h1>
+      {{ partial "copy-page.html" . }}
+    </div>
+  </header>
   {{ .Content }}
+  {{ partial "related.html" . }}
   {{ partial "pager.html" . }}
 {{ end }}

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Highlight, type PrismTheme } from 'prism-react-renderer';
 import type { Props } from '@theme/CodeBlock';
 import { parseMeta, isTerminalLang, extractLanguage, stringifyChildren } from './highlight';
-import { CodeIcon } from './icons';
+import KtIcon from '../Icon';
 import { copyToClipboard } from './clipboard';
 
 const EMPTY_THEME: PrismTheme = { plain: {}, styles: [] };
@@ -52,19 +52,13 @@ export default function CodeBlock(props: Props): React.ReactElement {
     <div className={clsx('kt-codeblock', terminal && 'kt-codeblock--terminal')}>
       <div className="kt-codeblock__header">
         {effectiveTitle ? (
-          <div className="kt-codeblock__tabs">
-            <button
-              type="button"
-              className="kt-codeblock__tab kt-codeblock__tab--active"
-              aria-current="true"
-            >
-              <CodeIcon name="file" className="kt-codeblock__file-icon" />
-              {effectiveTitle}
-            </button>
-          </div>
+          <span className="kt-codeblock__title">
+            <KtIcon name="file-text" className="kt-codeblock__file-icon" size={13} />
+            {effectiveTitle}
+          </span>
         ) : (
           <span className="kt-codeblock__lang">
-            <CodeIcon name={terminal ? 'terminal' : 'code'} />
+            <KtIcon name={terminal ? 'terminal' : 'code'} size={13} />
             {lang}
           </span>
         )}
@@ -75,7 +69,7 @@ export default function CodeBlock(props: Props): React.ReactElement {
             onClick={onCopy}
             aria-label={copied ? 'Copied' : 'Copy code'}
           >
-            <CodeIcon name="copy" />
+            <KtIcon name="copy" size={13} />
             {copied ? 'copied' : 'copy'}
           </button>
         </div>

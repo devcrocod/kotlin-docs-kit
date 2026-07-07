@@ -1,0 +1,26 @@
+/* ============================================================================
+   Related topics — front-matter-driven link list rendered after the article
+   content, before the pager. Mono heading; each entry = file icon + link.
+   ============================================================================ */
+
+.kt-related { margin-top: 40px; }
+.kt-related__title {
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--fg-1);
+  margin: 0 0 10px;
+}
+.kt-related__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.kt-related__item { display: flex; align-items: center; gap: 8px; }
+.kt-related__icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
+.kt-related__link {
+  font-family: var(--font-sans); font-size: 14px;
+  color: var(--color-link);
+  text-decoration: none;
+}
+.kt-related__link:hover { color: var(--color-link-hover); text-decoration: underline; }
+.kt-related__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }

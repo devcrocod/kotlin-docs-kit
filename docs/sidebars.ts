@@ -1,18 +1,29 @@
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
+/**
+ * Two named sidebars — one per navbar tab (type: 'docSidebar' items in
+ * docusaurus.config.ts). Changelog is a single-page tab (type: 'doc' item,
+ * no sidebar). Doc IDs and URLs are unchanged from the single-sidebar era.
+ *
+ * Top-level categories are section group headers (Mintlify pattern):
+ * `collapsible: false` + a curated icon via `customProps.icon`
+ * (rendered by the DocSidebarItem/Category swizzle).
+ */
 const sidebars: SidebarsConfig = {
-  main: [
+  docs: [
     'intro',
     {
       type: 'category',
       label: 'Getting started',
-      collapsed: false,
+      collapsible: false,
+      customProps: { icon: 'rocket' },
       items: ['getting-started/choose-engine', 'getting-started/installation'],
     },
     {
       type: 'category',
       label: 'Engine guides',
-      collapsed: false,
+      collapsible: false,
+      customProps: { icon: 'book-open' },
       items: [
         {
           type: 'category',
@@ -43,26 +54,9 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Reference',
-      collapsed: false,
-      items: [
-        'reference/tokens',
-        {
-          type: 'category',
-          label: 'Components',
-          items: [
-            'reference/components/overview',
-            'reference/components/brand',
-            'reference/components/colors',
-            'reference/components/type',
-            'reference/components/spacing',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
       label: 'Customization',
+      collapsible: false,
+      customProps: { icon: 'palette' },
       items: [
         'customization/layers',
         'customization/css-overrides',
@@ -71,10 +65,11 @@ const sidebars: SidebarsConfig = {
       ],
     },
     'roadmap',
-    'changelog',
     {
       type: 'category',
       label: 'Contributing',
+      collapsible: false,
+      customProps: { icon: 'users' },
       items: [
         'contributing/getting-started',
         'contributing/conventional-commits',
@@ -84,7 +79,25 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Maintainer',
+      collapsible: false,
+      customProps: { icon: 'shield' },
       items: ['maintainer/mirrors'],
+    },
+  ],
+  reference: [
+    'reference/tokens',
+    {
+      type: 'category',
+      label: 'Components',
+      collapsible: false,
+      customProps: { icon: 'layers' },
+      items: [
+        'reference/components/overview',
+        'reference/components/brand',
+        'reference/components/colors',
+        'reference/components/type',
+        'reference/components/spacing',
+      ],
     },
   ],
 };

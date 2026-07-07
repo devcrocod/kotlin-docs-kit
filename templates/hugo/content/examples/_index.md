@@ -2,6 +2,8 @@
 title: Examples
 description: Worked examples of the kit's components.
 weight: 40
+params:
+  icon: sparkles
 ---
 
 Self-contained worked examples — open each page to see the rendered output

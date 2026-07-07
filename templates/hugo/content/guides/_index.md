@@ -2,6 +2,8 @@
 title: Guides
 description: How to author content and customise the kit.
 weight: 20
+params:
+  icon: book-open
 ---
 
 Two short guides cover the day-to-day:

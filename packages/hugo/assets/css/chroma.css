@@ -75,23 +75,26 @@
 .chroma .nd { color: var(--code-tag); }
 
 /* Hugo's .TableOfContents emits bare <nav><ul><li><a> without classes —
-   apply the .kt-toc__item visual style via descendant selectors so the
-   toc partial doesn't need to template each heading. */
+   apply the .kt-toc__item visual style (toc.css) via descendant selectors so
+   the toc partial doesn't need to template each heading. Quiet items; Hugo
+   has no scroll-spy, so the teal active dot only appears in engines that
+   track the active heading (Docusaurus). */
 .kt-toc nav#TableOfContents ul { list-style: none; padding: 0; margin: 0; }
 .kt-toc nav#TableOfContents > ul > li > a {
   display: block;
-  padding: 4px 12px;
-  font: 500 13px/1.5 var(--font-sans);
-  color: var(--fg-2);
-  border-left: 2px solid transparent;
+  padding: 4px 0 4px 16px;
+  font: 400 13px/1.5 var(--font-sans);
+  color: var(--fg-3);
   text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .kt-toc nav#TableOfContents > ul > li > a:hover { color: var(--fg-1); }
 .kt-toc nav#TableOfContents ul ul > li > a {
-  padding-left: 24px;
+  padding-left: 28px;
   font-size: 12.5px;
   color: var(--fg-3);
 }
+.kt-toc nav#TableOfContents ul ul > li > a:hover { color: var(--fg-1); }
 
 /* Code-block box model. The render-codeblock hook feeds Chroma markup
    (<div class="highlight"><pre class="chroma">) into .kt-codeblock__body, not

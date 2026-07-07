@@ -1,0 +1,40 @@
+/* ============================================================================
+   TOC (right rail) — mono "On this page" label with list glyph; quiet items;
+   the active item is teal text plus a 4px teal dot in the left gutter
+   (replaces the old border-left indicator).
+   ============================================================================ */
+
+.kt-toc { display: flex; flex-direction: column; padding: 24px 20px; gap: 1px; }
+.kt-toc__label {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-label);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--fg-1);
+  padding-bottom: 10px;
+}
+.kt-toc__label-icon { width: 14px; height: 14px; color: var(--fg-3); flex-shrink: 0; }
+.kt-toc__item {
+  position: relative;
+  display: block;
+  padding: 4px 0 4px 16px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-3);
+  text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--motion-fast) var(--motion-ease);
+  line-height: 1.5;
+}
+.kt-toc__item:hover { color: var(--fg-1); }
+.kt-toc__item:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.kt-toc__item--active { color: var(--color-interactive); }
+/* The dot column stays aligned for nested items: the dot always sits in the
+   same left gutter; only the text indents. */
+.kt-toc__item--active::before {
+  content: "";
+  position: absolute; left: 2px; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--color-interactive);
+}
+.kt-toc__item--nested { padding-left: 28px; font-size: 12.5px; }

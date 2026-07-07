@@ -65,9 +65,11 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        { to: '/intro', label: 'Docs', position: 'left' },
-        { to: '/reference/components/overview', label: 'Components', position: 'left' },
-        { to: '/reference/tokens', label: 'Tokens', position: 'left' },
+        // Navbar tabs: each docSidebar item owns a sidebar tree; Changelog is
+        // a single-page tab (plain doc link, no sidebar) — Mintlify pattern.
+        { type: 'docSidebar', sidebarId: 'docs', label: 'Docs', position: 'left' },
+        { type: 'docSidebar', sidebarId: 'reference', label: 'Reference', position: 'left' },
+        { type: 'doc', docId: 'changelog', label: 'Changelog', position: 'left' },
         {
           type: 'html',
           position: 'right',

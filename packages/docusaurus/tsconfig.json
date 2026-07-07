@@ -14,7 +14,16 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noEmit": true,
-    "types": ["node", "@docusaurus/module-type-aliases"]
+    "types": ["node", "@docusaurus/module-type-aliases"],
+    // Type-only mapping for an exports-map subpath that node10
+    // moduleResolution cannot see (runtime resolution happens in the
+    // consumer's webpack, which does read exports). Emit is unchanged.
+    "baseUrl": ".",
+    "paths": {
+      "@docusaurus/plugin-content-docs/client": [
+        "node_modules/@docusaurus/plugin-content-docs/lib/client/index.d.ts"
+      ]
+    }
   },
   "include": ["src", "scripts"],
   "exclude": ["lib", "node_modules", "__fixtures__"]

@@ -1,103 +1,101 @@
 /*
  * @ktdocs/docusaurus-preset — search re-skin.
  *
- * Themes Algolia DocSearch (bundled by @docusaurus/preset-classic) and the
- * @easyops-cn/docusaurus-search-local theme, both of which render the
- * `.DocSearch-*` DOM. Loaded after docusaurus-overrides.css.
+ * Themes @easyops-cn/docusaurus-search-local (the preset's `search` option)
+ * onto the kit's search visual contract: input-lookalike trigger with kbd
+ * hint (matching Hugo's .kt-docs-search) and a surface-1/hairline results
+ * panel with teal match highlight (search-ui.css family).
  *
- * DocSearch exposes its own `--docsearch-*` custom properties; mapping those to
- * kit tokens is the lowest-specificity way to re-skin the modal. Because the
- * kit tokens already flip under `[data-theme='dark']`, the modal follows the
- * color mode without a separate dark block — only the fixed scrim is set per
- * mode. The button itself is restyled to match the kit's `.kt-docs-search`.
+ * The backend renders `.navbar__search > .navbar__search-input` plus hashed
+ * CSS-module classes (dropdown/suggestions). Stable classes are styled
+ * directly; the dropdown via scoped [class*=…] attribute selectors — an
+ * accepted risk pinned by the ^0.55.0 peer range. It does NOT render
+ * `.DocSearch-*` DOM nor read `--docsearch-*` vars (the previous content of
+ * this file targeted those — dead code for this backend, pruned in 0.2.0).
  */
 
-:root {
-  --docsearch-primary-color: var(--color-interactive);
-  --docsearch-text-color: var(--fg-1);
-  --docsearch-muted-color: var(--fg-3);
-  --docsearch-spacing: 12px;
-
-  /* Modal surfaces */
-  --docsearch-modal-background: var(--surface-1);
-  --docsearch-modal-shadow: var(--shadow-lg);
-  --docsearch-container-background: color-mix(in srgb, #0b0d12 55%, transparent);
-
-  /* Searchbox */
-  --docsearch-searchbox-height: 48px;
-  --docsearch-searchbox-background: var(--surface-2);
-  --docsearch-searchbox-focus-background: var(--surface-1);
-  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--color-interactive);
-
-  /* Hits */
-  --docsearch-hit-height: 44px;
-  --docsearch-hit-color: var(--fg-2);
-  --docsearch-hit-active-color: var(--fg-on-brand);
-  --docsearch-hit-background: var(--surface-1);
-  --docsearch-hit-shadow: none;
-
-  /* ⌘K key chips */
-  --docsearch-key-gradient: linear-gradient(-225deg, var(--surface-3), var(--surface-2));
-  --docsearch-key-shadow: none;
-  --docsearch-key-pressed-shadow: none;
-
-  /* Footer + logo */
-  --docsearch-footer-background: var(--surface-1);
-  --docsearch-footer-shadow: 0 -1px 0 0 var(--border-1);
-  --docsearch-logo-color: var(--color-interactive);
-}
-
-[data-theme='dark'] {
-  /* Slightly deeper scrim over dark surfaces. */
-  --docsearch-container-background: color-mix(in srgb, #000 64%, transparent);
-}
-
 /* ===========================================================================
- * Navbar search button — match the kit's `.kt-docs-search` field.
+ * Trigger — the navbar search field (kbd chips are rendered by the backend
+ * and already platform-sniffed: ⌘ K on mac, ctrl K elsewhere).
  * ========================================================================= */
 
-.DocSearch-Button {
-  margin: 0;
-  padding: 0 8px 0 12px;
+.navbar__search { position: relative; }
+
+.navbar__search-input {
+  width: 220px;
   height: 36px;
-  background: var(--surface-1);
-  border: 1px solid var(--border-1);
-  border-radius: var(--radius-md);
-  color: var(--fg-3);
   font-family: var(--font-sans);
   font-size: 13px;
+  color: var(--fg-1);
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
   transition: border-color var(--motion-fast) var(--motion-ease);
 }
-.DocSearch-Button:hover {
-  background: var(--surface-1);
-  border-color: var(--border-2);
-  box-shadow: none;
-  color: var(--fg-2);
-}
-.DocSearch-Button:active,
-.DocSearch-Button:focus-visible {
+.navbar__search-input::placeholder { color: var(--fg-3); }
+.navbar__search-input:hover { border-color: var(--border-2); }
+.navbar__search-input:focus,
+.navbar__search-input:focus-visible {
   outline: none;
-  border-color: var(--color-interactive);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-interactive) 22%, transparent);
+  border-color: var(--color-interactive-border);
+  box-shadow: var(--focus-ring);
 }
-.DocSearch-Search-Icon { width: 16px; height: 16px; color: var(--fg-3); }
-.DocSearch-Button-Placeholder { font-size: 13px; padding: 0 8px; }
-.DocSearch-Button-Keys { min-width: auto; gap: 2px; }
-.DocSearch-Button-Key {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  min-width: 18px;
-  height: 18px;
-  margin: 0;
-  padding: 0 4px;
-  top: 0;
+
+/* < 997px: the field collapses to an icon-sized control (the backend keeps
+   its magnifier background icon); text/kbd hints hide with the width. */
+@media (max-width: 996.98px) {
+  .navbar__search-input {
+    width: 32px;
+    padding-right: 0;
+  }
+  .navbar__search kbd { display: none; }
+}
+
+/* Shortcut hint chips (kbd), rendered inside the trigger by the backend. */
+.navbar__search kbd {
+  font-family: var(--font-label);
+  font-size: 11px;
+  color: var(--fg-2);
   background: var(--surface-2);
   border: 1px solid var(--border-1);
   border-radius: 4px;
   box-shadow: none;
-  font-family: var(--font-mono);
-  font-size: 11px;
+  padding: 1px 5px;
+}
+
+/* ===========================================================================
+ * Results dropdown — hashed module classes, scoped under .navbar__search.
+ * ========================================================================= */
+
+.navbar__search [class*='dropdownMenu'] {
+  font-family: var(--font-sans);
+  background: var(--surface-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 4px;
+}
+.navbar__search [class*='suggestion'] {
+  border-radius: var(--radius-sm);
   color: var(--fg-2);
+}
+.navbar__search [class*='suggestion'][class*='cursor'],
+.navbar__search [class*='suggestion']:hover {
+  background: var(--surface-2);
+  color: var(--fg-1);
+}
+.navbar__search [class*='hitTree'],
+.navbar__search [class*='hitIcon'],
+.navbar__search [class*='noResultsIcon'] {
+  color: var(--fg-3);
+}
+.navbar__search [class*='hitPath'] {
+  font-family: var(--font-label);
+  font-size: 11px;
+  color: var(--fg-3);
+}
+.navbar__search mark {
+  background: var(--color-interactive-soft);
+  color: var(--color-interactive);
+  border-radius: 2px;
 }

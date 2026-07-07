@@ -1,0 +1,31 @@
+{{- /* Related topics — manual, front-matter driven. Page paths live under
+       [params] (top-level custom fields draw deprecation warnings, and the
+       site-level [related] engine config is unaffected by a page param):
+
+         [params]
+           related = ["/guides/setup/", "/reference/tokens/"]
+
+       Entries resolve via site.GetPage and render with .RelPermalink (never
+       verbatim — sub-path baseURL safety), which also supplies the link
+       text; unresolvable paths warn at build time and are skipped. */ -}}
+{{- $refs := .Params.related -}}
+{{- if $refs -}}
+  {{- $pages := slice -}}
+  {{- range $refs -}}
+    {{- with site.GetPage . -}}
+      {{- $pages = $pages | append . -}}
+    {{- else -}}
+      {{- warnf "related: page %q not found (referenced from %s)" . $.RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $pages -}}
+  <section class="kt-related">
+    <h2 class="kt-related__title">Related topics</h2>
+    <ul class="kt-related__list">
+      {{- range $pages }}
+      <li class="kt-related__item">{{ partial "kt-icon.html" (dict "name" "file-text" "class" "kt-related__icon" "size" 14) }}<a class="kt-related__link" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end -}}
+{{- end -}}

@@ -2,6 +2,8 @@
 title: Reference
 description: Design tokens and component contract.
 weight: 30
+params:
+  icon: layers
 ---
 
 {{< card-grid >}}
