@@ -1,74 +1,100 @@
 # Mapping to Hugo
 
-Hugo is template-driven (Go templates) rather than configuration-driven, so we wire the design system in by overriding the **baseof** layout and a few partials. Works with the Doks, Geekdoc, or any standard Hugo theme — and equally well as a from-scratch theme.
+Hugo is template-driven (Go templates) rather than configuration-driven, so the kit ships a **standalone Hugo theme module** (`packages/hugo`, imported via `hugo mod get`) that owns the baseof layout, partials, and shortcodes — it is not a wrapper around Doks, Geekdoc, or any other theme. This spec maps the design-system contract onto that module.
 
-## 1. Files to copy into `assets/css/` and `static/img/`
+## 1. Theme module layout
 
 ```
-your-site/
+packages/hugo/
 ├── assets/
-│   ├── css/
-│   │   ├── colors_and_type.css
-│   │   ├── tokens.css
-│   │   └── components.css
+│   ├── css/                     # bundled into one fingerprinted file (§ 2)
+│   │   ├── colors_and_type.css  # rsynced from @ktdocs/tokens
+│   │   ├── tokens.css           # rsynced from @ktdocs/tokens
+│   │   ├── components.css       # rsynced from @ktdocs/tokens
+│   │   ├── chroma.css           # hand-written Hugo-only delta (Chroma map, TOC items, …)
+│   │   └── fonts.css            # rsynced; font URLs rewritten to ../fonts/
 │   └── js/
-│       ├── theme.js
-│       ├── nav.js          # sidenav collapse + sessionStorage persistence (0.2.0)
-│       ├── search.js
-│       └── copy-page.js
+│       ├── theme.js             # tri-state theme toggle + code/content tab switching + copy
+│       ├── nav.js               # sidenav collapse + sessionStorage persistence + drawer (0.2.0)
+│       ├── search.js            # Pagefind modal + ⌘K binding
+│       └── copy-page.js         # copy-page dropdown
 ├── static/
-│   └── img/
-│       ├── kotlin-icon-color.svg
-│       ├── kotlin-logo.svg
-│       └── kotlin-logo-dark.svg
+│   ├── fonts/                   # woff2, served at /fonts/*
+│   └── img/                     # Kotlin logos + icons, served at /img/*
 └── layouts/
     ├── _default/
     │   ├── baseof.html
     │   ├── single.html
-    │   └── list.html
-    └── partials/
-        ├── head.html
-        ├── header.html
-        ├── tab-active.html    # boolean helper: is a menus.tabs entry active for this page
-        ├── sidebar.html
-        ├── sidebar-tree.html  # recursive tree body (0.2.0)
-        ├── toc.html
-        ├── eyebrow.html       # replaces breadcrumbs.html (deleted in 0.2.0)
-        ├── footer.html
-        └── callout.html
+    │   ├── list.html
+    │   ├── single.md / list.md  # plain-markdown output twins (copy-page / AI consumption)
+    │   └── _markup/
+    │       └── render-codeblock.html  # fence → .kt-codeblock (§ 9)
+    ├── partials/
+    │   ├── head.html
+    │   ├── header.html
+    │   ├── tab-active.html      # boolean helper: is a menus.tabs entry active for this page
+    │   ├── sidebar.html
+    │   ├── sidebar-tree.html    # recursive tree body (0.2.0)
+    │   ├── toc.html
+    │   ├── eyebrow.html         # replaces breadcrumbs.html (deleted in 0.2.0)
+    │   ├── drawer.html          # mobile drawer (0.2.0, § 7a)
+    │   ├── copy-page.html
+    │   ├── pager.html           # prev/next cards (0.2.0)
+    │   ├── related.html         # Related topics (0.2.0)
+    │   ├── kt-icon.html         # icon dispatcher
+    │   ├── kt-icons.generated.html  # generated from @ktdocs/tokens icons.json (committed)
+    │   └── footer.html
+    └── shortcodes/              # callout, code-tabs / code-tab, tabs / tab, accordion,
+                                 # accordion-group, card, card-grid, feature-grid, hero,
+                                 # badge, method, tag, pill, toggle, segmented, params, state
 ```
 
-## 2. `layouts/partials/head.html` — load CSS
+## 2. `layouts/partials/head.html` — pre-paint theme + CSS bundle
+
+`head.html` first runs the **pre-paint theme script** (§ 10) so the first paint carries the right theme, then concatenates the five CSS files into one fingerprinted bundle — order matters: `chroma.css` loads after `components.css` so the Hugo-only delta wins, and `fonts.css` loads last with its URLs rewritten to `../fonts/` (sub-path baseURL safety). The favicon resolves via `relURL` for the same reason:
 
 ```go-html-template
-{{ $colors := resources.Get "css/colors_and_type.css" }}
-{{ $tokens := resources.Get "css/tokens.css" }}
+{{ $colors     := resources.Get "css/colors_and_type.css" }}
+{{ $tokens     := resources.Get "css/tokens.css" }}
 {{ $components := resources.Get "css/components.css" }}
-{{ $bundle := slice $colors $tokens $components | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
-
+{{ $chroma     := resources.Get "css/chroma.css" }}
+{{ $fonts      := resources.Get "css/fonts.css" }}
+{{ $bundle := slice $colors $tokens $components $chroma $fonts
+              | resources.Concat "css/bundle.css"
+              | resources.Minify
+              | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}">
-<link rel="icon" href="/img/kotlin-icon-color.svg" type="image/svg+xml">
+<link rel="icon" href="{{ "img/kotlin-icon-color.svg" | relURL }}" type="image/svg+xml">
 ```
 
 ## 3. `layouts/_default/baseof.html` — 3-column shell
 
+`<html>` carries **no** `data-theme` attribute in the template — the pre-paint script in `head.html` sets it (or leaves it off for auto, § 10). The drawer partial sits right after the header, `data-pagefind-body` scopes the Pagefind index to the article, and the four JS modules load deferred as fingerprinted resources:
+
 ```go-html-template
 <!doctype html>
-<html lang="{{ .Site.LanguageCode }}" data-theme="light">
+<html lang="{{ default "en" site.Language.Lang }}">
   <head>
     {{ partial "head.html" . }}
-    <title>{{ .Title }} · {{ .Site.Title }}</title>
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
   </head>
   <body>
     {{ partial "header.html" . }}
-    <div class="docs-shell">
-      <aside class="docs-shell-side">{{ partial "sidebar.html" . }}</aside>
-      <main class="docs-shell-main">
-        <article class="docs-article">{{ block "main" . }}{{ end }}</article>
+    {{ partial "drawer.html" . }}
+    <div class="kt-docs-shell">
+      <aside class="kt-docs-shell__side">{{ partial "sidebar.html" . }}</aside>
+      <main class="kt-docs-shell__main">
+        <article class="kt-docs-article" data-pagefind-body>
+          {{ block "main" . }}{{ end }}
+        </article>
       </main>
-      <aside class="docs-shell-toc">{{ partial "toc.html" . }}</aside>
+      <aside class="kt-docs-shell__toc">{{ partial "toc.html" . }}</aside>
     </div>
     {{ partial "footer.html" . }}
+    {{/* theme.js, nav.js, copy-page.js, search.js — each Minify | Fingerprint, defer: */}}
+    {{ $theme := resources.Get "js/theme.js" | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $theme.RelPermalink }}" integrity="{{ $theme.Data.Integrity }}"></script>
+    {{/* …same pattern for js/nav.js, js/copy-page.js, js/search.js */}}
   </body>
 </html>
 ```
@@ -209,34 +235,20 @@ Hugo has no scroll-spy, so the teal active dot (`.kt-toc__item--active`) only ap
 
 `baseof.html` includes `partials/drawer.html` right after the header: the `.kt-drawer` overlay panel (see `components.md § Mobile drawer`) containing the brand row, the stacked tab block (same `tab-active.html` logic and fallback as the topnav), and a second `{{ partial "sidebar.html" . }}` copy of the current tab's tree. `js/nav.js` drives it — burger toggle (`#kt-drawer-toggle`), overlay/`Esc`/close dismissal, body scroll lock, focus handling — and syncs collapse state between the drawer and desktop trees via the shared `data-nav-key`/`data-key` attributes. Desktop (≥ 997 px) hides `.kt-drawer` entirely via CSS, whatever its `hidden` state.
 
-## 8. Admonition mapping — custom Hugo shortcode
+## 8. Admonition mapping — `callout` shortcode
 
-Hugo doesn't have built-in admonitions, but `layouts/shortcodes/callout.html` plugs the gap. Add this file:
+Hugo doesn't have built-in admonitions; the theme ships `layouts/shortcodes/callout.html`. It emits the contract's callout DOM: an `<aside class="kt-callout kt-callout--<kind>">` hosting an inline stroke icon (`.kt-callout__icon` — one `if`/`else` SVG branch per kind inside the shortcode) and a `.kt-callout__body` with the optional `<strong class="kt-callout__title">` and the `.kt-callout__content`. The body renders via `{{ .Inner | .Page.RenderString }}` so Markdown inside the shortcode works:
 
 ```go-html-template
 {{- $kind := .Get "type" | default "note" -}}
 {{- $title := .Get "title" -}}
-<div class="callout callout-{{ $kind }}">
-  <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    {{- if   eq $kind "info"         -}}<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-    {{- else if eq $kind "tip"       -}}<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 3-2 5-3 6.5V18H8v-2.5C7 14 5 12 5 9a7 7 0 0 1 7-7z"/>
-    {{- else if eq $kind "success"   -}}<path d="M20 6 9 17l-5-5"/>
-    {{- else if eq $kind "warning"   -}}<path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>
-    {{- else if eq $kind "caution"   -}}<circle cx="12" cy="12" r="10"/><path d="M12 9v4"/><path d="M12 17h.01"/>
-    {{- else if eq $kind "danger"    -}}<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
-    {{- else if eq $kind "important" -}}<path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/><path d="M12 8v4"/><path d="M12 16h.01"/>
-    {{- else if eq $kind "quote"     -}}<path d="M3 21c3-1 5-3 5-6V8H4v7h4"/><path d="M15 21c3-1 5-3 5-6V8h-4v7h4"/>
-    {{- else if eq $kind "example"   -}}<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-    {{- else if eq $kind "deprecated"-}}<circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-    {{- else if eq $kind "experimental" -}}<path d="M9 2v6L3.5 18a2.5 2.5 0 0 0 2 4h13a2.5 2.5 0 0 0 2-4L15 8V2"/><path d="M7 2h10"/><path d="M7 16h10"/>
-    {{- else -}}<path d="M3 5h18"/><path d="M3 12h18"/><path d="M3 19h12"/>
-    {{- end -}}
-  </svg>
-  <div>
-    {{- if $title }}<strong class="callout-title">{{ $title }}</strong>{{ end -}}
-    {{ .Inner | markdownify }}
+<aside class="kt-callout kt-callout--{{ $kind }}">
+  <svg class="kt-callout__icon" …>{{/* per-kind icon branch */}}</svg>
+  <div class="kt-callout__body">
+    {{- with $title -}}<strong class="kt-callout__title">{{ . }}</strong>{{- end -}}
+    <div class="kt-callout__content">{{ .Inner | .Page.RenderString }}</div>
   </div>
-</div>
+</aside>
 ```
 
 Use in Markdown:
@@ -251,20 +263,20 @@ You can pass `--watch` to rebuild on save.
 
 All 12 callout kinds:
 
-| `type=`          | Callout class           |
-| ---------------- | ----------------------- |
-| `note` (default) | `.callout-note`         |
-| `info`           | `.callout-info`         |
-| `tip`            | `.callout-tip`          |
-| `success`        | `.callout-success`      |
-| `warning`        | `.callout-warning`      |
-| `caution`        | `.callout-caution`      |
-| `danger`         | `.callout-danger`       |
-| `important`      | `.callout-important`    |
-| `quote`          | `.callout-quote`        |
-| `example`        | `.callout-example`      |
-| `deprecated`     | `.callout-deprecated`   |
-| `experimental`   | `.callout-experimental` |
+| `type=`          | Callout class               |
+| ---------------- | --------------------------- |
+| `note` (default) | `.kt-callout--note`         |
+| `info`           | `.kt-callout--info`         |
+| `tip`            | `.kt-callout--tip`          |
+| `success`        | `.kt-callout--success`      |
+| `warning`        | `.kt-callout--warning`      |
+| `caution`        | `.kt-callout--caution`      |
+| `danger`         | `.kt-callout--danger`       |
+| `important`      | `.kt-callout--important`    |
+| `quote`          | `.kt-callout--quote`        |
+| `example`        | `.kt-callout--example`      |
+| `deprecated`     | `.kt-callout--deprecated`   |
+| `experimental`   | `.kt-callout--experimental` |
 
 ## 8a. Accordion, related topics & pager cards (0.2.0)
 
@@ -276,80 +288,58 @@ All 12 callout kinds:
 
 ## 9. Code blocks
 
-Hugo uses Chroma for syntax highlighting. Generate a Chroma stylesheet once and replace its token colors with ours:
+Hugo highlights with Chroma. Every fenced block goes through the **render hook** `layouts/_default/_markup/render-codeblock.html`, which wraps the Chroma output in the `.kt-codeblock` contract DOM (matching `shortcodes/code-tabs.html` for single-file blocks):
 
-```bash
-hugo gen chromastyles --style=onedark > assets/css/chroma.css
-```
+- `.kt-codeblock__header` carries either `.kt-codeblock__title` (a `title=` / `file=` fence attribute → `file-text` icon + filename; 0.2.0 — this used to be a lone fake tab) or `.kt-codeblock__lang`, plus `.kt-codeblock__actions` with the `[data-copy]` button (wired by `assets/js/theme.js` — Chroma line-number-table aware).
+- Terminal languages (`bash`, `sh`, `shell`, `zsh`, `console`, `terminal`) add `.kt-codeblock--terminal`.
+- Highlighting is delegated to `transform.HighlightCodeBlock`, honouring `.Options` merged with the site's `[markup.highlight]` config — `lineNos = false` makes line numbers opt-in per fence (`{linenos=table}`); `{hl_lines="2 4-5"}` works too.
 
-Then edit `chroma.css` and re-map:
+Hugo emits Chroma class markup (not the per-line `.kt-codeblock__line` structure Docusaurus renders), so the hand-written `assets/css/chroma.css` — the Hugo-only delta sheet, loads after `components.css` in the bundle and survives the tokens rsync — maps Chroma's Pygments token classes onto the same `--code-*` tokens that `.kt-tok-*` uses (no full generated Chroma stylesheet is shipped):
 
 ```css
 .chroma .k,
+.chroma .kc,
 .chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
 .chroma .kt {
   color: var(--code-keyword);
   font-weight: 500;
 }
-.chroma .s,
-.chroma .s1,
-.chroma .s2 {
+.chroma .s, .chroma .s1, .chroma .s2 /* … */ {
   color: var(--code-string);
 }
-.chroma .m,
-.chroma .mi,
-.chroma .mf {
-  color: var(--code-number);
-}
-.chroma .c,
-.chroma .c1,
-.chroma .cm {
+.chroma .c, .chroma .c1, .chroma .cm /* … */ {
   color: var(--code-comment);
   font-style: italic;
 }
 .chroma .nf,
-.chroma .nb {
+.chroma .nb,
+.chroma .nx {
   color: var(--code-function);
 }
 .chroma .nc,
 .chroma .nn {
   color: var(--code-type);
 }
-.chroma .p {
+.chroma .p,
+.chroma .o,
+.chroma .ow {
   color: var(--code-punctuation);
 }
 ```
 
-Wrap Chroma's `<pre class="chroma">` in our `.codeblock`:
+`chroma.css` also flattens Chroma's wrapper (transparent background, compact line-number gutter) and pads `.kt-codeblock__body` once, since the Chroma markup carries no padded line spans.
 
-```go-html-template
-<div class="codeblock">
-  <div class="codeblock-header">
-    <span class="codeblock-lang">{{ .Get "lang" }}</span>
-    <div class="codeblock-actions">
-      <button class="action-btn" data-copy>copy</button>
-    </div>
-  </div>
-  {{ highlight (trim .Inner "\n") (.Get "lang") "linenos=table,style=github" }}
-</div>
-```
-
-For multi-file tabs, write a `tabs` shortcode that emits `.codeblock-tabs` and `.codeblock-tab` markup.
+For multi-file tabs use the `code-tabs` / `code-tab` shortcodes (§ 8a table in [components.md](../components.md)) — they emit `.kt-codeblock__tabs` / `.kt-codeblock__tab` in the same header; `assets/js/theme.js` switches the panels.
 
 ## 10. Theme toggle
 
-Add to `static/js/theme.js` and include in `head.html`:
+The toggle is **tri-state** (`auto → light → dark`), split across two files shipped by the theme:
 
-```js
-const root = document.documentElement;
-const saved = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-root.setAttribute('data-theme', saved);
-document.getElementById('theme-toggle')?.addEventListener('click', () => {
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-});
-```
+- `partials/head.html` runs a pre-paint inline script: a saved `localStorage.theme` of `light`/`dark` pins `data-theme` on `<html>` before the body renders (no flash); `auto` (or no saved value) **removes the attribute** so the `prefers-color-scheme` block in `colors_and_type.css` follows the OS live. `baseof.html` itself emits `<html>` with no `data-theme`.
+- `assets/js/theme.js` (loaded deferred from `baseof.html`) drives the topnav button (`#theme-toggle`): each click advances the mode cycle, persists it to `localStorage`, applies/removes `data-theme`, and stamps the button's `data-theme-mode` attribute, which selects the visible icon of three (`.kt-theme-icon`).
 
 ## 11. Done
 

@@ -2,7 +2,7 @@
 
 This document defines the **public HTML and CSS contract** that every engine theme in `kotlin-docs-kit` MUST satisfy. The kit ships tokens and a single `dist/components.css` from [`@ktdocs/tokens`](../../packages/tokens/README.md); each engine package wraps its native markup in the BEM classes specified here so that both engines (Docusaurus, Hugo) render visually identical sites.
 
-This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 25 atomic component sections, derived from the component families in [SPEC §7.1](../../SPEC.md) plus the 0.2.0 additions from [SPEC §10](../../SPEC.md).
+This is a specification, not a tutorial. It does not explain authoring syntax beyond the summary table at the end, and it does not describe how a particular engine remaps its native classes — see [engine-mappings/](./engine-mappings/) for those internal specs. The list below covers 25 atomic component sections, including the 0.2.0 additions specified in [SPEC §10](../../SPEC.md).
 
 ## How to read this document
 
@@ -30,7 +30,7 @@ Element selectors inside a block (`.kt-callout p`, `.kt-docs-article > h2`) oper
 
 ## What is NOT customizable
 
-The kit exposes design tokens, theme overrides, and engine-native plugin/preset configuration as customization surfaces — see [SPEC §10.1](../../SPEC.md). The following are fixed by this contract and **changing them means forking the kit**:
+The kit exposes design tokens, theme overrides, and engine-native plugin/preset configuration as customization surfaces — see the customization sections of the [Docusaurus preset README](../../packages/docusaurus/README.md#customization-layers) and the [Hugo theme README](../../packages/hugo/README.md#customizing). The following are fixed by this contract and **changing them means forking the kit**:
 
 - **HTML structure of content components.** The DOM of every component listed below is part of the contract. Reshuffling elements, adding wrappers, or replacing tag names breaks visual parity across engines.
 - **CSS class names and their semantics.** The classes below are the public API. Renaming a class, redefining what a modifier means, or repurposing an element selector are breaking changes.
@@ -1160,7 +1160,7 @@ The class form is canonical; the kit also styles plain `<h4>` and `<p>` inside `
 
 ## Authoring syntax across engines
 
-Authoring syntax differs across engines, but every form below MUST produce the DOM defined above. This table is ported from [SPEC §7.3](../../SPEC.md), extended with the 0.2.0 additions from [SPEC §10](../../SPEC.md). The native-first principle ([SPEC §1](../../SPEC.md)) means engines keep their idiomatic authoring forms instead of unifying around a single one.
+Authoring syntax differs across engines, but every form below MUST produce the DOM defined above. The table includes the 0.2.0 additions from [SPEC §10](../../SPEC.md). Per the kit's native-first principle, engines keep their idiomatic authoring forms instead of unifying around a single one.
 
 | Component            | Docusaurus                                                        | Hugo                                             |
 | -------------------- | ----------------------------------------------------------------- | ------------------------------------------------ |
@@ -1185,4 +1185,4 @@ Authoring syntax differs across engines, but every form below MUST produce the D
 - [`engine-mappings/hugo.md`](./engine-mappings/hugo.md) — Internal spec for how the Hugo module wires shortcodes and Chroma classes.
 - [`preview/`](./preview/) — Frozen HTML specimens covering brand, colors, typography, spacing, and components. Used as the visual reference for self-docs and regression checks.
 - [`../../packages/tokens/README.md`](../../packages/tokens/README.md) — CSS custom properties consumed by these components (`--kt-*`, `--surface-*`, `--fg-*`, `--type-*`, `--space-*`, `--docs-*`, `--code-*`).
-- [`../../SPEC.md`](../../SPEC.md) — Architecture specification. §6 covers the token system; §7 covers the components and authoring contract; §10 covers customization layers.
+- [`../../SPEC.md`](../../SPEC.md) — Mintlify-inspired shell & navigation redesign spec: decision log (§2), per-surface design contracts (§§4–12), rollout & migration notes (§16).

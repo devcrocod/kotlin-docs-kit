@@ -1,278 +1,113 @@
 # Mapping to Docusaurus
 
-This guide explains how to apply the Kotlin Docs Theme System to a **Docusaurus 3** site. Docusaurus already uses Infima as its CSS framework; we override Infima's custom properties and add our own.
+This spec describes how the kit applies the Kotlin Docs Theme System to a **Docusaurus 3** site. Docusaurus uses Infima as its CSS framework; the kit overrides Infima's custom properties and layers the `.kt-*` BEM components on top. Everything ships as one package — [`@ktdocs/docusaurus-preset`](../../../packages/docusaurus/README.md) — nothing is copied into a consumer site by hand.
 
-## 1. Files to copy into `static/css/`
+## 1. Packaging — `@ktdocs/docusaurus-preset`
 
-```
-your-site/
-├── static/
-│   └── css/
-│       ├── colors_and_type.css
-│       ├── tokens.css
-│       └── components.css
-├── static/
-│   └── img/
-│       ├── kotlin-icon-color.svg
-│       ├── kotlin-logo.svg
-│       └── kotlin-logo-dark.svg
-└── src/
-    └── css/
-        └── custom.css       # the override file below
-```
+The token CSS from `@ktdocs/tokens` (`fonts.css`, `colors_and_type.css`, `tokens.css`, `components.css`) is bundled into the preset at build time (`scripts/copy-css.mjs` → `lib/tokens/`) and injected automatically via `theme.customCss` — consumers never copy CSS into `static/css/` or list token files in their config. The preset embeds `@docusaurus/preset-classic` (replace it in `presets`; do not list both). Install and consumer configuration live in the [preset README](../../../packages/docusaurus/README.md).
 
-## 2. `docusaurus.config.js` — wire CSS & logo
+## 2. CSS chain (`src/index.ts` — `resolveKitCss`)
 
-```js
-module.exports = {
-  title: 'Your Project Docs',
-  themeConfig: {
-    navbar: {
-      logo: {
-        alt: 'Kotlin',
-        src: 'img/kotlin-logo.svg',
-        srcDark: 'img/kotlin-logo-dark.svg',
-      },
-      // ...
-    },
-    colorMode: {
-      defaultMode: 'light',
-      respectPrefersColorScheme: true,
-    },
-    prism: {
-      theme: require('prism-react-renderer/themes/vsLight'),
-      darkTheme: require('prism-react-renderer/themes/vsDark'),
-      additionalLanguages: ['kotlin', 'java', 'groovy'],
-    },
-  },
-  presets: [
-    [
-      'classic',
-      {
-        theme: {
-          customCss: [
-            require.resolve('./static/css/colors_and_type.css'),
-            require.resolve('./static/css/tokens.css'),
-            require.resolve('./static/css/components.css'),
-            require.resolve('./src/css/custom.css'),
-          ],
-        },
-      },
-    ],
-  ],
-};
-```
+The preset assembles `theme.customCss` in this order:
 
-## 3. `src/css/custom.css` — translate Infima variables
+1. `tokens/fonts.css` — `@font-face` (IBM Plex Sans, JetBrains Mono).
+2. `tokens/colors_and_type.css` — palette, semantic colors, typography.
+3. `tokens/tokens.css` — spacing, radius, motion, layout dims.
+4. `tokens/components.css` — the `.kt-*` BEM contract.
+5. `css/custom.css` — Infima remap + admonition re-skin + Prism token map (§§ 3–5).
+6. `css/docusaurus-overrides.css` — Docusaurus DOM re-skin (navbar, menu, TOC, pager, …).
+7. `css/copy-page-article.css` — appended **only when the `copyPage` option is on** (§ 10).
+8. `css/search.css` — `@easyops-cn/docusaurus-search-local` re-skin (§ 7).
+
+Consumer CSS passed through the preset's `theme.customCss` option is appended after all of these, so it overrides everything. The preset also unions the seven extra admonition keywords into `docs.admonitions` (§ 4) and wires the opt-in features (`seo`, `llmsTxt`, `copyPage`, `search`, `mermaid`) behind lazy resolution, so an unused feature's optional peer dependency never needs installing; the `theme-shim` theme stays last in `themes`.
+
+## 3. `src/css/custom.css` — Infima variables
+
+The primary ramp is **teal** (`--kt-teal-*`), the kit's interaction accent — Kotlin purple lives only in the brand gradient. Key mappings (the file is the source of truth):
 
 ```css
 :root {
-  --ifm-color-primary: var(--kt-purple-500);
-  --ifm-color-primary-dark: var(--kt-purple-600);
-  --ifm-color-primary-darker: var(--kt-purple-700);
-  --ifm-color-primary-darkest: var(--kt-purple-800);
-  --ifm-color-primary-light: var(--kt-purple-400);
-  --ifm-color-primary-lighter: var(--kt-purple-300);
-  --ifm-color-primary-lightest: var(--kt-purple-200);
+  --ifm-color-primary: var(--kt-teal-500); /* full ramp: teal 200–700 */
 
   --ifm-background-color: var(--surface-0);
   --ifm-background-surface-color: var(--surface-1);
 
-  --ifm-font-family-base: 'IBM Plex Sans', system-ui, sans-serif;
-  --ifm-font-family-monospace: 'JetBrains Mono', monospace;
-  --ifm-font-size-base: var(--type-body-size);
-  --ifm-line-height-base: var(--type-body-line);
-  --ifm-heading-font-weight: 600;
+  --ifm-font-family-base: var(--font-sans);
+  --ifm-font-family-monospace: var(--font-mono);
 
   --ifm-code-background: var(--code-bg);
   --ifm-code-color: var(--code-fg);
-  --ifm-code-font-size: var(--type-code-size);
-  --ifm-code-border-radius: var(--radius-sm);
 
   --ifm-navbar-background-color: color-mix(in srgb, var(--surface-1) 86%, transparent);
   --ifm-navbar-height: var(--docs-header-height);
-  --ifm-toc-border-color: var(--border-1);
-  --ifm-toc-link-color: var(--fg-2);
-  --ifm-toc-link-color-active: var(--color-primary);
-  --ifm-menu-color-active: var(--color-primary);
-  --ifm-menu-color-background-active: var(--color-primary-soft);
+  --ifm-navbar-link-color: var(--fg-2);
+  --ifm-toc-link-color: var(--fg-3);
+  --ifm-toc-link-color-active: var(--color-interactive);
+  --ifm-menu-color: var(--fg-2);
+  --ifm-menu-color-active: var(--color-interactive);
+  /* Mintlify minimalism: the active nav item is teal TEXT only. Must be unset
+     at the var level — Infima's .menu__link--active:not(.menu__link--sublist)
+     outranks any single-class override (the known specificity gotcha). */
+  --ifm-menu-color-background-active: transparent;
+
+  /* Keep Infima's content-width reservation in sync with the kit token, or a
+     dead gap opens beside the sidebar. */
+  --doc-sidebar-width: var(--docs-sidebar-width);
 
   --ifm-link-color: var(--color-link);
   --ifm-link-hover-color: var(--color-link-hover);
-
-  --ifm-global-radius: var(--radius-md);
-  --ifm-card-border-radius: var(--radius-lg);
-}
-
-[data-theme='dark'] {
-  --ifm-color-primary: var(--kt-purple-400);
-  --ifm-color-primary-dark: var(--kt-purple-500);
-  --ifm-color-primary-darker: var(--kt-purple-600);
-  --ifm-color-primary-darkest: var(--kt-purple-700);
-  --ifm-color-primary-light: var(--kt-purple-300);
-  --ifm-color-primary-lighter: var(--kt-purple-200);
-  --ifm-color-primary-lightest: var(--kt-purple-100);
 }
 ```
 
-Docusaurus already sets `data-theme="dark"` on `<html>` for dark mode — so our token file just works.
+The dark override block must be `html[data-theme='dark']` (specificity 0-1-1), **not** the bare attribute selector: Infima's own dark block sets `--ifm-background-color: #1b1b1d` at 0-1-1, and a bare `[data-theme='dark']` (0-1-0) loses to it — the page background resolves to Infima's grey instead of the kit's `--surface-0` (the "black→grey" symptom). Docusaurus toggles `data-theme` on `<html>` natively, so the kit token files just work; `color-scheme` is pinned per mode.
 
 ## 4. Admonition mapping
 
-Docusaurus uses MDX admonitions: `:::note`, `:::tip`, `:::info`, `:::warning`, `:::danger`. They render as `<div class="theme-admonition theme-admonition-note">`. Add CSS that re-skins them to our callouts:
+MDX admonitions (`:::note` …) render as `<div class="theme-admonition theme-admonition-<kind>">`; `custom.css` re-skins all 12 kinds onto the kit callout palette (`--color-<kind>-soft` background, `--color-<kind>` left border) so they match `.kt-callout--<kind>`.
 
-```css
-.theme-admonition {
-  border-radius: var(--radius-md);
-  border-left: 3px solid;
-  padding: 14px 16px;
-  margin: 16px 0;
-  font-family: var(--font-sans);
-  font-size: var(--type-body-size);
-}
-.theme-admonition-note {
-  background: var(--color-note-soft);
-  border-left-color: var(--color-note);
-}
-.theme-admonition-info {
-  background: var(--color-info-soft);
-  border-left-color: var(--color-info);
-}
-.theme-admonition-tip {
-  background: var(--color-tip-soft);
-  border-left-color: var(--color-tip);
-}
-.theme-admonition-success {
-  background: var(--color-success-soft);
-  border-left-color: var(--color-success);
-}
-.theme-admonition-warning {
-  background: var(--color-warning-soft);
-  border-left-color: var(--color-warning);
-}
-.theme-admonition-caution {
-  background: var(--color-caution-soft);
-  border-left-color: var(--color-caution);
-}
-.theme-admonition-danger {
-  background: var(--color-danger-soft);
-  border-left-color: var(--color-danger);
-}
-.theme-admonition-important {
-  background: var(--color-important-soft);
-  border-left-color: var(--color-important);
-}
-.theme-admonition-quote {
-  background: var(--color-quote-soft);
-  border-left-color: var(--color-quote);
-}
-.theme-admonition-example {
-  background: var(--color-example-soft);
-  border-left-color: var(--color-example);
-}
-.theme-admonition-deprecated {
-  background: var(--color-deprecated-soft);
-  border-left-color: var(--color-deprecated);
-}
-.theme-admonition-experimental {
-  background: var(--color-experimental-soft);
-  border-left-color: var(--color-experimental);
-}
-```
-
-Docusaurus ships note / tip / info / warning / danger out of the box. Register the other seven as custom admonitions in `docusaurus.config.js`:
-
-```js
-themeConfig: {
-  admonitions: {
-    keywords: [
-      "success", "caution", "important",
-      "quote", "example", "deprecated", "experimental",
-    ],
-    extendDefaults: true,
-  },
-},
-```
+Docusaurus ships note / tip / info / warning / danger. The preset registers the other seven **automatically** — consumers do not add `admonitions.keywords`; user-supplied keywords are unioned with the kit list, never replacing it. The `Admonition/Types` swizzle maps each extra keyword to a real admonition type with the kit `CalloutIcon`, and corrects theme-classic's legacy aliases (`:::success` → Tip, `:::important` → Info), which would otherwise emit the wrong host class and miss the kit palette.
 
 ### Full mapping table
 
-| MDX               | Callout class           | Builtin?                |
-| ----------------- | ----------------------- | ----------------------- |
-| `:::note`         | `.callout-note`         | ✓                       |
-| `:::info`         | `.callout-info`         | ✓                       |
-| `:::tip`          | `.callout-tip`          | ✓                       |
-| `:::warning`      | `.callout-warning`      | ✓                       |
-| `:::danger`       | `.callout-danger`       | ✓                       |
-| `:::success`      | `.callout-success`      | register via `keywords` |
-| `:::caution`      | `.callout-caution`      | register via `keywords` |
-| `:::important`    | `.callout-important`    | register via `keywords` |
-| `:::quote`        | `.callout-quote`        | register via `keywords` |
-| `:::example`      | `.callout-example`      | register via `keywords` |
-| `:::deprecated`   | `.callout-deprecated`   | register via `keywords` |
-| `:::experimental` | `.callout-experimental` | register via `keywords` |
+| MDX               | Re-skinned to               | Registered by            |
+| ----------------- | --------------------------- | ------------------------ |
+| `:::note`         | `.kt-callout--note`         | Docusaurus builtin       |
+| `:::info`         | `.kt-callout--info`         | Docusaurus builtin       |
+| `:::tip`          | `.kt-callout--tip`          | Docusaurus builtin       |
+| `:::warning`      | `.kt-callout--warning`      | Docusaurus builtin       |
+| `:::danger`       | `.kt-callout--danger`       | Docusaurus builtin       |
+| `:::success`      | `.kt-callout--success`      | preset (alias corrected) |
+| `:::caution`      | `.kt-callout--caution`      | preset                   |
+| `:::important`    | `.kt-callout--important`    | preset (alias corrected) |
+| `:::quote`        | `.kt-callout--quote`        | preset                   |
+| `:::example`      | `.kt-callout--example`      | preset                   |
+| `:::deprecated`   | `.kt-callout--deprecated`   | preset                   |
+| `:::experimental` | `.kt-callout--experimental` | preset                   |
 
 ## 5. Code blocks
 
-Docusaurus uses Prism for syntax highlighting via `prism-react-renderer`. Map Prism's token classes to ours in `custom.css`:
+Fenced code renders through the preset's **swizzled CodeBlock** (`src/theme/CodeBlock`), which emits the `.kt-codeblock` contract DOM directly:
 
-```css
-.prism-code .token.keyword,
-.prism-code .token.builtin {
-  color: var(--code-keyword);
-}
-.prism-code .token.string {
-  color: var(--code-string);
-}
-.prism-code .token.number {
-  color: var(--code-number);
-}
-.prism-code .token.comment {
-  color: var(--code-comment);
-  font-style: italic;
-}
-.prism-code .token.function {
-  color: var(--code-function);
-}
-.prism-code .token.class-name,
-.prism-code .token.type {
-  color: var(--code-type);
-}
-.prism-code .token.punctuation {
-  color: var(--code-punctuation);
-}
-```
+- `.kt-codeblock__header` carries either `.kt-codeblock__title` (blocks with `title="…"` — `file-text` icon + filename; 0.2.0, formerly a lone fake active tab) or `.kt-codeblock__lang`, plus `.kt-codeblock__actions` with the copy button.
+- The body is `<pre class="kt-codeblock__body">` of `.kt-codeblock__line` spans (`--hl` for `{2,4-5}` metastring highlights, `.kt-codeblock__lineno` with `showLineNumbers`).
+- Terminal languages (`bash`, `shell`, `sh`, `zsh`, `console`, `terminal`) add `.kt-codeblock--terminal`.
 
-Re-skin the code block wrapper to match `.codeblock`:
+Prism token colors map to the `--code-*` tokens in `custom.css`, scoped to `.kt-codeblock__body .token.*` — **not** Prism's native `.prism-code` wrapper, which the swizzle does not render.
 
-```css
-[class^='codeBlockContainer'] {
-  background: var(--code-bg) !important;
-  border: 1px solid var(--border-1);
-  border-radius: var(--radius-lg);
-}
-[class^='codeBlockTitle'] {
-  background: var(--surface-2);
-  border-bottom: 1px solid var(--border-1);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--fg-2);
-}
-```
+`docusaurus-overrides.css` keeps a fallback re-skin of the stock `[class^='codeBlockContainer']` / `[class^='codeBlockTitle']` DOM for anything rendered outside the swizzle, and themes inline code via `:not(pre) > code`.
 
-For **file tabs** above multiple code blocks, use Docusaurus's built-in `<Tabs>` component and re-style `.tabs__item` to match `.codeblock-tab`.
+**Multi-file tabs** are the `<CodeTabs items={[{label, language, code}]}>` MDX global — `.kt-codeblock__tabs` (`role="tablist"`) inside the same header. For content tabs keep Docusaurus's `<Tabs>` / `<TabItem>`; their DOM is re-skinned via CSS to match `.kt-tabs`.
 
 ## 6. Cards on docs homepages
 
-Use plain MDX with our `.card-grid` + `.k-card`:
+Use the globally registered MDX components (no imports needed): `<CardGrid>` emits `.kt-card-grid`; `<Card>` emits `.kt-card` with `.kt-card__icon` / `.kt-card__title` / `.kt-card__body` / `.kt-card__arrow`. With `href` the card renders as a `@docusaurus/Link` anchor (baseUrl-safe, SPA navigation) and defaults to `--hoverable`:
 
 ```mdx
-<div className="card-grid">
-  <a className="k-card is-hoverable" href="/quickstart">
-    <div className="card-icon">⚡</div>
-    <h3 className="card-title">Quickstart</h3>
-    <p className="card-body">Get a Kotlin server running in 5 minutes.</p>
-  </a>
-</div>
+<CardGrid>
+  <Card href="/quickstart" icon="⚡" title="Quickstart" arrow>
+    Get a Kotlin server running in 5 minutes.
+  </Card>
+</CardGrid>
 ```
 
 ## 7. Navbar tabs & search (0.2.0)

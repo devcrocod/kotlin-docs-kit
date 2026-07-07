@@ -39,7 +39,7 @@ Then in `hugo.toml`:
   url = "/"
 ```
 
-The topnav exposes `.Site.Menus.main` automatically. Add more `[[menu.main]]` entries to populate the primary nav row.
+The topnav exposes `.Site.Menus.main` automatically. Add more `[[menu.main]]` entries to populate the primary nav row. Alternatively, since 0.2.0 the topnav can render Mintlify-style tabs that each own their own sidebar tree — see [Navbar tabs & sidebar](#navbar-tabs--sidebar).
 
 ## What's inside
 
@@ -165,12 +165,12 @@ nothing resolved the section is omitted entirely.
 
 ## Theme toggle
 
-`baseof.html` emits `<html data-theme="light">`. A pre-paint inline script in `head.html` reads `localStorage.theme` (or `prefers-color-scheme`) before the body paints, so there is no flash. Clicking the topnav theme button (`#theme-toggle`) flips `data-theme` and writes the new value to `localStorage`.
+`baseof.html` emits `<html>` with **no** `data-theme` attribute. A pre-paint inline script in `head.html` runs before the body paints (so there is no flash): a saved `localStorage.theme` of `light`/`dark` pins `data-theme` explicitly; otherwise the attribute stays off and the `prefers-color-scheme` CSS follows the OS live. The topnav theme button (`#theme-toggle`, `assets/js/theme.js`) cycles three modes — `auto → light → dark` — persisting the choice to `localStorage` and updating `data-theme` (removed again for `auto`).
 
 ## What this package is NOT
 
 - It is not a wrapper around `doks`, `geekdoc`, or any other Hugo theme — it is a standalone theme module.
-- It does not bundle a search backend; `.kt-docs-search` is a presentational trigger. Wire up Algolia DocSearch, Pagefind, or Hugo's offline JSON search at the consumer site.
+- It does not build a search index. The theme ships the search **UI** — `assets/js/search.js` opens a [Pagefind](https://pagefind.app) modal from the `.kt-docs-search` trigger (click or ⌘K/Ctrl K) and lazy-loads the Pagefind UI from `<baseURL>/pagefind/` — but the index itself is produced by the consumer site by running `npx pagefind --site public` after `hugo`. If the index is missing, the modal shows a notice instead of throwing.
 - It does not bundle an i18n bundle — `i18n/` is reserved.
 
 ## Customizing
@@ -182,6 +182,37 @@ You can override anything in this theme by placing a file with the same path in 
 - Change token values: redeclare CSS custom properties in your own stylesheet loaded after the bundle. See [`@ktdocs/tokens` README](../tokens/README.md) for the full token list.
 
 The BEM contract is a hard boundary — see [`docs/contracts/components.md`](../../docs/contracts/components.md). If you need DOM that differs from the contract, fork the theme.
+
+## Migrating to hugo-v0.2.0
+
+hugo-v0.2.0 is the Mintlify-inspired shell redesign. Breaking changes and new
+conventions:
+
+- **`partials/breadcrumbs.html` is deleted** (with the `.kt-crumbs` CSS);
+  articles render a teal `.kt-eyebrow` (immediate parent section label) above
+  the H1 via the new `partials/eyebrow.html`. Sites overriding
+  `breadcrumbs.html` should drop the override; custom CSS targeting
+  `.kt-crumbs` must be removed.
+- **`.kt-doc-titlebar` is renamed** to `.kt-article-header__titlebar` inside
+  the new `<header class="kt-article-header">` anatomy (`single.html` /
+  `list.html`).
+- **`partials/sidebar.html` is rewritten** (per-tab section sets + the new
+  recursive `sidebar-tree.html`) — custom overrides of `sidebar.html` must be
+  rebased. The active item is teal text only (the filled background is gone).
+- **New theme asset `js/nav.js`** ships in the bundle (sidenav collapse +
+  sessionStorage memory + the mobile drawer); `baseof.html` registers it —
+  custom `baseof.html` overrides need the new script and the
+  `{{ partial "drawer.html" . }}` include.
+- **Single titled code blocks emit `.kt-codeblock__title`** instead of a lone
+  active `.kt-codeblock__tab`.
+- **Icons are unified at stroke 1.5** and dispatch over a generated map
+  (`kt-icons.generated.html`); the legacy names `book` and `file` remain as
+  aliases of `book-open` / `file-text`.
+- **New conventions:** `[[menus.tabs]]` navbar tabs (see
+  [Navbar tabs & sidebar](#navbar-tabs--sidebar)), section icons via
+  `params.icon` in `_index.md`, `params.related` for Related topics,
+  `params.github` for the topnav GitHub button, and the
+  `accordion` / `accordion-group` shortcodes.
 
 ## License
 
