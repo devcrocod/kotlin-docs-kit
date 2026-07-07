@@ -8,7 +8,8 @@
        transform.HighlightCodeBlock, which honours .Options merged with the
        site's [markup.highlight] config (lineNos=false ⇒ numbers are opt-in).
 
-       A `title=` / `file=` attribute turns the lang label into a filename tab;
+       A `title=` / `file=` attribute renders the filename as a quiet
+       .kt-codeblock__title label (0.2.0 — this used to be a lone fake tab);
        terminal languages get the dark --terminal modifier. The copy button is
        wired by assets/js/theme.js ([data-copy]). */ -}}
 {{- $lang := .Type | default "text" -}}
@@ -17,9 +18,7 @@
 <div class="kt-codeblock{{ if $terminal }} kt-codeblock--terminal{{ end }}">
   <div class="kt-codeblock__header">
     {{- if $title -}}
-    <div class="kt-codeblock__tabs">
-      <button class="kt-codeblock__tab kt-codeblock__tab--active" type="button">{{ partial "kt-icon.html" (dict "name" "file" "class" "kt-codeblock__file-icon") }}{{ $title }}</button>
-    </div>
+    <span class="kt-codeblock__title">{{ partial "kt-icon.html" (dict "name" "file-text" "class" "kt-codeblock__file-icon" "size" 13) }}{{ $title }}</span>
     {{- else if $terminal -}}
     <span class="kt-codeblock__lang">{{ partial "kt-icon.html" "terminal" }}{{ $lang }}</span>
     {{- else -}}

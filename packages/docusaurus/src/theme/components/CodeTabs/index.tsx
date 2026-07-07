@@ -1,7 +1,7 @@
 import React, { useCallback, useId, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Highlight, type PrismTheme } from 'prism-react-renderer';
-import { CodeIcon } from '../../CodeBlock/icons';
+import KtIcon from '../../Icon';
 import { copyToClipboard } from '../../CodeBlock/clipboard';
 
 const EMPTY_THEME: PrismTheme = { plain: {}, styles: [] };
@@ -89,7 +89,7 @@ export default function CodeTabs({
               className={clsx('kt-codeblock__tab', idx === active && 'kt-codeblock__tab--active')}
               onClick={() => setActive(idx)}
             >
-              <CodeIcon name="file" className="kt-codeblock__file-icon" />
+              <KtIcon name="file-text" className="kt-codeblock__file-icon" size={13} />
               {item.label}
             </button>
           ))}
@@ -101,7 +101,7 @@ export default function CodeTabs({
             onClick={onCopy}
             aria-label={copied ? 'Copied' : 'Copy code'}
           >
-            <CodeIcon name="copy" />
+            <KtIcon name="copy" size={13} />
             {copied ? 'copied' : 'copy'}
           </button>
         </div>

@@ -418,7 +418,18 @@ Premium code block with file tabs, copy / wrap actions, line numbers, line highl
 </div>
 ```
 
-When the block has no tabs, `.kt-codeblock__tabs` is replaced with `.kt-codeblock__lang` showing the language name:
+The header is unified (0.2.0): tabs or a title on the left, actions on the right, one thin frame — the tab row _is_ the header, with no separate stripe. A single block with a `title`/`file` renders the filename as a quiet `.kt-codeblock__title` label (**not** a lone active tab — that 0.1.x DOM was removed):
+
+```html
+<div class="kt-codeblock__header">
+  <span class="kt-codeblock__title">
+    <svg class="kt-codeblock__file-icon"><!-- file icon --></svg>build.gradle.kts
+  </span>
+  <div class="kt-codeblock__actions">…</div>
+</div>
+```
+
+With neither tabs nor a title, `.kt-codeblock__lang` shows the language name — every block renders a header:
 
 ```html
 <div class="kt-codeblock__header">
@@ -429,22 +440,23 @@ When the block has no tabs, `.kt-codeblock__tabs` is replaced with `.kt-codebloc
 
 ### Classes
 
-| Class                         | Kind    | Purpose                                                                    |
-| ----------------------------- | ------- | -------------------------------------------------------------------------- |
-| `.kt-codeblock`               | block   | Outer container. Code background, border, large radius, overflow hidden.   |
-| `.kt-codeblock__header`       | element | Header bar holding tabs (or language label) and actions.                   |
-| `.kt-codeblock__tabs`         | element | Horizontal tab list for multi-file snippets. Scrollable, no scrollbar.     |
-| `.kt-codeblock__tab`          | element | A single file tab button.                                                  |
-| `.kt-codeblock__file-icon`    | element | Optional file-type SVG icon inside a tab (13 × 13).                        |
-| `.kt-codeblock__lang`         | element | Language label when no tabs are present. 11 px monospace, lowercase.       |
-| `.kt-codeblock__actions`      | element | Right-aligned action button group (copy, wrap, fullscreen, …).             |
-| `.kt-codeblock__action-btn`   | element | A single action button. Transparent background, surface on hover.          |
-| `.kt-codeblock__body`         | element | The `<pre>` wrapper. Owns scroll-x overflow, code typography.              |
-| `.kt-codeblock__line`         | element | One logical line. Two-column grid: gutter + code.                          |
-| `.kt-codeblock__lineno`       | element | Gutter number. Right-aligned, monospace, dimmed.                           |
-| `.kt-codeblock__code`         | element | The code text within a line.                                               |
-| `.kt-codeblock__term-prompt`  | element | Terminal prompt segment. Purple, non-selectable. Only inside `--terminal`. |
-| `.kt-codeblock__term-comment` | element | Dimmed in-terminal comment. Only inside `--terminal`.                      |
+| Class                         | Kind    | Purpose                                                                                                                     |
+| ----------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `.kt-codeblock`               | block   | Outer container. Code background, hairline border, `--radius-md`, overflow hidden.                                          |
+| `.kt-codeblock__header`       | element | Unified header strip: tabs or title/lang left, actions right; subtle overlay over the code surface, hairline bottom border. |
+| `.kt-codeblock__title`        | element | Filename label for a single titled block (12 px mono, not a button).                                                        |
+| `.kt-codeblock__tabs`         | element | Horizontal tab list for multi-file snippets. Scrollable, no scrollbar.                                                      |
+| `.kt-codeblock__tab`          | element | A single file tab button.                                                                                                   |
+| `.kt-codeblock__file-icon`    | element | Optional file-type SVG icon inside a tab or title (13 × 13).                                                                |
+| `.kt-codeblock__lang`         | element | Language label when no tabs and no title. 11 px monospace, lowercase.                                                       |
+| `.kt-codeblock__actions`      | element | Right-aligned action button group (copy, wrap, fullscreen, …).                                                              |
+| `.kt-codeblock__action-btn`   | element | A single action button. Transparent background, surface on hover.                                                           |
+| `.kt-codeblock__body`         | element | The `<pre>` wrapper. Owns scroll-x overflow, code typography.                                                               |
+| `.kt-codeblock__line`         | element | One logical line. Two-column grid: gutter + code.                                                                           |
+| `.kt-codeblock__lineno`       | element | Gutter number. Right-aligned, monospace, dimmed.                                                                            |
+| `.kt-codeblock__code`         | element | The code text within a line.                                                                                                |
+| `.kt-codeblock__term-prompt`  | element | Terminal prompt segment. Purple, non-selectable. Only inside `--terminal`.                                                  |
+| `.kt-codeblock__term-comment` | element | Dimmed in-terminal comment. Only inside `--terminal`.                                                                       |
 
 ### Modifiers
 

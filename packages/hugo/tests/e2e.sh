@@ -106,7 +106,7 @@ done
 SETUP="$PUB_DIR/guides/setup/index.html"
 TUNING="$PUB_DIR/guides/advanced/tuning/index.html"
 echo "==> Verifying eyebrow, tabs and recursive sidebar on $SETUP"
-for m in kt-eyebrow kt-topnav__tab--active kt-sidenav__sec-icon; do
+for m in kt-eyebrow kt-topnav__tab--active kt-sidenav__sec-icon kt-codeblock__title; do
   if ! grep -q "$m" "$SETUP"; then
     echo "MISS: $m (in guides/setup/index.html)"
     fail=$((fail + 1))

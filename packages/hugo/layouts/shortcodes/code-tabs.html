@@ -8,7 +8,7 @@
   <div class="kt-codeblock__header">
     <div class="kt-codeblock__tabs">
       {{- range $i, $t := $tabs -}}
-        <button class="kt-codeblock__tab{{ if eq $i 0 }} kt-codeblock__tab--active{{ end }}" data-tab="{{ $i }}" type="button">{{ partial "kt-icon.html" (dict "name" "file" "class" "kt-codeblock__file-icon") }}{{ $t.title }}</button>
+        <button class="kt-codeblock__tab{{ if eq $i 0 }} kt-codeblock__tab--active{{ end }}" data-tab="{{ $i }}" type="button">{{ partial "kt-icon.html" (dict "name" "file-text" "class" "kt-codeblock__file-icon" "size" 13) }}{{ $t.title }}</button>
       {{- end -}}
     </div>
     <div class="kt-codeblock__actions">
