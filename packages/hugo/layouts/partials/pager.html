@@ -1,6 +1,11 @@
+{{- /* Hugo's *InSection pointers run against the section's default sort order
+       (weight asc) but count in the opposite direction from reading order:
+       NextInSection points UP the list (the earlier/previous page) and
+       PrevInSection points DOWN (the later/next page). Map them to the visual
+       Previous/Next links accordingly so the pager matches the sidebar order. */ -}}
 {{ if or .PrevInSection .NextInSection }}
   <nav class="kt-docs-pager" aria-label="Page navigation">
-    {{ with .PrevInSection }}
+    {{ with .NextInSection }}
       <a class="kt-docs-pager__link kt-docs-pager__link--prev" href="{{ .RelPermalink }}">
         {{ partial "kt-icon.html" (dict "name" "arrow-left" "class" "kt-docs-pager__arrow" "size" 16) }}
         <span class="kt-docs-pager__text">
@@ -11,7 +16,7 @@
     {{ else }}
       <span></span>
     {{ end }}
-    {{ with .NextInSection }}
+    {{ with .PrevInSection }}
       <a class="kt-docs-pager__link kt-docs-pager__link--next" href="{{ .RelPermalink }}">
         <span class="kt-docs-pager__text">
           <span class="kt-docs-pager__direction">Next</span>
