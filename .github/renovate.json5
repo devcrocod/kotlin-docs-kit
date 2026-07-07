@@ -20,6 +20,8 @@
   automergeStrategy: "squash",
   prHourlyLimit: 4,
   prConcurrentLimit: 10,
+  // Clear pnpm 11's 24h supply-chain cooldown before proposing an update.
+  minimumReleaseAge: "3 days",
   // Only churned non-deterministic pnpm peer-dep annotations (no real version
   // change) → empty PRs. Direct dep updates already refresh the lockfile.
   lockFileMaintenance: {
